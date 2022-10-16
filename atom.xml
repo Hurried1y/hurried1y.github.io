@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2022-10-02T13:45:18.585Z</updated>
+  <updated>2022-10-16T11:47:48.393Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -15,6 +15,26 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title></title>
+    <link href="http://example.com/2022/10/16/%E4%BB%8E%E5%BA%95%E5%B1%82%E7%90%86%E8%A7%A3%E5%A0%86%E5%92%8C%E6%A0%88/"/>
+    <id>http://example.com/2022/10/16/%E4%BB%8E%E5%BA%95%E5%B1%82%E7%90%86%E8%A7%A3%E5%A0%86%E5%92%8C%E6%A0%88/</id>
+    <published>2022-10-16T11:04:48.084Z</published>
+    <updated>2022-10-16T11:47:48.393Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="从底层理解堆和栈的概念以及问题"><a href="#从底层理解堆和栈的概念以及问题" class="headerlink" title="从底层理解堆和栈的概念以及问题"></a>从底层理解堆和栈的概念以及问题</h1><h3 id="一、堆栈的形象化"><a href="#一、堆栈的形象化" class="headerlink" title="一、堆栈的形象化"></a>一、堆栈的形象化</h3><p><img src="C:\Users\A\AppData\Roaming\Typora\typora-user-images\image-20221016192918413.png" alt="image-20221016192918413"></p><h4 id="（1）栈的概念"><a href="#（1）栈的概念" class="headerlink" title="（1）栈的概念"></a>（1）栈的概念</h4><p>​        在java程序中，存储main方法、Object o变量和m()方法的调用的结构，是一个先进后出的栈（每个线程单独占用一个栈），栈中的每块数据（m、main）由一个栈帧（stack frame指向）。</p><p>​        当每个程序块结束运行，会移到下一个栈帧，而栈中上一个程序块以及其里面的数据会被自动释放，如main方法中的Object o，虽然其会占用一定的空间，但当main程序执行完，不需要程序员手动释放。</p><h4 id="（2）堆的概念及其管理问题"><a href="#（2）堆的概念及其管理问题" class="headerlink" title="（2）堆的概念及其管理问题"></a>（2）堆的概念及其管理问题</h4><p>​        存储程序执行过程被手动new出来的对象的结构叫做堆。new出来的对象会占用堆的空间，若一直一直new对象，会产生爆内存的情况。堆与栈的最主要区别是，堆中的数据由程序员自己分配创建，而且得手动回收（将某处空间标记为可用）。</p><p>​        而对堆空间的处理，不同的语言使用不同的方法去管理，在对堆空间的处理过程中往往会伴随着两个最难调试的bug，野指针问题和并发问题。。</p><p>​        c/c++使用的是手工管理内存（malloc free/new delete）。若忘记释放，会产生memory leak内存泄漏问题（空间存在，但无法被使用），泄漏严重会演变为out of memory内存移除问题，可采用最朴素的调优方式–重启来解决；若多次释放，可能会产生并发线程问题，一个线程空间莫名其妙被另一个线程释放。</p><p>​        在java、python和go等高级语言中，引入了GC（Garbage Collector）垃圾回收器，用于管理堆中垃圾的释放问题，程序员只需要负责分配，而那些错综复杂互相依赖的空间将由GC进行释放，所以相对c/c++来说开发效率更高，大大地降低了程序员的门槛。</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;从底层理解堆和栈的概念以及问题&quot;&gt;&lt;a href=&quot;#从底层理解堆和栈的概念以及问题&quot; class=&quot;headerlink&quot; title=&quot;从底层理解堆和栈的概念以及问题&quot;&gt;&lt;/a&gt;从底层理解堆和栈的概念以及问题&lt;/h1&gt;&lt;h3 id=&quot;一、堆栈的形象化&quot;&gt;&lt;a </summary>
+      
+    
+    
+    
+    
+  </entry>
   
   <entry>
     <title></title>

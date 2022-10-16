@@ -18,10 +18,12 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="theme-color" content="#f8f8f8">
-  <title>Hello World - Hurried1y</title>
+  <title>Hurried1y</title>
 
   
-  <meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer ...">
+  <meta name="description" content="1.下载linux压缩包 【redis-5.0.5.tar.gz】2.通过FlashFXP把压缩包传送到服务器3.解压缩1tar -zxvf redis-5.0.5.tar.gz
+
+4.进入redis-5.0.5可以看到redis的配置文件redis.conf5.基本的环境安装，使用gcc -...">
 
   <!-- feed -->
   
@@ -60,7 +62,7 @@
 
 <div class="widgets">
 
-<div class="widget-wrap single" id="toc"><div class="widget-header cap dis-select"><span class="name">本文目录</span></div><div class="widget-body fs14"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Quick-Start"><span class="toc-text">Quick Start</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Create-a-new-post"><span class="toc-text">Create a new post</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Run-server"><span class="toc-text">Run server</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Generate-static-files"><span class="toc-text">Generate static files</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Deploy-to-remote-sites"><span class="toc-text">Deploy to remote sites</span></a></li></ol></li></ol></div></div></div>
+<div class="widget-wrap single" id="toc"><div class="widget-header cap dis-select"><span class="name">本文目录</span></div><div class="widget-body fs14"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-%E4%B8%8B%E8%BD%BDlinux%E5%8E%8B%E7%BC%A9%E5%8C%85-%E3%80%90redis-5-0-5-tar-gz%E3%80%91"><span class="toc-text">1.下载linux压缩包 【redis-5.0.5.tar.gz】</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-%E9%80%9A%E8%BF%87FlashFXP%E6%8A%8A%E5%8E%8B%E7%BC%A9%E5%8C%85%E4%BC%A0%E9%80%81%E5%88%B0%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="toc-text">2.通过FlashFXP把压缩包传送到服务器</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-%E8%A7%A3%E5%8E%8B%E7%BC%A9"><span class="toc-text">3.解压缩</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#4-%E8%BF%9B%E5%85%A5redis-5-0-5%E5%8F%AF%E4%BB%A5%E7%9C%8B%E5%88%B0redis%E7%9A%84%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6redis-conf"><span class="toc-text">4.进入redis-5.0.5可以看到redis的配置文件redis.conf</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#5-%E5%9F%BA%E6%9C%AC%E7%9A%84%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85%EF%BC%8C%E4%BD%BF%E7%94%A8gcc-v-%E5%91%BD%E4%BB%A4%E6%9F%A5%E7%9C%8Bgcc%E7%89%88%E6%9C%AC%E5%B7%B2%E7%BB%8F%E6%98%AF4-8-5%E4%BA%86%EF%BC%8C%E4%BA%8E%E6%98%AF%E5%B0%B1%E6%B2%A1%E6%9C%89%E5%86%8D%E6%AC%A1%E5%AE%89%E8%A3%85%EF%BC%8C%E7%9B%B4%E6%8E%A5%E6%89%A7%E8%A1%8Cmake-%E5%AE%89%E8%A3%85%E5%AE%8C%E4%B9%8B%E5%90%8E%E5%86%8D%E6%AC%A1make%EF%BC%8C%E5%87%BA%E7%8E%B0%E5%9B%BE%E7%89%87%E5%86%85%E5%AE%B9%E5%8D%B3%E5%8F%AF%E3%80%82"><span class="toc-text">5.基本的环境安装，使用gcc -v 命令查看gcc版本已经是4.8.5了，于是就没有再次安装，直接执行make,安装完之后再次make，出现图片内容即可。</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#6-redis%E9%BB%98%E8%AE%A4%E5%AE%89%E8%A3%85%E8%B7%AF%E5%BE%84%E6%98%AF-usr-local-bin"><span class="toc-text">6.redis默认安装路径是 &#x2F;usr&#x2F;local&#x2F;bin</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#7-%E5%B0%86redis%E7%9A%84%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E6%8B%B7%E8%B4%9D%E5%88%B0%E6%96%B0%E5%BB%BA%E7%9A%84%E7%9B%AE%E5%BD%95myredis-config%E4%B8%8B%EF%BC%8C%E6%88%91%E4%BB%AC%E4%BB%A5%E5%90%8E%E5%B0%B1%E4%BD%BF%E7%94%A8myredis-config%E4%B8%8B%E7%9A%84%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%EF%BC%8C%E9%94%99%E4%BA%86%E8%BF%98%E5%8F%AF%E4%BB%A5%E5%9B%9E%E5%88%B0%E5%8E%9F%E6%9D%A5%E9%82%A3%E9%87%8C%E5%8F%96"><span class="toc-text">7.将redis的配置文件拷贝到新建的目录myredis-config下，我们以后就使用myredis-config下的配置文件，错了还可以回到原来那里取</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#8-%E4%BF%AE%E6%94%B9redis%E9%85%8D%E7%BD%AE"><span class="toc-text">8.修改redis配置</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#9-%E5%90%AF%E5%8A%A8redis%E6%9C%8D%E5%8A%A1"><span class="toc-text">9.启动redis服务</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#10-%E5%90%AF%E5%8A%A8redis%E5%AE%A2%E6%88%B7%E7%AB%AF"><span class="toc-text">10.启动redis客户端</span></a></li></ol></div></div></div>
 
 
 </div>
@@ -73,23 +75,31 @@
       
 
 
-<div class="bread-nav fs12"><div id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a><span class="sep"></span><a class="cap breadcrumb" href="/">文章</a></div><div id="post-meta">发布于&nbsp;<time datetime="2022-10-15T13:04:24.908Z">2022-10-15</time></div></div>
+<div class="bread-nav fs12"><div id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a><span class="sep"></span><a class="cap breadcrumb" href="/">文章</a></div><div id="post-meta">发布于&nbsp;<time datetime="2022-10-16T02:17:50.420Z">2022-10-16</time></div></div>
 
 <article class='content md post'>
-<h1 class="article-title"><span>Hello World</span></h1>
-<p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+<h5 id="1-下载linux压缩包-【redis-5-0-5-tar-gz】"><a href="#1-下载linux压缩包-【redis-5-0-5-tar-gz】" class="headerlink" title="1.下载linux压缩包 【redis-5.0.5.tar.gz】"></a>1.下载linux压缩包 【redis-5.0.5.tar.gz】</h5><h5 id="2-通过FlashFXP把压缩包传送到服务器"><a href="#2-通过FlashFXP把压缩包传送到服务器" class="headerlink" title="2.通过FlashFXP把压缩包传送到服务器"></a>2.通过FlashFXP把压缩包传送到服务器</h5><h5 id="3-解压缩"><a href="#3-解压缩" class="headerlink" title="3.解压缩"></a>3.解压缩</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf redis-5.0.5.tar.gz</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+<h5 id="4-进入redis-5-0-5可以看到redis的配置文件redis-conf"><a href="#4-进入redis-5-0-5可以看到redis的配置文件redis-conf" class="headerlink" title="4.进入redis-5.0.5可以看到redis的配置文件redis.conf"></a>4.进入redis-5.0.5可以看到redis的配置文件redis.conf</h5><h5 id="5-基本的环境安装，使用gcc-v-命令查看gcc版本已经是4-8-5了，于是就没有再次安装，直接执行make-安装完之后再次make，出现图片内容即可。"><a href="#5-基本的环境安装，使用gcc-v-命令查看gcc版本已经是4-8-5了，于是就没有再次安装，直接执行make-安装完之后再次make，出现图片内容即可。" class="headerlink" title="5.基本的环境安装，使用gcc -v 命令查看gcc版本已经是4.8.5了，于是就没有再次安装，直接执行make,安装完之后再次make，出现图片内容即可。"></a>5.基本的环境安装，使用gcc -v 命令查看gcc版本已经是4.8.5了，于是就没有再次安装，直接执行make,安装完之后再次make，出现图片内容即可。</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">yum install gcc-c++</span><br><span class="line">make</span><br><span class="line">make</span><br><span class="line">make install</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+<h5 id="6-redis默认安装路径是-usr-local-bin"><a href="#6-redis默认安装路径是-usr-local-bin" class="headerlink" title="6.redis默认安装路径是 /usr/local/bin"></a>6.redis默认安装路径是 /usr/local/bin</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd /usr/local/bin/</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+<h5 id="7-将redis的配置文件拷贝到新建的目录myredis-config下，我们以后就使用myredis-config下的配置文件，错了还可以回到原来那里取"><a href="#7-将redis的配置文件拷贝到新建的目录myredis-config下，我们以后就使用myredis-config下的配置文件，错了还可以回到原来那里取" class="headerlink" title="7.将redis的配置文件拷贝到新建的目录myredis-config下，我们以后就使用myredis-config下的配置文件，错了还可以回到原来那里取"></a>7.将redis的配置文件拷贝到新建的目录myredis-config下，我们以后就使用myredis-config下的配置文件，错了还可以回到原来那里取</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir myredis-config</span><br><span class="line">cp /home/caoyinyuan/redis-5.0.5/redis.conf myredis-config/</span><br></pre></td></tr></table></figure>
+
+<h5 id="8-修改redis配置"><a href="#8-修改redis配置" class="headerlink" title="8.修改redis配置"></a>8.修改redis配置</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim redis.conf</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>–将daemonize的值修改为yes</li>
+<li>–将bind 127.0.0.1 改为 bind 0.0.0.0</li>
+<li>–将 protected-mode yes 改为 protected-mode no</li>
+<li>–设置redis秘密，requirepass 123456</li>
+</ul>
+<h5 id="9-启动redis服务"><a href="#9-启动redis服务" class="headerlink" title="9.启动redis服务"></a>9.启动redis服务</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">redis-server myredis-config/redis.conf</span><br></pre></td></tr></table></figure>
+
+<h5 id="10-启动redis客户端"><a href="#10-启动redis客户端" class="headerlink" title="10.启动redis客户端"></a>10.启动redis客户端</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">redis-cli -p 6379</span><br></pre></td></tr></table></figure>
+
+<p>如果redis设置有密码，则需要现认证才能发送信息，auth “密码”</p>
 
 
 <div class="article-footer reveal fs14"><section id="license"><div class="header"><span>许可协议</span></div><div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
@@ -97,7 +107,7 @@
 
 </article>
 
-<div class="related-wrap reveal" id="read-next"><section class="header cap theme"><span>接下来阅读</span></section><section class="body fs14"><div class="line"></div><a id="prev" href="/2022/10/16/redis%E5%AE%89%E8%A3%85/">undefined<span class="note">较新</span></a></section></div>
+<div class="related-wrap reveal" id="read-next"><section class="header cap theme"><span>接下来阅读</span></section><section class="body fs14"><a id="next" href="/2022/10/15/hello-world/">Hello World<span class="note">较早</span></a><div class="line"></div><a id="prev" href="/2022/10/16/nginx%E5%AE%89%E8%A3%85/">undefined<span class="note">较新</span></a></section></div>
 
 
 

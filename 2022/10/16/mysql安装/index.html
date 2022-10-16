@@ -18,10 +18,12 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="theme-color" content="#f8f8f8">
-  <title>Hello World - Hurried1y</title>
+  <title>Hurried1y</title>
 
   
-  <meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer ...">
+  <meta name="description" content="1、下载MySQL57安装包1wget https://dev.mysql.com/get/mysql57-community-release-el7-11.noarch.rpm
+
+2、安装mysql 安装源1yum -y localinstall mysql57-community-rele...">
 
   <!-- feed -->
   
@@ -60,7 +62,7 @@
 
 <div class="widgets">
 
-<div class="widget-wrap single" id="toc"><div class="widget-header cap dis-select"><span class="name">本文目录</span></div><div class="widget-body fs14"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Quick-Start"><span class="toc-text">Quick Start</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Create-a-new-post"><span class="toc-text">Create a new post</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Run-server"><span class="toc-text">Run server</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Generate-static-files"><span class="toc-text">Generate static files</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Deploy-to-remote-sites"><span class="toc-text">Deploy to remote sites</span></a></li></ol></li></ol></div></div></div>
+<div class="widget-wrap single" id="toc"><div class="widget-header cap dis-select"><span class="name">本文目录</span></div><div class="widget-body fs14"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#1%E3%80%81%E4%B8%8B%E8%BD%BDMySQL57%E5%AE%89%E8%A3%85%E5%8C%85"><span class="toc-text">1、下载MySQL57安装包</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2%E3%80%81%E5%AE%89%E8%A3%85mysql-%E5%AE%89%E8%A3%85%E6%BA%90"><span class="toc-text">2、安装mysql 安装源</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3%E3%80%81%E5%AE%89%E8%A3%85MySQL%E6%9C%8D%E5%8A%A1"><span class="toc-text">3、安装MySQL服务</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4%E3%80%81%E8%8B%A5%E5%87%BA%E7%8E%B0%E9%97%AE%E9%A2%98%E6%9B%B4%E6%96%B0%E5%AF%BC%E5%85%A5"><span class="toc-text">4、若出现问题更新导入</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5%E3%80%81%E9%87%8D%E6%96%B0%E5%AE%89%E8%A3%85"><span class="toc-text">5、重新安装</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6%E3%80%81%E5%AE%89%E8%A3%85%E6%88%90%E5%8A%9F%EF%BC%8C%E7%84%B6%E5%90%8E%E5%90%AF%E5%8A%A8%E6%9C%8D%E5%8A%A1"><span class="toc-text">6、安装成功，然后启动服务</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7%E3%80%81%E8%AE%BE%E7%BD%AE%E5%BC%80%E6%9C%BA%E8%87%AA%E5%8A%A8%E5%90%AF%E5%8A%A8MySQL%E6%9C%8D%E5%8A%A1"><span class="toc-text">7、设置开机自动启动MySQL服务</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#8%E3%80%81%E7%84%B6%E5%90%8E%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E6%9F%A5%E7%9C%8B%E5%88%9D%E5%A7%8B%E5%AF%86%E7%A0%81"><span class="toc-text">8、然后打开文件查看初始密码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#9%E3%80%81%E7%99%BB%E5%85%A5MySQL"><span class="toc-text">9、登入MySQL</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#10%E3%80%81%E6%89%A7%E8%A1%8C-%E9%99%8D%E4%BD%8E%E5%AF%86%E7%A0%81%E5%AE%89%E5%85%A8%E7%BA%A7%E5%88%AB%EF%BC%88%E7%94%9F%E4%BA%A7%E7%8E%AF%E5%A2%83%E6%85%8E%E7%94%A8%EF%BC%89"><span class="toc-text">10、执行 降低密码安全级别（生产环境慎用）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E8%BF%9C%E7%A8%8B%E7%99%BB%E5%BD%95"><span class="toc-text">配置远程登录</span></a></li></ol></div></div></div>
 
 
 </div>
@@ -73,23 +75,56 @@
       
 
 
-<div class="bread-nav fs12"><div id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a><span class="sep"></span><a class="cap breadcrumb" href="/">文章</a></div><div id="post-meta">发布于&nbsp;<time datetime="2022-10-15T13:04:24.908Z">2022-10-15</time></div></div>
+<div class="bread-nav fs12"><div id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a><span class="sep"></span><a class="cap breadcrumb" href="/">文章</a></div><div id="post-meta">发布于&nbsp;<time datetime="2022-10-16T02:17:50.435Z">2022-10-16</time></div></div>
 
 <article class='content md post'>
-<h1 class="article-title"><span>Hello World</span></h1>
-<p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+<h4 id="1、下载MySQL57安装包"><a href="#1、下载MySQL57安装包" class="headerlink" title="1、下载MySQL57安装包"></a>1、下载MySQL57安装包</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget https://dev.mysql.com/get/mysql57-community-release-el7-11.noarch.rpm</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+<h4 id="2、安装mysql-安装源"><a href="#2、安装mysql-安装源" class="headerlink" title="2、安装mysql 安装源"></a>2、安装mysql 安装源</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y localinstall mysql57-community-release-el7-11.noarch.rpm</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+<h4 id="3、安装MySQL服务"><a href="#3、安装MySQL服务" class="headerlink" title="3、安装MySQL服务"></a>3、安装MySQL服务</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y install mysql-community-server</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+<h4 id="4、若出现问题更新导入"><a href="#4、若出现问题更新导入" class="headerlink" title="4、若出现问题更新导入"></a>4、若出现问题更新导入</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpm --import https://repo.mysql.com/RPM-GPG-KEY-mysql-2022</span><br></pre></td></tr></table></figure>
+
+<h4 id="5、重新安装"><a href="#5、重新安装" class="headerlink" title="5、重新安装"></a>5、重新安装</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y install mysql-community-server</span><br></pre></td></tr></table></figure>
+
+<h4 id="6、安装成功，然后启动服务"><a href="#6、安装成功，然后启动服务" class="headerlink" title="6、安装成功，然后启动服务"></a>6、安装成功，然后启动服务</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl start mysqld</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="7、设置开机自动启动MySQL服务"><a href="#7、设置开机自动启动MySQL服务" class="headerlink" title="7、设置开机自动启动MySQL服务"></a>7、设置开机自动启动MySQL服务</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ststemctl enable mysqld</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="8、然后打开文件查看初始密码"><a href="#8、然后打开文件查看初始密码" class="headerlink" title="8、然后打开文件查看初始密码"></a>8、然后打开文件查看初始密码</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /var/log/mysqld.log</span><br></pre></td></tr></table></figure>
+
+<p>查找一个叫 a password xxxxxx的一行，大概在5-6行左右，行尾是初始密码，记住他，或者选择复制粘贴到记事本，待会要用。</p>
+<p>看完后退出</p>
+<h4 id="9、登入MySQL"><a href="#9、登入MySQL" class="headerlink" title="9、登入MySQL"></a>9、登入MySQL</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql -uroot -p 输入刚才的临时密码</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="10、执行-降低密码安全级别（生产环境慎用）"><a href="#10、执行-降低密码安全级别（生产环境慎用）" class="headerlink" title="10、执行 降低密码安全级别（生产环境慎用）"></a>10、执行 降低密码安全级别（生产环境慎用）</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">set global validate_password_policy=0;</span><br></pre></td></tr></table></figure>
+
+<p>修改密码长度为4位（生产环境慎用）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">set global validate_password_policy=0;</span><br></pre></td></tr></table></figure>
+
+<p>修改密码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">set password = password(&#x27;你要修改的密码&#x27;)</span><br></pre></td></tr></table></figure>
+
+<h4 id="配置远程登录"><a href="#配置远程登录" class="headerlink" title="配置远程登录"></a>配置远程登录</h4><p>1.使用mysql数据库</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">use mysql</span><br></pre></td></tr></table></figure>
+
+<p>2.显示数据</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select Host, user from user;</span><br></pre></td></tr></table></figure>
+
+<p>3.修改权限</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">update user set host = &#x27;%&#x27; where user = &#x27;root&#x27;;</span><br></pre></td></tr></table></figure>
+
+<p>4.刷新数据</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">FLUSH PRIVILEGES;</span><br></pre></td></tr></table></figure>
+
 
 
 <div class="article-footer reveal fs14"><section id="license"><div class="header"><span>许可协议</span></div><div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
@@ -97,7 +132,7 @@
 
 </article>
 
-<div class="related-wrap reveal" id="read-next"><section class="header cap theme"><span>接下来阅读</span></section><section class="body fs14"><div class="line"></div><a id="prev" href="/2022/10/16/redis%E5%AE%89%E8%A3%85/">undefined<span class="note">较新</span></a></section></div>
+<div class="related-wrap reveal" id="read-next"><section class="header cap theme"><span>接下来阅读</span></section><section class="body fs14"><a id="next" href="/2022/10/16/nginx%E5%AE%89%E8%A3%85/">undefined<span class="note">较早</span></a><div class="line"></div><a id="prev" href="/2022/10/16/nacos%E5%AE%89%E8%A3%85/">undefined<span class="note">较新</span></a></section></div>
 
 
 

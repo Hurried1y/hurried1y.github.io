@@ -49,46 +49,38 @@
   
 
 
+
+
   <div class='l_body' id='start'>
-    <aside class='l_left' layout='page'>
+    <aside class='l_left' layout='post'>
     
 
 
 <header class="header">
 
 <div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://fastly.jsdelivr.net/gh/cdn-x/placeholder@1.0.2/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="../img/深深蓝.jpg" onerror="javascript:this.classList.add('error');this.src='https://fastly.jsdelivr.net/gh/cdn-x/placeholder@1.0.1/image/2659360.svg';"></a><a class="title" href="/"><div class="main">Hurried1y</div></a></div>
-<nav class="menu dis-select"><a class="nav-item" href="/">文章</a><a class="nav-item" href="/wiki/">项目</a><a class="nav-item" href="/notes/">笔记</a><a class="nav-item" href="/more/">更多</a></nav></header>
+<nav class="menu dis-select"><a class="nav-item active" href="/">文章</a><a class="nav-item" href="/wiki/">项目</a><a class="nav-item" href="/notes/">笔记</a><a class="nav-item" href="/more/">更多</a></nav></header>
 
 <div class="widgets">
-<div class="widget-wrap" id="markdown"><div class="widget-header cap dis-select"><span class="name">Stellar 入门指南</span></div><div class="widget-body fs14"><p>欢迎使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar/">Stellar</a> 主题，下面是您的入门指南，祝您使用愉快！<br><br><br><strong>第一步</strong><br>创建 <code>blog/_config.stellar.yml</code> 文件，在此文件中填写需要自定义的主题配置。<br><br><br><strong>第二步</strong><br>创建 <code>blog/source/_data/widgets.yml</code> 文件，此文件中填写需要自定义的侧边栏组件，例如 <code>welcome</code> 组件。<br><br><br>如果有任何疑问，请先查阅<a target="_blank" rel="noopener" href="https://xaoxuu.com/wiki/stellar/">文档</a>，如果文档中没有提供，请提 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar/issues/">issue</a> 向开发中询问。</p>
-</div></div>
-
 
 <div class="widget-wrap single" id="toc"><div class="widget-header cap dis-select"><span class="name">本文目录</span></div><div class="widget-body fs14"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#1%E3%80%81%E4%B8%80%E6%AC%A1%E5%AE%89%E8%A3%854%E4%B8%AA%E6%8F%92%E4%BB%B6"><span class="toc-text">1、一次安装4个插件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2%E3%80%81%E5%AE%89%E8%A3%85%E7%9A%84%E6%8F%92%E4%BB%B6%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="toc-text">2、安装的插件的作用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3%E3%80%81nginx%E4%B8%8B%E8%BD%BD"><span class="toc-text">3、nginx下载</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4%E3%80%81%E8%A7%A3%E5%8E%8B"><span class="toc-text">4、解压</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5%E3%80%81%E9%85%8D%E7%BD%AE%EF%BC%88%E5%B8%A6%E6%9C%89https%E6%A8%A1%E5%9D%97%EF%BC%89"><span class="toc-text">5、配置（带有https模块）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6%E3%80%81%E7%BC%96%E8%AF%91%E5%92%8C%E5%AE%89%E8%A3%85"><span class="toc-text">6、编译和安装</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7%E3%80%81%E6%9F%A5%E7%9C%8B%E5%AE%89%E8%A3%85%E8%B7%AF%E5%BE%84"><span class="toc-text">7、查看安装路径</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#8%E3%80%81%E8%AE%BE%E7%BD%AE%E5%BC%80%E6%9C%BA%E5%90%AF%E5%8A%A8"><span class="toc-text">8、设置开机启动</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#9%E3%80%81%E6%9C%8D%E5%8A%A1%E7%9A%84%E5%90%AF%E5%8A%A8-%E5%81%9C%E6%AD%A2-%E5%88%B7%E6%96%B0%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6-%E6%9F%A5%E7%9C%8B%E7%8A%B6%E6%80%81"><span class="toc-text">9、服务的启动&#x2F;停止&#x2F;刷新配置文件&#x2F;查看状态</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#10%E3%80%81nginx-conf-https-%E9%85%8D%E7%BD%AE"><span class="toc-text">10、nginx.conf https 配置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#11%E3%80%81%E5%B0%86-http-%E9%87%8D%E5%AE%9A%E5%90%91-https"><span class="toc-text">11、将 http 重定向 https</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#12%E3%80%81%E6%9F%A5%E7%9C%8Bnginx-%E8%BF%9B%E7%A8%8B%E5%91%BD%E4%BB%A4"><span class="toc-text">12、查看nginx 进程命令</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#13%E3%80%81html%E8%AE%BE%E7%BD%AE%E7%BC%96%E7%A0%81"><span class="toc-text">13、html设置编码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#14%E3%80%81%E8%BF%9B%E5%85%A5-usr-local-nginx-sbin%E4%BD%BF%E7%94%A8nginx"><span class="toc-text">14、进入&#x2F;usr&#x2F;local&#x2F;nginx&#x2F;sbin使用nginx</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#15%E3%80%81%E6%9F%A5%E7%9C%8B%E7%89%88%E6%9C%AC"><span class="toc-text">15、查看版本</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#16%E3%80%81%E5%81%9C%E6%AD%A2%E6%9C%8D%E5%8A%A1"><span class="toc-text">16、停止服务</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#17%E3%80%81%E9%87%8D%E6%96%B0%E5%8A%A0%E8%BD%BDnginx%E9%85%8D%E7%BD%AE"><span class="toc-text">17、重新加载nginx配置</span></a></li></ol></div></div></div>
+
+
 </div>
 
 
     </aside>
     <div class='l_main'>
       
-  
-
-<header class="header mobile-only">
-
-<div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://fastly.jsdelivr.net/gh/cdn-x/placeholder@1.0.2/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="../img/深深蓝.jpg" onerror="javascript:this.classList.add('error');this.src='https://fastly.jsdelivr.net/gh/cdn-x/placeholder@1.0.1/image/2659360.svg';"></a><a class="title" href="/"><div class="main">Hurried1y</div></a></div>
-</header>
-
-
 
       
 
-  
 
+<div class="bread-nav fs12"><div id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a><span class="sep"></span><a class="cap breadcrumb" href="/">文章</a></div><div id="post-meta">发布于&nbsp;<time datetime="2022-10-16T02:17:50.427Z">2022-10-16</time></div></div>
 
-  <article class='content md page'>
-  
-  
-    <h4 id="1、一次安装4个插件"><a href="#1、一次安装4个插件" class="headerlink" title="1、一次安装4个插件"></a>1、一次安装4个插件</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y install gcc pcre pcre-devel zlib zlib-devel openssl openssl-devel</span><br></pre></td></tr></table></figure>
+<article class='content md post'>
+
+<h4 id="1、一次安装4个插件"><a href="#1、一次安装4个插件" class="headerlink" title="1、一次安装4个插件"></a>1、一次安装4个插件</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y install gcc pcre pcre-devel zlib zlib-devel openssl openssl-devel</span><br></pre></td></tr></table></figure>
 
 <h4 id="2、安装的插件的作用"><a href="#2、安装的插件的作用" class="headerlink" title="2、安装的插件的作用"></a>2、安装的插件的作用</h4><ol>
 <li>1).gcc 可以编译 C,C++,Ada,Object C和Java等语言（安装 nginx 需要先将官网下载的源码进行编译，编译依赖 gcc 环境）</li>
@@ -167,8 +159,16 @@
 <h4 id="17、重新加载nginx配置"><a href="#17、重新加载nginx配置" class="headerlink" title="17、重新加载nginx配置"></a>17、重新加载nginx配置</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./nginx -s reload</span><br></pre></td></tr></table></figure>
 
 
-  
-  </article>
+
+<div class="article-footer reveal fs14"><section id="license"><div class="header"><span>许可协议</span></div><div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
+</div></section></div>
+
+</article>
+
+<div class="related-wrap reveal" id="read-next"><section class="header cap theme"><span>接下来阅读</span></section><section class="body fs14"><a id="next" href="/2022/10/16/redis%E5%AE%89%E8%A3%85/">undefined<span class="note">较早</span></a><div class="line"></div><a id="prev" href="/2022/10/16/mysql%E5%AE%89%E8%A3%85/">undefined<span class="note">较新</span></a></section></div>
+
+
+
 
 
 

@@ -21,7 +21,27 @@
   <title>常用的垃圾回收算法和垃圾回收器 - Hurried1y</title>
 
   
-  <meta name="description" content="一、前言​        相对于c/c++，java、python等高级语言引进了Garbage Collector（GC）垃圾回收器，能实现内存垃圾的自动回收，虽然牺牲了一定的运行效率，但大大地提高了开发效率，那么问题来了，常用的GC都有哪些？常用的GC算法都有哪些？GC是如何定义和定位垃圾...">
+    <meta name="description" content="一、前言​        相对于c&#x2F;c++，java、python等高级语言引进了Garbage Collector（GC）垃圾回收器，能实现内存垃圾的自动回收，虽然牺牲了一定的运行效率，但大大地提高了开发效率，那么问题来了，常用的GC都有哪些？常用的GC算法都有哪些？GC是如何定义和定位垃圾的呢？ 二、What is Garbage​        在谈论垃圾回收算法和垃圾回收器之前，我们得先了">
+<meta property="og:type" content="article">
+<meta property="og:title" content="常用的垃圾回收算法和垃圾回收器">
+<meta property="og:url" content="http://example.com/2022/10/16/%E5%B8%B8%E7%94%A8%E7%9A%84%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E7%AE%97%E6%B3%95%E5%92%8C%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E5%99%A8/index.html">
+<meta property="og:site_name" content="Hurried1y">
+<meta property="og:description" content="一、前言​        相对于c&#x2F;c++，java、python等高级语言引进了Garbage Collector（GC）垃圾回收器，能实现内存垃圾的自动回收，虽然牺牲了一定的运行效率，但大大地提高了开发效率，那么问题来了，常用的GC都有哪些？常用的GC算法都有哪些？GC是如何定义和定位垃圾的呢？ 二、What is Garbage​        在谈论垃圾回收算法和垃圾回收器之前，我们得先了">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="c:/Users/A/AppData/Roaming/Typora/typora-user-images/image-20221016205207086.png">
+<meta property="og:image" content="c:/Users/A/AppData/Roaming/Typora/typora-user-images/image-20221016205511002.png">
+<meta property="og:image" content="c:/Users/A/AppData/Roaming/Typora/typora-user-images/image-20221016205944884.png">
+<meta property="og:image" content="c:/Users/A/AppData/Roaming/Typora/typora-user-images/image-20221016210405865.png">
+<meta property="og:image" content="c:/Users/A/AppData/Roaming/Typora/typora-user-images/image-20221016213824593.png">
+<meta property="article:published_time" content="2022-10-16T12:47:29.288Z">
+<meta property="article:modified_time" content="2022-10-16T15:37:17.408Z">
+<meta property="article:author" content="Hurried1y">
+<meta property="article:tag" content="底层">
+<meta property="article:tag" content="内存机制">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="c:/Users/A/AppData/Roaming/Typora/typora-user-images/image-20221016205207086.png">
+  
+  
 
   <!-- feed -->
   
@@ -58,7 +78,7 @@
 <header class="header">
 
 <div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://fastly.jsdelivr.net/gh/cdn-x/placeholder@1.0.2/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="../img/avatar.jpg" onerror="javascript:this.classList.add('error');this.src='https://fastly.jsdelivr.net/gh/cdn-x/placeholder@1.0.1/image/2659360.svg';"></a><a class="title" href="/"><div class="main">Hurried1y</div></a></div>
-<nav class="menu dis-select"><a class="nav-item active" href="/">文章</a><a class="nav-item" href="/wiki/">项目</a><a class="nav-item" href="/notes/">笔记</a><a class="nav-item" href="/more/">更多</a></nav></header>
+<nav class="menu dis-select"><a class="nav-item active" href="/">文章</a><a class="nav-item" href="/notes/">便笺</a><a class="nav-item" href="/about/">关于</a><a class="nav-item" href="/friends/">友链</a><a class="nav-item" href="/shimmer/">微光</a></nav></header>
 
 <div class="widgets">
 

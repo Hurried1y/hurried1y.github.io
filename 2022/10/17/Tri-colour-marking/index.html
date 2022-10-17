@@ -28,15 +28,15 @@
 <meta property="og:site_name" content="Hurried1y">
 <meta property="og:description" content="一、前言当前主流编程语言的垃圾收集器基本上都是依靠可达性分析算法来判定对象是否存活的，可达性分析算法理论上要求全过程都基于一个能保障一致性的快照中才能够进行分析，这意味着必须全程冻结用户线程的运行（STW）。 在根节点枚举这个步骤中，由于GC Roots相比起整个Java堆中全部的对象毕竟还算是极少数，且在各种优化技巧（如OopMap）的加持下，它带来的停顿已经是非常短暂且相对固定（不随堆容量而增">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/2022/10/17/Tri-colour-marking/mg1.png">
-<meta property="og:image" content="http://example.com/2022/10/17/Tri-colour-marking/Users/A/AppData/Roaming/Typora/typora-user-images/image-20221017213218546.png">
+<meta property="og:image" content="http://example.com/2022/10/17/Tri-colour-marking/img1.png">
+<meta property="og:image" content="http://example.com/2022/10/17/Tri-colour-marking/img4.png">
 <meta property="og:image" content="http://example.com/2022/10/17/Tri-colour-marking/img2.png">
 <meta property="og:image" content="http://example.com/2022/10/17/Tri-colour-marking/img3.png">
 <meta property="article:published_time" content="2022-10-17T12:44:16.000Z">
-<meta property="article:modified_time" content="2022-10-17T13:53:39.591Z">
+<meta property="article:modified_time" content="2022-10-17T13:57:38.025Z">
 <meta property="article:author" content="Hurried1y">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/2022/10/17/Tri-colour-marking/mg1.png">
+<meta name="twitter:image" content="http://example.com/2022/10/17/Tri-colour-marking/img1.png">
   
   
 
@@ -127,9 +127,9 @@
 <p>当Stop The Word时，对象间的引用是不会发生变化的，因为用户线程中断了，可以轻松完成标记，但是在并发标记的时候，标记期间用户线程还在跑，对象间的引用可能发生变化，多标和漏标的情况就可能会发生</p>
 <p><strong>多标(又叫浮动垃圾)</strong></p>
 <p>假设此时我们遍历到了D对象，此时D被标记成了灰色</p>
-<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/2022/10/17/Tri-colour-marking/mg1.png" alt="img1"></p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/2022/10/17/Tri-colour-marking/img1.png" alt="img1"></p>
 <p> 此时线程发生B取消了对D的引用</p>
-<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/2022/10/17/Tri-colour-marking/Users\A\AppData\Roaming\Typora\typora-user-images\image-20221017213218546.png" alt="image-20221017213218546"></p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/2022/10/17/Tri-colour-marking/img4.png" alt="img4"></p>
 <p>这时候B-&gt;D的引用没了，D应该是白色，但是因为先前D已经被标记成灰色了，所以D对象仍然会被当成存活对象遍历下去。最终结果：这部分对象仍然会被标记为存活对象，本轮GC不会回收他们的内存。这部分因为并发而造成的本应该回收但是没有回收的对象被称为”浮动垃圾”，我们稍微一想也能想到，<strong>浮动垃圾不会影响应用程序的正确性，只需要等到下一轮GC到来就会被回收了</strong>。</p>
 <p>另外的，针对并发标记开始后产生的新对象，通常做法是直接标记为黑色，本轮不进行清除，这些对象即使会变成垃圾对象，这也算浮动垃圾一部分。</p>
 <p>另外的，针对并发标记开始后产生的新对象，通常做法是直接标记为黑色，本轮不进行清除，这些对象即使会变成垃圾对象，这也算浮动垃圾一部分。</p>

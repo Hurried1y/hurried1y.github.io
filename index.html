@@ -62,7 +62,7 @@
 <div class="widget-wrap" id="markdown"><div class="widget-header cap dis-select"><span class="name">Stellar 入门指南</span></div><div class="widget-body fs14"><p>欢迎使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar/">Stellar</a> 主题，下面是您的入门指南，祝您使用愉快！<br><br><br><strong>第一步</strong><br>创建 <code>blog/_config.stellar.yml</code> 文件，在此文件中填写需要自定义的主题配置。<br><br><br><strong>第二步</strong><br>创建 <code>blog/source/_data/widgets.yml</code> 文件，此文件中填写需要自定义的侧边栏组件，例如 <code>welcome</code> 组件。<br><br><br>如果有任何疑问，请先查阅<a target="_blank" rel="noopener" href="https://xaoxuu.com/wiki/stellar/">文档</a>，如果文档中没有提供，请提 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar/issues/">issue</a> 向开发中询问。</p>
 </div></div>
 
-<div class="widget-wrap" id="recent"><div class="widget-header cap dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><div class="more-item"><a class="title" href="/2022/10/16/%E4%BB%8E%E5%BA%95%E5%B1%82%E7%90%86%E8%A7%A3%E5%A0%86%E5%92%8C%E6%A0%88/">从底层理解堆和栈的概念以及问题</a></div><div class="more-item"><a class="title" href="/2022/10/15/hello-world/">Hello World</a></div></div></div>
+<div class="widget-wrap" id="recent"><div class="widget-header cap dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><div class="more-item"><a class="title" href="/2022/10/16/%E5%B8%B8%E7%94%A8%E7%9A%84%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E7%AE%97%E6%B3%95%E5%92%8C%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E5%99%A8/">常用的垃圾回收算法和垃圾回收器</a></div><div class="more-item"><a class="title" href="/2022/10/16/%E4%BB%8E%E5%BA%95%E5%B1%82%E7%90%86%E8%A7%A3%E5%A0%86%E5%92%8C%E6%A0%88/">从底层理解堆和栈的概念以及问题</a></div><div class="more-item"><a class="title" href="/2022/10/15/hello-world/">Hello World</a></div></div></div>
 </div>
 
 
@@ -100,10 +100,13 @@
   </nav>
 </div>
 
-  <div class="post-list post"><a class="post-card post " href="/2022/10/16/%E4%BB%8E%E5%BA%95%E5%B1%82%E7%90%86%E8%A7%A3%E5%A0%86%E5%92%8C%E6%A0%88/">
-<article class="md"><h2 class="post-title">从底层理解堆和栈的概念以及问题</h2><div class="excerpt"><p>一、堆栈的形象化
+  <div class="post-list post"><a class="post-card post " href="/2022/10/16/%E5%B8%B8%E7%94%A8%E7%9A%84%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E7%AE%97%E6%B3%95%E5%92%8C%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E5%99%A8/">
+<article class="md"><h2 class="post-title">常用的垃圾回收算法和垃圾回收器</h2><div class="excerpt"><p>一、前言​        相对于c/c++，java、python等高级语言引进了Garbage Collector（GC）垃圾回收器，能实现内存垃圾的自动回收，虽然牺牲了一定的运行效率，但大大地提高了开发效率，那么问题来了，常用的GC都有哪些？常用的GC算法都有哪些？GC是如何定义和定位垃圾的呢？
+二、What is Garbage​        在谈论垃圾回收算法和垃圾回收器之前，我们...</p></div><div class="meta cap"><span class="cap" id="post-meta">发布于&nbsp;<time datetime="2022-10-16T12:47:29.288Z">2022-10-16</time></span></div></article>
+</a><a class="post-card post " href="/2022/10/16/%E4%BB%8E%E5%BA%95%E5%B1%82%E7%90%86%E8%A7%A3%E5%A0%86%E5%92%8C%E6%A0%88/">
+<article class="md"><h2 class="post-title">从底层理解堆和栈的概念以及问题</h2><div class="excerpt"><p>
 （1）栈的概念​        在java程序中，存储main方法、Object o变量和m()方法的调用的结构，是一个先进后出的栈（每个线程单独占用一个栈），栈中的每块数据（m、main）由一个栈帧（stack frame指向）。
-​        当每个程序块结束运行，会移到下一个栈帧，而栈中上一个程序块以及其里面的数据会被自动释放，如main方法中的Object o，...</p></div><div class="meta cap"><span class="cap" id="post-meta">发布于&nbsp;<time datetime="2022-10-16T11:04:48.084Z">2022-10-16</time></span></div></article>
+​        当每个程序块结束运行，会移到下一个栈帧，而栈中上一个程序块以及其里面的数据会被自动释放，如main方法中的Object o，虽然其会占用一定...</p></div><div class="meta cap"><span class="cap" id="post-meta">发布于&nbsp;<time datetime="2022-10-16T11:04:48.084Z">2022-10-16</time></span></div></article>
 </a><a class="post-card post " href="/2022/10/15/hello-world/">
 <article class="md"><h2 class="post-title">Hello World</h2><div class="excerpt"><p>Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
 Qu...</p></div><div class="meta cap"><span class="cap" id="post-meta">发布于&nbsp;<time datetime="2022-10-15T13:04:24.908Z">2022-10-15</time></span></div></article>

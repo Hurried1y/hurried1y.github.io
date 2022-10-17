@@ -28,14 +28,14 @@
 <meta property="og:site_name" content="Hurried1y">
 <meta property="og:description" content="（1）栈的概念​        在java程序中，存储main方法、Object o变量和m()方法的调用的结构，是一个先进后出的栈（每个线程单独占用一个栈），栈中的每块数据（m、main）由一个栈帧（stack frame指向）。 ​        当每个程序块结束运行，会移到下一个栈帧，而栈中上一个程序块以及其里面的数据会被自动释放，如main方法中的Object o，虽然其会占用一定的空间">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/2022/10/16/%E4%BB%8E%E5%BA%95%E5%B1%82%E7%90%86%E8%A7%A3%E5%A0%86%E5%92%8C%E6%A0%88/.%5C%E4%BB%8E%E5%BA%95%E5%B1%82%E7%90%86%E8%A7%A3%E5%A0%86%E5%92%8C%E6%A0%88%5Cimg.jpg">
+<meta property="og:image" content="http://example.com/2022/10/16/%E4%BB%8E%E5%BA%95%E5%B1%82%E7%90%86%E8%A7%A3%E5%A0%86%E5%92%8C%E6%A0%88/img.jpg">
 <meta property="article:published_time" content="2022-10-16T11:04:48.084Z">
-<meta property="article:modified_time" content="2022-10-17T09:38:18.360Z">
+<meta property="article:modified_time" content="2022-10-17T09:57:27.046Z">
 <meta property="article:author" content="Hurried1y">
 <meta property="article:tag" content="底层">
 <meta property="article:tag" content="数据结构">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/2022/10/16/%E4%BB%8E%E5%BA%95%E5%B1%82%E7%90%86%E8%A7%A3%E5%A0%86%E5%92%8C%E6%A0%88/.%5C%E4%BB%8E%E5%BA%95%E5%B1%82%E7%90%86%E8%A7%A3%E5%A0%86%E5%92%8C%E6%A0%88%5Cimg.jpg">
+<meta name="twitter:image" content="http://example.com/2022/10/16/%E4%BB%8E%E5%BA%95%E5%B1%82%E7%90%86%E8%A7%A3%E5%A0%86%E5%92%8C%E6%A0%88/img.jpg">
   
   
 
@@ -95,7 +95,7 @@
 
 <article class='content md post'>
 <h1 class="article-title"><span>从底层理解堆和栈的概念以及问题</span></h1>
-<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/2022/10/16/%E4%BB%8E%E5%BA%95%E5%B1%82%E7%90%86%E8%A7%A3%E5%A0%86%E5%92%8C%E6%A0%88/.%5C%E4%BB%8E%E5%BA%95%E5%B1%82%E7%90%86%E8%A7%A3%E5%A0%86%E5%92%8C%E6%A0%88%5Cimg.jpg" alt="img"></p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/2022/10/16/%E4%BB%8E%E5%BA%95%E5%B1%82%E7%90%86%E8%A7%A3%E5%A0%86%E5%92%8C%E6%A0%88/img.jpg" alt="img"></p>
 <h4 id="（1）栈的概念"><a href="#（1）栈的概念" class="headerlink" title="（1）栈的概念"></a>（1）栈的概念</h4><p>​        在java程序中，存储main方法、Object o变量和m()方法的调用的结构，是一个先进后出的栈（每个线程单独占用一个栈），栈中的每块数据（m、main）由一个栈帧（stack frame指向）。</p>
 <p>​        当每个程序块结束运行，会移到下一个栈帧，而栈中上一个程序块以及其里面的数据会被自动释放，如main方法中的Object o，虽然其会占用一定的空间，但当main程序执行完，不需要程序员手动释放。</p>
 <h4 id="（2）堆的概念及其管理问题"><a href="#（2）堆的概念及其管理问题" class="headerlink" title="（2）堆的概念及其管理问题"></a>（2）堆的概念及其管理问题</h4><p>​        存储程序执行过程被手动new出来的对象的结构叫做堆。new出来的对象会占用堆的空间，若一直一直new对象，会产生爆内存的情况。堆与栈的最主要区别是，堆中的数据由程序员自己分配创建，而且得手动回收（将某处空间标记为可用）。</p>

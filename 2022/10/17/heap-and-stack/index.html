@@ -1,17 +1,240 @@
-<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="description" content=""><meta name="keyword"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta http-equiv="X-UA-Compatible" content="IE=edge"><title>从底层理解堆和栈的概念以及问题</title><link rel="shortcut icon" href="/img/f.png" type="image/x-icon"><link href="/styles/site.css" rel="stylesheet"><meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="Hurried1y" type="application/atom+xml">
-</head><body><header class="container" id="header"><div class="header"><div class="header-left"><div class="avatar"><img src="../img/avatar.jpg"></div><div class="author"><div class="author-name"><a href="/">Hurried1y</a></div><div class="about-me">时间扑面而来，我们终将释怀</div></div></div><div class="header-right"><ul class="navigation"><li><a href="/archives">归档</a></li></ul></div><div class="about-me-mask"><div class="about-me-wrap"><div class="about-me__header"><div class="avatar"><img src="../img/avatar.jpg"></div></div><ul class="socials"><li class="social-item"><span class="label"><img src="/images/socials/github.svg" alt="https://github.com/Hurried1y"></span><a href="https://github.com/Hurried1y" target="_blank" title="https://github.com/Hurried1y">https://github.com/Hurried1y</a></li><li class="social-item"><span class="label"><img src="/images/socials/email.svg" alt="3049478157@qq.com"></span><span>3049478157@qq.com</span></li></ul></div></div></div></header><div class="container post"><section class="article"><div class="title">从底层理解堆和栈的概念以及问题</div><div class="date">写于2022年10月17日</div><div class="content"><p><img src="/2022/10/17/heap-and-stack/img.jpg" alt="img">        </p>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  
+  
+  <title>
+    从底层理解堆和栈的概念以及问题 |
+    
+    Hurried1y
+  </title>
+  <!-- Icon -->
+  
+    <link rel="shortcut icon" href="/favicon.ico">
+    
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<script src="/js/pace.min.js"></script>
+
+<meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="Hurried1y" type="application/atom+xml">
+</head>
+
+<body>
+  <main class="content">
+    <section class="outer">
+  <article id="post-heap-and-stack" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+      
+  
+  <h1 class="article-title" itemprop="name">
+    从底层理解堆和栈的概念以及问题
+  </h1>
+  
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2022/10/17/heap-and-stack/" class="article-date">
+  <time datetime="2022-10-17T10:05:37.000Z" itemprop="datePublished">2022-10-17</time>
+</a>
+      
+    </div>
+    
+
+    
+    
+<div class="tocbot"></div>
+
+    
+
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+      
+        <p><img src="/2022/10/17/heap-and-stack/img.jpg" alt="img">        </p>
 <h4 id="（1）栈的概念"><a href="#（1）栈的概念" class="headerlink" title="（1）栈的概念"></a>（1）栈的概念</h4><p>​        在java程序中，存储main方法、Object o变量和m()方法的调用的结构，是一个先进后出的栈（每个线程单独占用一个栈），栈中的每块数据（m、main）由一个栈帧（stack frame指向）。</p>
 <p>​        当每个程序块结束运行，会移到下一个栈帧，而栈中上一个程序块以及其里面的数据会被自动释放，如main方法中的Object o，虽然其会占用一定的空间，但当main程序执行完，不需要程序员手动释放。</p>
 <h4 id="（2）堆的概念及其管理问题"><a href="#（2）堆的概念及其管理问题" class="headerlink" title="（2）堆的概念及其管理问题"></a>（2）堆的概念及其管理问题</h4><p>​        存储程序执行过程被手动new出来的对象的结构叫做堆。new出来的对象会占用堆的空间，若一直一直new对象，会产生爆内存的情况。堆与栈的最主要区别是，堆中的数据由程序员自己分配创建，而且得手动回收（将某处空间标记为可用）。</p>
 <p>​        而对堆空间的处理，不同的语言使用不同的方法去管理，在对堆空间的处理过程中往往会伴随着两个最难调试的bug，野指针问题和并发问题。。</p>
 <p>​        c/c++使用的是手工管理内存（malloc free/new delete）。若忘记释放，会产生memory leak内存泄漏问题（空间存在，但无法被使用），泄漏严重会演变为out of memory内存移除问题，可采用最朴素的调优方式–重启来解决；若多次释放，可能会产生并发线程问题，一个线程空间莫名其妙被另一个线程释放。</p>
 <p>​        在java、python和go等高级语言中，引入了GC（Garbage Collector）垃圾回收器，用于管理堆中垃圾的释放问题，程序员只需要负责分配，而那些错综复杂互相依赖的空间将由GC进行释放，所以相对c/c++来说开发效率更高，大大地降低了程序员的门槛。</p>
-</div><div class="tags"></div></section></div><div class="container"><ul class="nav"><li>上一篇：<a href="/2022/10/17/GC/">常用的垃圾回收算法和垃圾回收器</a></li></ul></div><div id="backToTop"><div class="back-arrow back-arrow-left"></div><div class="back-arrow back-arrow-right"></div></div><footer class="container"><div class="rights"><span>Powered by </span><a href="http://hexo.io" target="_blank">Hexo</a><span>, Theme </span><a href="https://github.com/gary-Shen/hexo-theme-bear" target="_blank">Bear</a><span>.</span></div></footer>
-<script src="/script/jquery.min.js"></script>
 
-<script src="/script/index.js"></script>
-<script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-ga('create', 'UA-61220413-1', 'auto');
-ga('send', 'pageview');</script>
-<script src="/script/post.js"></script>
-</body></html>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2022/10/17/heap-and-stack/" data-id="cla402rz8000920q2bhx2e4zr" class="article-share-link">
+        分享
+      </a>
+      
+    </footer>
+
+  </div>
+
+  
+  
+<nav class="article-nav">
+  
+  <a href="/2022/10/17/GC/" class="article-nav-link">
+    <strong class="article-nav-caption">前一篇</strong>
+    <div class="article-nav-title">
+      
+      常用的垃圾回收算法和垃圾回收器
+      
+    </div>
+  </a>
+  
+  
+</nav>
+
+  
+
+  
+  
+  
+  
+
+</article>
+</section>
+    <footer class="footer">
+  <div class="outer">
+    <ul class="list-inline">
+      <li>Hurried1y &copy; 2023</li>
+      
+        <li>
+          
+            <a href="https://beian.miit.gov.cn/" target="_blank"></a>
+            
+        </li>
+      
+      <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
+      <li>theme  <a target="_blank" rel="noopener" href="https://github.com/zhwangart/hexo-theme-ocean">Ocean</a></li>
+    </ul>
+    <p><ul class="list-inline">
+  
+  <li><i class="fe fe-smile-alt tooltip" data-tooltip="UV"></i> <span id="busuanzi_value_site_uv"></span></li>
+  
+  <li><i class="fe fe-bookmark tooltip" data-tooltip="PV"></i> <span id="busuanzi_value_page_pv"></span></li>
+  
+</ul></p>
+  </div>
+</footer>
+  </main>
+  <aside class="sidebar">
+    <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/hexo.svg" alt="Hurried1y"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">Home</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">Archives</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/gallery">Gallery</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about">About</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="搜索">
+        <i class="fe fe-search"></i>
+        搜索
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+      <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+        <i class="fe fe-feed"></i>
+      </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+  </aside>
+  
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+
+<script src="/js/tocbot.min.js"></script>
+
+
+<script>
+  // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+  });
+</script>
+
+
+
+<script src="/js/ocean.js"></script>
+
+</body>
+
+</html>

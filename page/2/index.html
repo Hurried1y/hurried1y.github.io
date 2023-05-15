@@ -1,242 +1,454 @@
-<!DOCTYPE html><html lang="[&quot;zh-CN&quot;,&quot;en&quot;,&quot;default&quot;]" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>Hurried1y</title><meta name="author" content="Hurried1y"><meta name="copyright" content="Hurried1y"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta property="og:type" content="website">
-<meta property="og:title" content="Hurried1y">
-<meta property="og:url" content="http://example.com/page/2/index.html">
-<meta property="og:site_name" content="Hurried1y">
-<meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/img/avatar.jpg">
-<meta property="article:author" content="Hurried1y">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/img/avatar.jpg"><link rel="shortcut icon" href="/img/f.png"><link rel="canonical" href="http://example.com/page/2/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script async="async" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script><script>(adsbygoogle = window.adsbygoogle || []).push({
-  google_ad_client: '',
-  enable_page_level_ads: 'true'
-});</script><script>const GLOBAL_CONFIG = { 
-  root: '/',
-  algolia: undefined,
-  localSearch: undefined,
-  translate: undefined,
-  noticeOutdate: undefined,
-  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
-  copy: {
-    success: '复制成功',
-    error: '复制错误',
-    noSupport: '浏览器不支持'
-  },
-  relativeDate: {
-    homepage: false,
-    post: false
-  },
-  runtime: '天',
-  date_suffix: {
-    just: '刚刚',
-    min: '分钟前',
-    hour: '小时前',
-    day: '天前',
-    month: '个月前'
-  },
-  copyright: undefined,
-  lightbox: 'fancybox',
-  Snackbar: undefined,
-  source: {
-    justifiedGallery: {
-      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
-      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
-    }
-  },
-  isPhotoFigcaption: false,
-  islazyload: false,
-  isAnchor: false
-}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
-  title: 'Hurried1y',
-  isPost: false,
-  isHome: true,
-  isHighlightShrink: false,
-  isToc: false,
-  postUpdate: '2023-05-15 11:47:53'
-}</script><noscript><style type="text/css">
-  #nav {
-    opacity: 1
-  }
-  .justified-gallery img {
-    opacity: 1
-  }
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="description" content=""><meta name="keyword"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta http-equiv="X-UA-Compatible" content="IE=edge"><title>GARY.SHEN</title><link rel="shortcut icon" href="/images/avatar.png" type="image/x-icon"><link href="/styles/site.css" rel="stylesheet"><meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="Hurried1y" type="application/atom+xml">
+</head><body><header class="container" id="header"><div class="header"><div class="header-left"><div class="avatar"><img src="/images/avatar.png"></div><div class="author"><div class="author-name"><a href="/">GARY.SHEN</a></div><div class="about-me">Halo~</div></div></div><div class="header-right"><ul class="navigation"><li><a href="/archives">归档</a></li></ul></div><div class="about-me-mask"><div class="about-me-wrap"><div class="about-me__header"><div class="avatar"><img src="/images/avatar.png"></div></div><ul class="socials"><li class="social-item"><span class="label"><img src="/images/socials/github.svg" alt="https://github.com/gary-Shen"></span><a href="https://github.com/gary-Shen" target="_blank" title="https://github.com/gary-Shen">https://github.com/gary-Shen</a></li><li class="social-item"><span class="label"><img src="/images/socials/flickr.svg" alt="https://www.flickr.com/photos/69944455@N05/"></span><a href="https://www.flickr.com/photos/69944455@N05/" target="_blank" title="https://www.flickr.com/photos/69944455@N05/">https://www.flickr.com/photos/69944455@N05/</a></li><li class="social-item"><span class="label"><img src="/images/socials/email.svg" alt="guanlinshen@126.com"></span><span>guanlinshen@126.com</span></li><li class="social-item"><span class="label"><img src="/images/socials/wechat.svg" alt="Grinson"></span><span>Grinson</span></li></ul></div></div></div></header><div class="container home"><section class="article"><a class="title" href="/2023/05/14/rpc-framework-3/">简易RPC框架 - 3</a><div class="content excerpt"><h3 id="简易RPC框架-服务订阅、发现模块"><a href="#简易RPC框架-服务订阅、发现模块" class="headerlink" title="简易RPC框架 - 服务订阅、发现模块"></a>简易RPC框架 - 服务订阅、发现模块</h3><h4 id="1、结构设计"><a href="#1、结构设计" class="headerlink" title="1、结构设计"></a>1、结构设计</h4><p>首先先看Rpc客户端的设计思路：</p>
+<p><img src="/2023/05/14/rpc-framework-3/ttt.png" alt="ttt"></p>
+<h4 id="2、实现"><a href="#2、实现" class="headerlink" title="2、实现"></a>2、实现</h4><p>这里也是直接上代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Slf4j</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">RpcClientAutoConfiguration</span> <span class="keyword">implements</span> <span class="title class_">BeanPostProcessor</span>, ApplicationListener&lt;ApplicationReadyEvent&gt; &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> NettyRpcClient client;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">volatile</span> <span class="type">boolean</span> <span class="variable">needInitClient</span> <span class="operator">=</span> <span class="literal">false</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">volatile</span> <span class="type">boolean</span> <span class="variable">hasInitClientConfig</span> <span class="operator">=</span> <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> Object <span class="title function_">postProcessAfterInitialization</span><span class="params">(Object bean, String beanName)</span> <span class="keyword">throws</span> BeansException &#123;</span><br><span class="line">        <span class="keyword">final</span> Class&lt;?&gt; targetClass = bean.getClass();</span><br><span class="line">        <span class="keyword">final</span> Field[] declaredFields = targetClass.getDeclaredFields();</span><br><span class="line">        <span class="keyword">for</span> (Field field : declaredFields) &#123;</span><br><span class="line">            <span class="keyword">if</span>(field.isAnnotationPresent(RpcReference.class))&#123;</span><br><span class="line">                <span class="keyword">if</span>(!hasInitClientConfig) &#123;</span><br><span class="line">                    <span class="comment">//每个Reference对应一个RpcClient</span></span><br><span class="line">                    client = <span class="keyword">new</span> <span class="title class_">NettyRpcClient</span>();</span><br><span class="line">                    client.initClientApplication();</span><br><span class="line">                    hasInitClientConfig = <span class="literal">true</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                needInitClient = <span class="literal">true</span>;</span><br><span class="line">                <span class="keyword">final</span> <span class="type">RpcReference</span> <span class="variable">annotation</span> <span class="operator">=</span> field.getAnnotation(RpcReference.class);</span><br><span class="line">                <span class="keyword">final</span> <span class="type">RpcServiceConfig</span> <span class="variable">rpcServiceConfig</span> <span class="operator">=</span> RpcServiceConfig.builder()</span><br><span class="line">                        .group(annotation.group())</span><br><span class="line">                        .version(annotation.version())</span><br><span class="line">                        .build();</span><br><span class="line">                field.setAccessible(<span class="literal">true</span>);</span><br><span class="line">                <span class="type">RpcClientProxy</span> <span class="variable">rpcClientProxy</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">RpcClientProxy</span>(client, rpcServiceConfig);</span><br><span class="line">                <span class="keyword">final</span> <span class="type">Object</span> <span class="variable">proxy</span> <span class="operator">=</span> rpcClientProxy.getProxy(field.getType());</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    <span class="comment">//代理类替换</span></span><br><span class="line">                    field.set(bean, proxy);</span><br><span class="line">                    <span class="comment">//服务订阅</span></span><br><span class="line">                    client.doSubscribeService(field.getType());</span><br><span class="line">                &#125; <span class="keyword">catch</span> (IllegalAccessException e) &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125; <span class="keyword">catch</span> (UnknownHostException e) &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> bean;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 服务启动后，自动连接服务端</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> applicationReadyEvent 服务启动事件</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onApplicationEvent</span><span class="params">(ApplicationReadyEvent applicationReadyEvent)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span>(needInitClient &amp;&amp; client != <span class="literal">null</span>)&#123;</span><br><span class="line">            log.info(<span class="string">&quot; ================== [&#123;&#125;] started success ================== &quot;</span>, client.getClass().getName());</span><br><span class="line">            ConnectionHandler.setBootstrap(client.getBootstrap());</span><br><span class="line">            <span class="comment">//将Client与每个服务提供者连接</span></span><br><span class="line">            client.doConnectServer();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-  #recent-posts time,
-  #post-meta time {
-    display: inline !important
-  }
-</style></noscript><script>(win=>{
-    win.saveToLocal = {
-      set: function setWithExpiry(key, value, ttl) {
-        if (ttl === 0) return
-        const now = new Date()
-        const expiryDay = ttl * 86400000
-        const item = {
-          value: value,
-          expiry: now.getTime() + expiryDay,
-        }
-        localStorage.setItem(key, JSON.stringify(item))
-      },
+<p>值得注意的是，我们这里用到了ApplicationContext的事件机制，因为需要需要实现通道连接时保证所有的@Reference都已进行服务订阅，查了很多资料，学到了这个方法。首先该类实现了ApplicationListener，那么每当ApplicationContext发布ApplicationEvent时，ApplicationListener Bean将自动被触发。我们这里监听的是ApplicationReadyEvent事件，当上下文已经准备完毕的时候触发onApplicationEvent()方法。</p>
+<p>通过ApplicationContext的事件机制，我们就可以实现这个效果：Spring扫描整个类的@Reference属性，然后进行服务订阅，将@Reference对应的信息封装成URL对象。当上下文准备完毕，意味着所有的@Reference属性都已进行订阅，此时会触发onApplicationEvent()方法，将Client与每个@Reference属性对应的RpcServer建立一个Channel，之后当需要远程调用时，就可以在代理类中获取对应的Channel进行通信。</p>
+<p>在这里，将URL和代理类贴出来，方便大家理解：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@AllArgsConstructor</span></span><br><span class="line"><span class="meta">@NoArgsConstructor</span></span><br><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">URL</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> String applicationName;</span><br><span class="line">    <span class="keyword">private</span> String serviceName;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 这里面可以自定义不限进行扩展</span></span><br><span class="line"><span class="comment">     * 分组</span></span><br><span class="line"><span class="comment">     * 权重</span></span><br><span class="line"><span class="comment">     * 服务提供者的地址</span></span><br><span class="line"><span class="comment">     * 服务提供者的端口</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> Map&lt;String, String&gt; parameters = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">addParameter</span><span class="params">(String key, String value)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.parameters.putIfAbsent(key, value);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-      get: function getWithExpiry(key) {
-        const itemStr = localStorage.getItem(key)
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Slf4j</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">RpcClientProxy</span> <span class="keyword">implements</span> <span class="title class_">InvocationHandler</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">INTERFACE_NAME</span> <span class="operator">=</span> <span class="string">&quot;interfaceName&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> RpcRequestTransport rpcRequestTransport;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> RpcServiceConfig rpcServiceConfig;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">RpcClientProxy</span><span class="params">(RpcRequestTransport rpcRequestTransport, RpcServiceConfig rpcServiceConfig)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.rpcRequestTransport = rpcRequestTransport;</span><br><span class="line">        <span class="built_in">this</span>.rpcServiceConfig = rpcServiceConfig;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 获取代理对象</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> clazz 代理类</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> &lt;T&gt; 代理类类型</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> 代理对象</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> &lt;T&gt; T <span class="title function_">getProxy</span><span class="params">(Class&lt;T&gt; clazz)</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> (T) Proxy.newProxyInstance(clazz.getClassLoader(), <span class="keyword">new</span> <span class="title class_">Class</span>&lt;?&gt;[]&#123;clazz&#125;, <span class="built_in">this</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> Object <span class="title function_">invoke</span><span class="params">(Object proxy, Method method, Object[] args)</span> <span class="keyword">throws</span> Throwable &#123;</span><br><span class="line">        <span class="keyword">if</span>(method.getName().equals(<span class="string">&quot;toString&quot;</span>))&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        log.info(<span class="string">&quot;开始执行方法: [&#123;&#125;]&quot;</span>, method.getName());</span><br><span class="line">        <span class="type">RpcRequest</span> <span class="variable">rpcRequest</span> <span class="operator">=</span> RpcRequest.builder()</span><br><span class="line">                .requestId(UUID.randomUUID().toString())</span><br><span class="line">                .parameters(args)</span><br><span class="line">                .methodName(method.getName())</span><br><span class="line">                .interfaceName(method.getDeclaringClass().getName())</span><br><span class="line">                .paramTypes(method.getParameterTypes())</span><br><span class="line">                .group(rpcServiceConfig.getGroup())</span><br><span class="line">                .version(rpcServiceConfig.getVersion())</span><br><span class="line">                .build();</span><br><span class="line">        RpcResponse&lt;Object&gt; rpcResponse = <span class="literal">null</span>;</span><br><span class="line">        <span class="comment">//通过当前服务对应的唯一channel向服务器发送请求</span></span><br><span class="line">        <span class="keyword">if</span> (rpcRequestTransport <span class="keyword">instanceof</span> NettyRpcClient) &#123;</span><br><span class="line">            CompletableFuture&lt;RpcResponse&lt;Object&gt;&gt; completableFuture = (CompletableFuture&lt;RpcResponse&lt;Object&gt;&gt;) rpcRequestTransport.sendRpcRequest(rpcRequest);</span><br><span class="line">            rpcResponse = completableFuture.get();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(rpcRequestTransport <span class="keyword">instanceof</span> SocketRpcClient) &#123;</span><br><span class="line">            rpcResponse = (RpcResponse&lt;Object&gt;) rpcRequestTransport.sendRpcRequest(rpcRequest);</span><br><span class="line">        &#125;</span><br><span class="line">        check(rpcRequest, rpcResponse);</span><br><span class="line">        <span class="keyword">return</span> rpcResponse.getData();</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">check</span><span class="params">(RpcRequest rpcRequest, RpcResponse rpcResponse)</span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(rpcResponse == <span class="literal">null</span>)&#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">RpcException</span>(RpcErrorMessageEnum.SERVICE_INVOCATION_FAILURE, INTERFACE_NAME + <span class="string">&quot;:&quot;</span> + rpcRequest.getInterfaceName());</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(!rpcResponse.getRequestId().equals(rpcRequest.getRequestId()))&#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">RpcException</span>(RpcErrorMessageEnum.REQUEST_NOT_MATCH_RESPONSE, INTERFACE_NAME + <span class="string">&quot;:&quot;</span> + rpcRequest.getInterfaceName());</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(rpcResponse.getCode() == <span class="literal">null</span> || !rpcResponse.getCode().equals(RpcResponseCode.SUCCESS.getCode()))&#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">RpcException</span>(RpcErrorMessageEnum.SERVICE_INVOCATION_FAILURE, INTERFACE_NAME + <span class="string">&quot;:&quot;</span> + rpcRequest.getInterfaceName());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-        if (!itemStr) {
-          return undefined
-        }
-        const item = JSON.parse(itemStr)
-        const now = new Date()
+<p>至于服务订阅、通道连接的代码大家可以根据自己的需要进行设计，我这里就不再描述了。</p>
+<p>至于负载均衡，可以在通道连接的时候设计，也可以按大家的想法来。</p>
+</div><div class="tags"></div><div class="article-footer"><a class="excerpt-link" href="/2023/05/14/rpc-framework-3/">全文...</a><div class="article-footer__right"><span class="date">写于2023年05月14日</span></div></div></section><section class="article"><a class="title" href="/2023/05/12/rpc-framework-2/">简易RPC框架 - 2</a><div class="content excerpt"><h3 id="简易RPC框架-服务注册模块"><a href="#简易RPC框架-服务注册模块" class="headerlink" title="简易RPC框架 - 服务注册模块"></a>简易RPC框架 - 服务注册模块</h3><h4 id="1、结构设计"><a href="#1、结构设计" class="headerlink" title="1、结构设计"></a>1、结构设计</h4><p>紧接上文，结合框架结构图进行讲解：</p>
+<p><img src="/2023/05/12/rpc-framework-2/xxx.jpg" alt="xxx"></p>
+<p>本节主要讲解服务注册的细节，首先定义了三个注解：@RpcService、@RpcReference、@RpcScan</p>
+<p>@RpcService用于标注服务提供者，@RpcReference用于标注服务消费者，@RpcScan用于扫描特定的Bean</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Documented</span></span><br><span class="line"><span class="meta">@Retention(RetentionPolicy.RUNTIME)</span></span><br><span class="line"><span class="meta">@Target(ElementType.TYPE)</span></span><br><span class="line"><span class="meta">@Inherited</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> RpcService &#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Service version, default value is empty string</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    String <span class="title function_">version</span><span class="params">()</span> <span class="keyword">default</span> <span class="string">&quot;&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Service group, default value is empty string</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    String <span class="title function_">group</span><span class="params">()</span> <span class="keyword">default</span> <span class="string">&quot;&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-        if (now.getTime() > item.expiry) {
-          localStorage.removeItem(key)
-          return undefined
-        }
-        return item.value
-      }
-    }
-  
-    win.getScript = url => new Promise((resolve, reject) => {
-      const script = document.createElement('script')
-      script.src = url
-      script.async = true
-      script.onerror = reject
-      script.onload = script.onreadystatechange = function() {
-        const loadState = this.readyState
-        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
-        script.onload = script.onreadystatechange = null
-        resolve()
-      }
-      document.head.appendChild(script)
-    })
-  
-      win.activateDarkMode = function () {
-        document.documentElement.setAttribute('data-theme', 'dark')
-        if (document.querySelector('meta[name="theme-color"]') !== null) {
-          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
-        }
-      }
-      win.activateLightMode = function () {
-        document.documentElement.setAttribute('data-theme', 'light')
-        if (document.querySelector('meta[name="theme-color"]') !== null) {
-          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
-        }
-      }
-      const t = saveToLocal.get('theme')
-    
-          if (t === 'dark') activateDarkMode()
-          else if (t === 'light') activateLightMode()
-        
-      const asideStatus = saveToLocal.get('aside-status')
-      if (asideStatus !== undefined) {
-        if (asideStatus === 'hide') {
-          document.documentElement.classList.add('hide-aside')
-        } else {
-          document.documentElement.classList.remove('hide-aside')
-        }
-      }
-    
-    const detectApple = () => {
-      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
-        document.documentElement.classList.add('apple')
-      }
-    }
-    detectApple()
-    })(window)</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/metingjs/dist/Meting.min.js"></script><meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="Hurried1y" type="application/atom+xml">
-</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">11</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="page" id="body-wrap"><header class="full_page" id="page-header" style="background-image: url('/img/background.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Hurried1y</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="site-info"><h1 id="site-title">Hurried1y</h1><div id="site-subtitle"><span id="subtitle"></span></div><div id="site_social_icons"><a class="social-icon" href="https://github.com/Hurried1y" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:3049478157@qq.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div id="scroll-down"><i class="fas fa-angle-down scroll-down-effects"></i></div></header><main class="layout" id="content-inner"><div class="recent-posts" id="recent-posts"><div class="recent-post-item"><div class="post_cover left"><a href="/2022/10/17/heap-and-stack/" title="从底层理解堆和栈的概念以及问题"><img class="post_bg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="从底层理解堆和栈的概念以及问题"></a></div><div class="recent-post-info"><a class="article-title" href="/2022/10/17/heap-and-stack/" title="从底层理解堆和栈的概念以及问题">从底层理解堆和栈的概念以及问题</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2022-10-17T10:05:37.000Z" title="发表于 2022-10-17 18:05:37">2022-10-17</time></span></div><div class="content">        
-（1）栈的概念​        在java程序中，存储main方法、Object o变量和m()方法的调用的结构，是一个先进后出的栈（每个线程单独占用一个栈），栈中的每块数据（m、main）由一个栈帧（stack frame指向）。
-​        当每个程序块结束运行，会移到下一个栈帧，而栈中上一个程序块以及其里面的数据会被自动释放，如main方法中的Object o，虽然其会占用一定的空间，但当main程序执行完，不需要程序员手动释放。
-（2）堆的概念及其管理问题​        存储程序执行过程被手动new出来的对象的结构叫做堆。new出来的对象会占用堆的空间，若一直一直new对象，会产生爆内存的情况。堆与栈的最主要区别是，堆中的数据由程序员自己分配创建，而且得手动回收（将某处空间标记为可用）。
-​        而对堆空间的处理，不同的语言使用不同的方法去管理，在对堆空间的处理过程中往往会伴随着两个最难调试的bug，野指针问题和并发问题。。
-​        c/c++使用的是手工管理内存（malloc free/new delete）。若忘记释放，会产生m ...</div></div></div><nav id="pagination"><div class="pagination"><a class="extend prev" rel="prev" href="/"><i class="fas fa-chevron-left fa-fw"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Hurried1y</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">11</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Hurried1y"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/Hurried1y" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:3049478157@qq.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2023/05/14/rpc-framework-3/" title="简易RPC框架 - 3"><img src="/../img/top-img/rpc-framework-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="简易RPC框架 - 3"/></a><div class="content"><a class="title" href="/2023/05/14/rpc-framework-3/" title="简易RPC框架 - 3">简易RPC框架 - 3</a><time datetime="2023-05-14T14:21:03.000Z" title="发表于 2023-05-14 22:21:03">2023-05-14</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/05/12/rpc-framework-2/" title="简易RPC框架 - 2"><img src="/../img/top-img/rpc-framework-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="简易RPC框架 - 2"/></a><div class="content"><a class="title" href="/2023/05/12/rpc-framework-2/" title="简易RPC框架 - 2">简易RPC框架 - 2</a><time datetime="2023-05-12T06:18:57.000Z" title="发表于 2023-05-12 14:18:57">2023-05-12</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/05/12/rpc-framework-1/" title="简易RPC框架 - 1"><img src="/../img/top-img/rpc-framework-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="简易RPC框架 - 1"/></a><div class="content"><a class="title" href="/2023/05/12/rpc-framework-1/" title="简易RPC框架 - 1">简易RPC框架 - 1</a><time datetime="2023-05-12T05:24:57.000Z" title="发表于 2023-05-12 13:24:57">2023-05-12</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/01/14/local-transaction-logs/" title="Spring本地事务失效问题"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Spring本地事务失效问题"/></a><div class="content"><a class="title" href="/2023/01/14/local-transaction-logs/" title="Spring本地事务失效问题">Spring本地事务失效问题</a><time datetime="2023-01-14T13:01:16.000Z" title="发表于 2023-01-14 21:01:16">2023-01-14</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/01/14/feign-logs/" title="Feign远程调用遇到的坑"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Feign远程调用遇到的坑"/></a><div class="content"><a class="title" href="/2023/01/14/feign-logs/" title="Feign远程调用遇到的坑">Feign远程调用遇到的坑</a><time datetime="2023-01-14T12:58:07.000Z" title="发表于 2023-01-14 20:58:07">2023-01-14</time></div></div></div></div><div class="card-widget card-archives"><div class="item-headline"><i class="fas fa-archive"></i><span>归档</span></div><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/05/"><span class="card-archive-list-date">五月 2023</span><span class="card-archive-list-count">3</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/01/"><span class="card-archive-list-date">一月 2023</span><span class="card-archive-list-count">3</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/11/"><span class="card-archive-list-date">十一月 2022</span><span class="card-archive-list-count">2</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/10/"><span class="card-archive-list-date">十月 2022</span><span class="card-archive-list-count">3</span></a></li></ul></div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站资讯</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">11</div></div><div class="webinfo-item"><div class="item-name">已运行时间 :</div><div class="item-count" id="runtimeshow" data-publishDate="2022-09-08T16:00:00.000Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">本站访客数 :</div><div class="item-count" id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">本站总访问量 :</div><div class="item-count" id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2023-05-15T03:47:53.024Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By Hurried1y</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">Hi, welcome to my <a target="_blank" rel="noopener" href="https://butterfly.js.org/">blog</a>!</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><div class="js-pjax"><script>function subtitleType () {
-  if (true) { 
-    window.typed = new Typed("#subtitle", {
-      strings: ["时间扑面而来，我们终将释怀。"],
-      startDelay: 300,
-      typeSpeed: 150,
-      loop: false,
-      backSpeed: 50
-    })
-  } else {
-    document.getElementById("subtitle").innerHTML = '时间扑面而来，我们终将释怀。'
-  }
-}
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Documented</span></span><br><span class="line"><span class="meta">@Retention(RetentionPolicy.RUNTIME)</span></span><br><span class="line"><span class="meta">@Target(ElementType.FIELD)</span></span><br><span class="line"><span class="meta">@Inherited</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> RpcReference &#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Service version, default value is empty string</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    String <span class="title function_">version</span><span class="params">()</span> <span class="keyword">default</span> <span class="string">&quot;&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Service group, default value is empty string</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    String <span class="title function_">group</span><span class="params">()</span> <span class="keyword">default</span> <span class="string">&quot;&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-if (true) {
-  if (typeof Typed === 'function') {
-    subtitleType()
-  } else {
-    getScript('https://cdn.jsdelivr.net/npm/typed.js/lib/typed.min.js').then(subtitleType)
-  }
-} else {
-  subtitleType()
-}</script></div><div class="aplayer no-destroy" data-id="7727330670" data-server="netease" data-type="playlist" data-fixed="true" data-autoplay="true"> </div><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/fireworks.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
-POWERMODE.shake = true;
-POWERMODE.mobile = false;
-document.body.addEventListener('input', POWERMODE);
-</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/metingjs/dist/Meting.min.js"></script><script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Target(&#123;ElementType.TYPE, ElementType.METHOD&#125;)</span></span><br><span class="line"><span class="meta">@Retention(RetentionPolicy.RUNTIME)</span></span><br><span class="line"><span class="meta">@Import(CustomScannerRegistrar.class)</span></span><br><span class="line"><span class="meta">@Documented</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> RpcScan &#123;</span><br><span class="line">    String[] basePackage() <span class="keyword">default</span> &#123;&#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-var pjax = new Pjax({
-  elements: 'a:not([target="_blank"])',
-  selectors: pjaxSelectors,
-  cacheBust: false,
-  analytics: false,
-  scrollRestoration: false
-})
 
-document.addEventListener('pjax:send', function () {
 
-  // removeEventListener scroll 
-  window.tocScrollFn && window.removeEventListener('scroll', window.tocScrollFn)
-  window.scrollCollect && window.removeEventListener('scroll', scrollCollect)
+<h4 id="2、实现"><a href="#2、实现" class="headerlink" title="2、实现"></a>2、实现</h4><p>首先服务端执行的大致流程如下：</p>
+<p><img src="/2023/05/12/rpc-framework-2/xxxx.png" alt="xxxx"></p>
+<p>服务注册模块采用注解加包扫描的方式去实现，将标注了@RpcService服务的元信息注册到Zookeeper，然后客户端要向服务端发送消息时，就可以从Zookeeper中获取远程服务的信息完成服务的调用。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">RpcServerAutoConfiguration</span> <span class="keyword">implements</span> <span class="title class_">InitializingBean</span>, ApplicationContextAware &#123;</span><br><span class="line">    <span class="keyword">private</span> ApplicationContext applicationContext;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">afterPropertiesSet</span><span class="params">()</span> &#123;</span><br><span class="line">        Map&lt;String, Object&gt; beanMap = applicationContext.getBeansWithAnnotation(RpcService.class);</span><br><span class="line">        <span class="keyword">if</span>(beanMap.size() == <span class="number">0</span>)&#123;</span><br><span class="line">            <span class="comment">//说明当前应用内部不需要对外暴露服务</span></span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">NettyRpcServer</span> <span class="variable">nettyRpcServer</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">NettyRpcServer</span>();</span><br><span class="line">        nettyRpcServer.initServerConfig();</span><br><span class="line">        <span class="keyword">for</span> (String beanName : beanMap.keySet()) &#123;</span><br><span class="line">            log.info(<span class="string">&quot;[&#123;&#125;] is annotated with [&#123;&#125;]&quot;</span>, beanName, RpcService.class.getCanonicalName());</span><br><span class="line">            <span class="comment">//build RpcServiceProperties</span></span><br><span class="line">            <span class="type">Object</span> <span class="variable">bean</span> <span class="operator">=</span> beanMap.get(beanName);</span><br><span class="line">            <span class="type">RpcService</span> <span class="variable">rpcService</span> <span class="operator">=</span> bean.getClass().getAnnotation(RpcService.class);</span><br><span class="line">            <span class="type">RpcServiceConfig</span> <span class="variable">rpcServiceConfig</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                <span class="comment">//构建暴露的服务的信息</span></span><br><span class="line">                rpcServiceConfig = RpcServiceConfig.builder()</span><br><span class="line">                        .host(InetAddress.getLocalHost().getHostAddress())</span><br><span class="line">                        .group(rpcService.group())</span><br><span class="line">                        .version(rpcService.version())</span><br><span class="line">                        .service(bean)</span><br><span class="line">                        .port(SERVER_CONFIG.getServerPort()).build();</span><br><span class="line">            &#125; <span class="keyword">catch</span> (UnknownHostException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">//服务暴露</span></span><br><span class="line">            nettyRpcServer.exposeService(rpcServiceConfig);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//启动服务端，监听配置文件中定义的IP:PORT</span></span><br><span class="line">        nettyRpcServer.start();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setApplicationContext</span><span class="params">(ApplicationContext applicationContext)</span> <span class="keyword">throws</span> BeansException &#123;</span><br><span class="line">        <span class="built_in">this</span>.applicationContext = applicationContext;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-  document.getElementById('rightside').style.cssText = "opacity: ''; transform: ''"
-  
-  if (window.aplayers) {
-    for (let i = 0; i < window.aplayers.length; i++) {
-      if (!window.aplayers[i].options.fixed) {
-        window.aplayers[i].destroy()
-      }
-    }
-  }
+<p>其中服务注册到Zookeeper的代码我就不放上来了，大家可以根据自己的需要自己定义规则。需要注意的是，在注册时我们还定义了一个服务端缓存类，用于存储服务端提供的类信息：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">CommonServerCache</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> ServerConfig SERVER_CONFIG;</span><br><span class="line">    <span class="comment">//服务端发布的服务</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Map&lt;String, Object&gt; SERVICE_MAP = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-  typeof typed === 'object' && typed.destroy()
+<p>我们注册时需要把暴露的服务缓存到本地，后面才能为客户端提供服务类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">addService</span><span class="params">(RpcServiceConfig rpcServiceConfig)</span> &#123;</span><br><span class="line">    <span class="type">String</span> <span class="variable">rpcServiceName</span> <span class="operator">=</span> rpcServiceConfig.getRpcServiceName();</span><br><span class="line">    <span class="type">Object</span> <span class="variable">service</span> <span class="operator">=</span> rpcServiceConfig.getService();</span><br><span class="line">    <span class="comment">//将服务名称和服务对象放入map中</span></span><br><span class="line">    <span class="keyword">if</span>(SERVICE_MAP.containsKey(rpcServiceName))&#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    SERVICE_MAP.put(rpcServiceName, service);</span><br><span class="line">    log.info(<span class="string">&quot;服务注册 - 成功注册服务: &#123;&#125; 和接口: &#123;&#125;&quot;</span>, rpcServiceName, service.getClass().getInterfaces());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-  //reset readmode
-  const $bodyClassList = document.body.classList
-  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+<p>至于客户端调用（服务订阅、服务发现）的细节我们会在后续的文章中进行讲解。</p>
+<p>包扫描的实现如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Slf4j</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">CustomScannerRegistrar</span> <span class="keyword">implements</span> <span class="title class_">ImportBeanDefinitionRegistrar</span>, ResourceLoaderAware &#123;</span><br><span class="line">    <span class="comment">//扫描框架项目的bean</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">SPRING_BEAN_BASE_PACKAGE</span> <span class="operator">=</span> <span class="string">&quot;com.hurried1y&quot;</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">BASE_PACKAGE_ATTRIBUTE_NAME</span> <span class="operator">=</span> <span class="string">&quot;basePackage&quot;</span>;</span><br><span class="line">    <span class="keyword">private</span> ResourceLoader resourceLoader;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setResourceLoader</span><span class="params">(ResourceLoader resourceLoader)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.resourceLoader = resourceLoader;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">registerBeanDefinitions</span><span class="params">(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry, BeanNameGenerator importBeanNameGenerator)</span> &#123;</span><br><span class="line">        <span class="comment">//获取注解属性</span></span><br><span class="line">        <span class="keyword">final</span> <span class="type">AnnotationAttributes</span> <span class="variable">annotationAttributes</span> <span class="operator">=</span> AnnotationAttributes.fromMap(importingClassMetadata.getAnnotationAttributes(RpcScan.class.getName()));</span><br><span class="line">        <span class="comment">//获取注解属性中的basePackage</span></span><br><span class="line">        String[] rpcScanBasePackages = <span class="keyword">new</span> <span class="title class_">String</span>[<span class="number">0</span>];</span><br><span class="line">        <span class="keyword">if</span>(annotationAttributes != <span class="literal">null</span>)&#123;</span><br><span class="line">            rpcScanBasePackages = annotationAttributes.getStringArray(BASE_PACKAGE_ATTRIBUTE_NAME);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//如果没有指定扫描包，则默认扫描当前类所在的包</span></span><br><span class="line">        <span class="keyword">if</span>(rpcScanBasePackages.length == <span class="number">0</span>)&#123;</span><br><span class="line">            rpcScanBasePackages = <span class="keyword">new</span> <span class="title class_">String</span>[]&#123;((StandardAnnotationMetadata) importingClassMetadata).getIntrospectedClass().getPackage().getName()&#125;;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//扫描 RpcService 注解的扫描器</span></span><br><span class="line">        <span class="keyword">final</span> <span class="type">CustomScanner</span> <span class="variable">rpcServiceScanner</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">CustomScanner</span>(registry, RpcService.class);</span><br><span class="line">        <span class="comment">//扫描 Component 注解的扫描器</span></span><br><span class="line">        <span class="keyword">final</span> <span class="type">CustomScanner</span> <span class="variable">componentScanner</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">CustomScanner</span>(registry, Component.class);</span><br><span class="line">        <span class="comment">//设置扫描包</span></span><br><span class="line">        <span class="keyword">if</span>(resourceLoader != <span class="literal">null</span>)&#123;</span><br><span class="line">            rpcServiceScanner.setResourceLoader(resourceLoader);</span><br><span class="line">            componentScanner.setResourceLoader(resourceLoader);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="type">int</span> <span class="variable">springBeanAmount</span> <span class="operator">=</span> componentScanner.scan(SPRING_BEAN_BASE_PACKAGE);</span><br><span class="line">        log.info(<span class="string">&quot;springBeanScanner扫描的数量 [&#123;&#125;]&quot;</span>, springBeanAmount);</span><br><span class="line">        <span class="comment">//扫描 RpcService 注解</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">rpcServiceCount</span> <span class="operator">=</span> rpcServiceScanner.scan(rpcScanBasePackages);</span><br><span class="line">        log.info(<span class="string">&quot;rpcServiceScanner扫描的数量 [&#123;&#125;]&quot;</span>, rpcServiceCount);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-  typeof disqusjs === 'object' && disqusjs.destroy()
-})
+</div><div class="tags"></div><div class="article-footer"><a class="excerpt-link" href="/2023/05/12/rpc-framework-2/">全文...</a><div class="article-footer__right"><span class="date">写于2023年05月12日</span></div></div></section><section class="article"><a class="title" href="/2023/05/12/rpc-framework-1/">简易RPC框架 - 1</a><div class="content excerpt"><h3 id="简易RPC框架-前言"><a href="#简易RPC框架-前言" class="headerlink" title="简易RPC框架 - 前言"></a>简易RPC框架 - 前言</h3><h4 id="1、前言"><a href="#1、前言" class="headerlink" title="1、前言"></a>1、前言</h4><p>Rpc框架想必大家都不陌生，常见的开源RPC框架如Dubbo、gRpc、Thrift等，为啥想到要手动实现一个Rpc框架，主要是本人对网络编程很感兴趣，想通过这个来加强自己对Java以及网络编程的理解，也能体验一下钻研的快乐。</p>
+<h4 id="2、基础设计"><a href="#2、基础设计" class="headerlink" title="2、基础设计"></a>2、基础设计</h4><p>这个Rpc框架的最初设计大概如下图：</p>
+<p><img src="/2023/05/12/rpc-framework-1/image-20230512133521798.png" alt="image-20230512133521798"></p>
+<p>最初是尝试通过NIO去实现的，每个服务对应一个Client，即每个服务绑定一个Channel，然后通过Selector轮巡监听服务端的消息。服务端再这里扮演的是一个消息中转站的角色。显而易见的，这个设计存在着一个致命的问题，服务端怎么去分辨Selector上的每个通道对应的是哪个服务，查了很多资料都没有较好的办法，这个方案就不了了之了（最初测试的时候，我试过直接把服务端发布的服务对象序列化到Redis，但存在一些问题，比如当发布的服务中有不可序列化的属性时，就会出现问题）。</p>
+<p>这个方案行不通，之后研究了一下Dubbo服务注册的大概思路，结合掘金里DannyIdea（小林）的<a target="_blank" rel="noopener" href="https://juejin.cn/book/7047357110337667076/section">Java开发者的RPC实战课</a> 里对服务注册、订阅的讲解，对原本的设计进行了改进。</p>
+<p>以下是Dubbo的基本架构图：</p>
+<p><img src="/2023/05/12/rpc-framework-1/u=341734470,1171504543&fm=253&fmt=auto&app=138&f=JPEG.jpg" alt="u=341734470,1171504543&amp;fm=253&amp;fmt=auto&amp;app=138&amp;f=JPEG"></p>
+<p>以下是现在对于框架的设计思路：</p>
+<p><img src="/2023/05/12/rpc-framework-1/xxx.jpg" alt="xxx"></p>
+<p>目前通信方式也由最初的NIO换成了Netty，实现自定义协议进行编码解码，解决了黏包半包等问题，后续可以扩展不同的序列化方式。</p>
+<p>项目的地址在本人的gitee和github仓库：<a target="_blank" rel="noopener" href="https://github.com/Hurried1y/rpc-framework/%EF%BC%8Chttps://gitee.com/hurried1y/rpc-framework">https://github.com/Hurried1y/rpc-framework/，https://gitee.com/hurried1y/rpc-framework</a></p>
+</div><div class="tags"></div><div class="article-footer"><a class="excerpt-link" href="/2023/05/12/rpc-framework-1/">全文...</a><div class="article-footer__right"><span class="date">写于2023年05月12日</span></div></div></section><section class="article"><a class="title" href="/2023/01/14/local-transaction-logs/">Spring本地事务失效问题</a><div class="content excerpt"><p>​        在SpringBoot框架中，当我们需要用到事务时，一般直接在方法上标注@Transactional，这样当方法内发生异常时，整个方法都会回滚。但Spring的事务存在一个问题，假设存在这么一个场景：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Service</span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Transactional(timeout = 30)</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">a</span><span class="params">()</span>&#123;</span><br><span class="line">        b();</span><br><span class="line">        c();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Transactional(propagation = Propagation.REQUIRED, timeout = 10)</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">b</span><span class="params">()</span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Transactional(propagation = Propagation.REQUIRES_NEW, timeout = 10)</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">c</span><span class="params">()</span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-document.addEventListener('pjax:complete', function () {
-  window.refreshFn()
+<p>​        在spring中，事务的默认传播模式是propagation = Propagation.REQUIRED，即当b()方法需要一个事务，a()方法的事务会默认传递给b()方法，那么当a()方法中任何一处抛出异常，都会连同b()方法一起回滚。但存在的问题是。此时在b()方法中不论对事务做了什么设置，都是无效的，因为用的是a()方法的事务。再看c()方法，声明了propagation = Propagation.REQUIRES_NEW，即使用一个新事务，这样虽然配置能生效，但当a()方法抛出异常时，c()方法不会跟着一起回滚，显然达不到业务需求。</p>
+<p>​        造成上面的原因是，同一个对象内的事务方法互相调用，绕过了代理对象。因为spring中的事务是通过代理对象实现的，那么能不能这样实现：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Service</span>&#123;</span><br><span class="line">	<span class="meta">@Autowired</span></span><br><span class="line">	<span class="keyword">private</span> Service service;</span><br><span class="line">	</span><br><span class="line">	<span class="meta">@Transactional(timeout = 30)</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">a</span><span class="params">()</span>&#123;</span><br><span class="line">        service.b();</span><br><span class="line">        service.c();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Transactional(propagation = Propagation.REQUIRED, timeout = 10)</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">b</span><span class="params">()</span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Transactional(propagation = Propagation.REQUIRED, timeout = 10)</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">c</span><span class="params">()</span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-  document.querySelectorAll('script[data-pjax]').forEach(item => {
-    const newScript = document.createElement('script')
-    const content = item.text || item.textContent || item.innerHTML || ""
-    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
-    newScript.appendChild(document.createTextNode(content))
-    item.parentNode.replaceChild(newScript, item)
-  })
+<p>这样通过代理对象调用方法，虽然配置会生效，但这会出现循环依赖问题，显然也不行。</p>
+<p>正确的解决方法是使用代理对象来解决：</p>
+<ol>
+<li><p>引入aop</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;spring-boot-starter-aop&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure></li>
+<li><p>在启动类标注@EnableAspectJAutoProxy(exposeProxy = true)</p>
+<p>spring aop中有两种代理模式，一种是jdk动态代理，另外一种是cglib代理。</p>
+<p>​        jdk动态代理是<code>JDK</code>原生的，不需要任何依赖即可使用，缺点是如果要使用<code>JDK</code>动态代理，被代理的类必须实现了接口，否则无法代理；<code>JDK</code>动态代理无法为没有在接口中定义的方法实现代理，假设我们有一个实现了接口的类，我们为它的一个不属于接口中的方法配置了切面，<code>Spring</code>仍然会使用<code>JDK</code>的动态代理，但是由于配置了切面的方法不属于接口，为这个方法配置的切面将不会被织入。<code>JDK</code>动态代理执行代理方法时，需要通过反射机制进行回调，此时方法执行的效率比较低。</p>
+<p>​        cglib代理的优点是，使用<code>CGLib</code>代理的类，不需要实现接口，因为<code>CGLib</code>生成的代理类是直接继承自需要被代理的类；<code>CGLib</code>生成的代理类是原来那个类的子类，这就意味着这个代理类可以为原来那个类中，所有能够被子类重写的方法进行代理；<code>CGLib</code>生成的代理类，和我们自己编写并编译的类没有太大区别，对方法的调用和直接调用普通类的方式一致，所以<code>CGLib</code>执行代理方法的效率要高于<code>JDK</code>的动态代理。</p>
+<p>​        在这里我们使用cglib代理，并配置对外暴露代理对象</p>
+</li>
+</ol>
+<p>做好这些配置后，回到我们最初的场景，这时候我们可以这样做：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">public class Service&#123;	</span><br><span class="line">	@Transactional(timeout = 30)</span><br><span class="line">    public void a()&#123;</span><br><span class="line">    	//拿到当前类的代理对象</span><br><span class="line">    	Service service = (Service)AopContext.currentProxy();</span><br><span class="line">        service.b();</span><br><span class="line">        service.c();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Transactional(propagation = Propagation.REQUIRED, timeout = 10)</span><br><span class="line">    public void b()&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Transactional(propagation = Propagation.REQUIRED, timeout = 10)</span><br><span class="line">    public void c()&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+</div><div class="tags"></div><div class="article-footer"><a class="excerpt-link" href="/2023/01/14/local-transaction-logs/">全文...</a><div class="article-footer__right"><span class="date">写于2023年01月14日</span></div></div></section><section class="article"><a class="title" href="/2023/01/14/feign-logs/">Feign远程调用遇到的坑</a><div class="content excerpt"><h4 id="1、Feign远程调用丢失请求头问题"><a href="#1、Feign远程调用丢失请求头问题" class="headerlink" title="1、Feign远程调用丢失请求头问题"></a>1、Feign远程调用丢失请求头问题</h4><p>​    在订单服务向购物车服务发起远程调用时，在购物车服务中获取不到用户信息，原因是用户的信息是基于SpringSession保存在redis中，key存在于浏览器的cookie中，当在浏览器中发起请求时，由于请求会默认带上cookie，所以可以正常获取到数据信息，但在这个业务中是由Feign发起的远程调用走到购物车服务，Feign远程调用时会创建一个新的request，里面没有cookie数据，所以在购物车服务中获取不到用户数据。</p>
+<p>​    解决办法，由于Feign在远程调用之前都会调用很多拦截器(默认没有拦截器)，可以写一个Feign的请求拦截器扩展Feign的功能，在新的request中加入cookie</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">FeignConfig</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="keyword">public</span> RequestInterceptor <span class="title function_">requestInterceptor</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">RequestInterceptor</span>()&#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">apply</span><span class="params">(RequestTemplate template)</span> &#123;</span><br><span class="line">                <span class="comment">//通过上下文环境保持器拿到当前请求的所有属性RequestAttributes -&gt;</span></span><br><span class="line"><span class="comment">//                RequestAttributes attributes = 															RequestContextHolder.getRequestAttributes();</span></span><br><span class="line">                <span class="type">ServletRequestAttributes</span> <span class="variable">attributes</span> <span class="operator">=</span> (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();</span><br><span class="line">                <span class="type">HttpServletRequest</span> <span class="variable">request</span> <span class="operator">=</span> attributes.getRequest();</span><br><span class="line">                <span class="comment">//同步请求头数据</span></span><br><span class="line">                template.header(<span class="string">&quot;Cookie&quot;</span>, request.getHeader(<span class="string">&quot;Cookie&quot;</span>));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-  typeof chatBtnFn === 'function' && chatBtnFn()
-  typeof panguInit === 'function' && panguInit()
+<h4 id="2、Feign异步情况丢失上下文问题"><a href="#2、Feign异步情况丢失上下文问题" class="headerlink" title="2、Feign异步情况丢失上下文问题"></a>2、Feign异步情况丢失上下文问题</h4><p>​    在上一个问题中，对于Feign的远程调用请求头丢失问题，引入了RequestInterceptor来解决，但这种办法只能针对同步问题，当使用异步编排发起Feign远程调用时，ServletRequestAttributes中就回去不到原来线程的request数据，就会报空指针异常。</p>
+<p><img src="/2023/01/14/feign-logs/image-20230108205538489.png" alt="image-20230108205538489"></p>
+<p>​    如上图所示，RequestContextHolder是利用ThreadLocal共享数据，所以会发生这种问题。</p>
+<p>​    解决办法是在异步编排之前，先获取主线程的上下文，在进入新线程后再把主线程的上下文放到新线程里面。</p>
+</div><div class="tags"></div><div class="article-footer"><a class="excerpt-link" href="/2023/01/14/feign-logs/">全文...</a><div class="article-footer__right"><span class="date">写于2023年01月14日</span></div></div></section><section class="article"><a class="title" href="/2023/01/14/frp/">frp内网穿透</a><div class="content excerpt"><h4 id="一、前言"><a href="#一、前言" class="headerlink" title="一、前言"></a>一、前言</h4><p>​    简单介绍一下，frp主要有两个部分，客户端(frpc)和服务端(frps)，服务端需要部署在具有公网ip的机器上（也就是我们自己买的云服务器），客户端就是我们需要进行穿透的电脑（本地机器）。</p>
+<h4 id="二、服务端配置"><a href="#二、服务端配置" class="headerlink" title="二、服务端配置"></a>二、服务端配置</h4><p>​    首先需要在服务端下载frp并解压。输入命令<code>arch</code>查看处理器架构，根据此去github下载对应的frp版本，然后下载解压完就行。</p>
+<p>​    这里我们只需要修改frps.ini文件的配置就可以了，其他与frpc相关的文件都可删去。由于只需要进行Web服务的穿透访问，这里只配置Web，其他配置按需百度添加即可，重点是成功搭建并运行。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">[common]</span><br><span class="line">#frp监听的端口，即与本地机器建立通信的端口，默认是7000，可以改成其他的（不建议动）</span><br><span class="line">bind_port = 7000</span><br><span class="line">#该端口就是以后访问web服务需要用到的端口，可自定义</span><br><span class="line">vhost_http_port = 3000</span><br><span class="line">#授权码，建议不要太简单。这个token之后在客户端会用到</span><br><span class="line">#注意:不要再token后面加#注释进行注释，也会被算上token内容，导致认证失败!写注释最好单独一行</span><br><span class="line">token = 123456</span><br><span class="line"></span><br><span class="line">#frp管理后台端口,请按自己需求更改，这个东西并不是一定要，这里还是提一下</span><br><span class="line">dashboard_ _port = 7508</span><br><span class="line">#frp管理后台用户名和密码,请改成自己的</span><br><span class="line">dashboard_user =</span><br><span class="line">dashboard_pwd =</span><br><span class="line">enable_prometheus = true</span><br></pre></td></tr></table></figure>
 
-  // google analytics
-  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+<p>配置好后就可以启动了</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nohup ./frps -c ./frps.ini &amp;</span><br></pre></td></tr></table></figure>
 
-  // baidu analytics
-  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+<p>这里可以用systemctl执行，附上配置文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">[Unit]</span><br><span class="line">Description=frps daemon</span><br><span class="line">After=syslog.target  network.target</span><br><span class="line">Wants=network.target</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">Type=simple</span><br><span class="line">ExecStart=/usr/local/frp/frps -c /usr/local/frp/frps.ini</span><br><span class="line">Restart= always</span><br><span class="line">RestartSec=1min</span><br><span class="line">ExecStop=/usr/bin/killall frps</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br></pre></td></tr></table></figure>
 
-  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
 
-  // prismjs
-  typeof Prism === 'object' && Prism.highlightAll()
-})
 
-document.addEventListener('pjax:error', (e) => {
-  if (e.request.status === 404) {
-    pjax.loadUrl('/404.html')
-  }
-})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
+<h4 id="三、客户端配置"><a href="#三、客户端配置" class="headerlink" title="三、客户端配置"></a>三、客户端配置</h4><p>​    和服务端一样，下载解压。。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">[common]</span><br><span class="line">#服务器的ip地址</span><br><span class="line">server_addr =</span><br><span class="line">#服务器监听的端口，即frps.ini里的bind_port</span><br><span class="line">server_port = 7000</span><br><span class="line">#授权码</span><br><span class="line">token =</span><br><span class="line"></span><br><span class="line">#配置http服务，可用于第三方接口（java开发、小程序开发等）等远程调试</span><br><span class="line">[web]</span><br><span class="line">#服务类型</span><br><span class="line">type = http</span><br><span class="line">#需要被穿透的本地ip，不用改，相当于localhost</span><br><span class="line">local_ip = 127.0.0.1</span><br><span class="line">#本地项目运行服务提供的端口，根据项目自定义</span><br><span class="line">local_port = 3000</span><br><span class="line">#web域名</span><br><span class="line">custom_domains =</span><br><span class="line">#远程服务器监听web服务的端口，需要即frps.ini里的vhost_http_port</span><br><span class="line">remote_port = 3000</span><br></pre></td></tr></table></figure>
+
+<p>客户端的话，以windows系统为例，在cmd终端cd进frp目录，执行</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.\frpc.exe -c frpc.ini</span><br></pre></td></tr></table></figure>
+
+<p>也可以将执行命令打成bat脚本，这里也附上代码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">@echo off</span><br><span class="line">if &quot;%1&quot; == &quot;h&quot; goto begin</span><br><span class="line">mshta vbscript:createobject(&quot;wscript.shell&quot;).run(&quot;&quot;&quot;%~nx0&quot;&quot; h&quot;,0)(window.close)&amp;&amp;exit</span><br><span class="line">:begin</span><br><span class="line">REM</span><br><span class="line">D:</span><br><span class="line">cd Tools\frp</span><br><span class="line">.\frpc.exe -c frpc.ini</span><br></pre></td></tr></table></figure>
+
+</div><div class="tags"></div><div class="article-footer"><a class="excerpt-link" href="/2023/01/14/frp/">全文...</a><div class="article-footer__right"><span class="date">写于2023年01月14日</span></div></div></section><section class="article"><a class="title" href="/2022/11/05/sentinel-colony/">搭建redis哨兵集群</a><div class="content excerpt"><h1 id="搭建哨兵集群"><a href="#搭建哨兵集群" class="headerlink" title="搭建哨兵集群"></a>搭建哨兵集群</h1><h2 id="1-集群结构"><a href="#1-集群结构" class="headerlink" title="1.集群结构"></a>1.集群结构</h2><p>Redis提供了哨兵（Sentinel）机制来实现主从集群的自动故障恢复。哨兵的结构和作用如下：</p>
+<h4 id="1-1哨兵的作用"><a href="#1-1哨兵的作用" class="headerlink" title="1.1哨兵的作用"></a>1.1哨兵的作用</h4><ul>
+<li><p><strong>监控</strong>：Sentinel 会不断检查您的master和slave是否按预期工作</p>
+</li>
+<li><p><strong>自动故障恢复</strong>：如果master故障，Sentinel会将一个slave提升为master。当故障实例恢复后也以新的master为主</p>
+</li>
+<li><p><strong>通知</strong>：Sentinel充当Redis客户端的服务发现来源，当集群发生故障转移时，会将最新信息推送给Redis的客户端</p>
+</li>
+</ul>
+<h4 id="1-2服务状态监控"><a href="#1-2服务状态监控" class="headerlink" title="1.2服务状态监控"></a>1.2服务状态监控</h4><p>Sentinel基于心跳机制监测服务状态，每隔1秒向集群的每个实例发送ping命令：</p>
+<ul>
+<li>主观下线：如果某sentinel节点发现某实例未在规定时间响应，则认为该实例<strong>主观下线</strong>。</li>
+<li>客观下线：若超过指定数量（quorum）的sentinel都认为该实例主观下线，则该实例<strong>客观下线</strong>。quorum值最好超过Sentinel实例数量的一半。</li>
+</ul>
+<h4 id="1-3选举新的master"><a href="#1-3选举新的master" class="headerlink" title="1.3选举新的master"></a>1.3选举新的master</h4><p>一旦发现master故障，sentinel需要在salve中选择一个作为新的master，选择依据是这样的：</p>
+<ul>
+<li>首先会判断slave节点与master节点断开时间长短，如果超过指定值（down-after-milliseconds * 10）则会排除该slave节点</li>
+<li>然后判断slave节点的slave-priority值，越小优先级越高，如果是0则永不参与选举</li>
+<li>如果slave-prority一样，则判断slave节点的offset值，越大说明数据越新，优先级越高</li>
+<li>最后是判断slave节点的运行id大小，越小优先级越高。</li>
+</ul>
+<h4 id="1-2如何实现故障转移"><a href="#1-2如何实现故障转移" class="headerlink" title="1.2如何实现故障转移"></a>1.2如何实现故障转移</h4><ul>
+<li>sentinel给备选的slave1节点发送slaveof no one命令，让该节点成为master</li>
+<li>sentinel给所有其它slave发送slaveof 192.168.237.131 7002 命令，让这些slave成为新master的从节点，开始从新的master上同步数据。</li>
+<li>最后，sentinel将故障节点标记为slave，当故障节点恢复后会自动成为新的master的slave节点</li>
+</ul>
+<p>这里我们搭建一个三节点形成的Sentinel集群，来监管之前的Redis主从集群。如图：</p>
+<p><img src="/2022/11/05/sentinel-colony/image-20210701215227018.png" alt="image-20210701215227018"></p>
+<p>三个sentinel实例信息如下：</p>
+<table>
+<thead>
+<tr>
+<th>节点</th>
+<th align="center">IP</th>
+<th align="center">PORT</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>s1</td>
+<td align="center">192.168.237.131</td>
+<td align="center">27001</td>
+</tr>
+<tr>
+<td>s2</td>
+<td align="center">192.168.237.131</td>
+<td align="center">27002</td>
+</tr>
+<tr>
+<td>s3</td>
+<td align="center">192.168.237.131</td>
+<td align="center">27003</td>
+</tr>
+</tbody></table>
+<h2 id="2-准备实例和配置"><a href="#2-准备实例和配置" class="headerlink" title="2.准备实例和配置"></a>2.准备实例和配置</h2><p>要在同一台虚拟机开启3个实例，必须准备三份不同的配置文件和目录，配置文件所在目录也就是工作目录。</p>
+<p>我们创建三个文件夹，名字分别叫s1、s2、s3：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 在usr/local/redis-colony文件夹内创建目录</span></span><br><span class="line"><span class="built_in">mkdir</span> s1 s2 s3</span><br></pre></td></tr></table></figure>
+
+<p>如图：</p>
+<p><img src="/2022/11/05/sentinel-colony/image-20221105170909619.png" alt="image-20221105170909619"></p>
+<p>然后我们在s1目录创建一个sentinel.conf文件，添加下面的内容：</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">port 27001</span><br><span class="line">sentinel announce-ip 192.168.237.131</span><br><span class="line">sentinel monitor mymaster 192.168.237.131 7001 2</span><br><span class="line">sentinel down-after-milliseconds mymaster 5000</span><br><span class="line">sentinel failover-timeout mymaster 60000</span><br><span class="line">dir &quot;/usr/local/redis-colony/s1&quot;</span><br></pre></td></tr></table></figure>
+
+<p>解读：</p>
+<ul>
+<li><code>port 27001</code>：是当前sentinel实例的端口</li>
+<li><code>sentinel monitor mymaster 192.168.237.131 7001 2</code>：指定主节点信息<ul>
+<li><code>mymaster</code>：主节点名称，自定义，任意写</li>
+<li><code>192.168.237.131 7001</code>：主节点的ip和端口</li>
+<li><code>2</code>：选举master时的quorum值，此时配了3台sentinel，有两台以上就认为挂了</li>
+</ul>
+</li>
+</ul>
+<p>然后将s1/sentinel.conf文件拷贝到s2、s3两个目录中：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 方式一：逐个拷贝</span></span><br><span class="line"><span class="built_in">cp</span> s1/sentinel.conf s2</span><br><span class="line"><span class="built_in">cp</span> s1/sentinel.conf s3</span><br><span class="line"><span class="comment"># 方式二：管道组合命令，一键拷贝</span></span><br><span class="line"><span class="built_in">echo</span> s2 s3 | xargs -t -n 1 <span class="built_in">cp</span> s1/sentinel.conf</span><br></pre></td></tr></table></figure>
+
+
+
+<p>修改s2、s3两个文件夹内的配置文件，将端口分别修改为27002、27003：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sed -i -e <span class="string">&#x27;s/27001/27002/g&#x27;</span> -e <span class="string">&#x27;s/s1/s2/g&#x27;</span> s2/sentinel.conf</span><br><span class="line">sed -i -e <span class="string">&#x27;s/27001/27003/g&#x27;</span> -e <span class="string">&#x27;s/s1/s3/g&#x27;</span> s3/sentinel.conf</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="3-启动"><a href="#3-启动" class="headerlink" title="3.启动"></a>3.启动</h2><p>先启动redis主从集群</p>
+<p>7002</p>
+<p><img src="/2022/11/05/sentinel-colony/image-20221105190006728.png" alt="image-20221105190006728"></p>
+<p>7003</p>
+<p><img src="/2022/11/05/sentinel-colony/image-20221105190038169.png" alt="image-20221105190038169"></p>
+<p>为了方便查看日志，我们打开3个ssh窗口，分别启动3个redis实例，启动命令：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">redis-sentinel s1/sentinel.conf</span><br><span class="line">redis-sentinel s2/sentinel.conf</span><br><span class="line">redis-sentinel s3/sentinel.conf</span><br></pre></td></tr></table></figure>
+
+
+
+<p>启动后：</p>
+<p><img src="/2022/11/05/sentinel-colony/image-20221105181013812.png" alt="image-20221105181013812"></p>
+<p><img src="/2022/11/05/sentinel-colony/image-20221105181040781.png" alt="image-20221105181040781"></p>
+<p><img src="/2022/11/05/sentinel-colony/image-20221105181059522.png" alt="image-20221105181059522"></p>
+<h2 id="3-4-测试"><a href="#3-4-测试" class="headerlink" title="3.4.测试"></a>3.4.测试</h2><p>尝试让master节点7001宕机</p>
+<p><img src="/2022/11/05/sentinel-colony/image-20221105181244740.png" alt="image-20221105181244740"></p>
+<p>查看sentinel27002的日志：</p>
+<p><img src="/2022/11/05/sentinel-colony/image-20221105190717411.png" alt="image-20221105190717411"></p>
+<ol>
+<li>第一行，+sdown，sentinel主观认为7001下线</li>
+<li>第三行，+vote-for-leader，sentinel选出一个leader，选出的sentinel实例去执行故障切换</li>
+<li>第四行，+odown，quorum达标，sentinel客观认为7001下线</li>
+<li>第七行，+switch-master，选7003为新的master</li>
+</ol>
+<p>查看27003的日志：</p>
+<p><img src="/2022/11/05/sentinel-colony/image-20221105190809034.png" alt="image-20221105190809034"></p>
+<p>查看7002的日志：</p>
+<p><img src="/2022/11/05/sentinel-colony/image-20221105190856348.png" alt="image-20221105190856348"></p>
+<ol>
+<li>第一行，7002与其主机7001之间的连接断开</li>
+<li>第三行，由于sentinel实例执行了故障切换，把7003选举为新的master，所以自动更改7002的配置</li>
+<li>第四行，Connecting to master 192.168.237.131:7003 建立7002与其新master7003之间的连接</li>
+<li>第八行，Trying a partial…，重新执行数据同步psync</li>
+</ol>
+<p>查看7003的日志</p>
+<p><img src="/2022/11/05/sentinel-colony/image-20221105190927905.png" alt="image-20221105190927905"></p>
+</div><div class="tags"></div><div class="article-footer"><a class="excerpt-link" href="/2022/11/05/sentinel-colony/">全文...</a><div class="article-footer__right"><span class="date">写于2022年11月05日</span></div></div></section><section class="article"><a class="title" href="/2022/11/05/redis-colony/">搭建redis主从集群</a><div class="content excerpt"><h1 id="Redis主从集群"><a href="#Redis主从集群" class="headerlink" title="Redis主从集群"></a>Redis主从集群</h1><h2 id="1-集群结构"><a href="#1-集群结构" class="headerlink" title="1.集群结构"></a>1.集群结构</h2><p>我们搭建的主从集群结构如图：</p>
+<p><img src="/2022/11/05/redis-colony/image-20210630111505799.png" alt="image-20210630111505799"></p>
+<p>共包含三个节点，一个主节点，两个从节点。</p>
+<p>这里我们会在同一台虚拟机中开启3个redis实例，模拟主从集群，信息如下：</p>
+<table>
+<thead>
+<tr>
+<th align="center">IP</th>
+<th align="center">PORT</th>
+<th align="center">角色</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">192.168.237.101</td>
+<td align="center">7001</td>
+<td align="center">master</td>
+</tr>
+<tr>
+<td align="center">192.168.237.101</td>
+<td align="center">7002</td>
+<td align="center">slave</td>
+</tr>
+<tr>
+<td align="center">192.168.237.101</td>
+<td align="center">7003</td>
+<td align="center">slave</td>
+</tr>
+</tbody></table>
+<h2 id="2-准备实例和配置"><a href="#2-准备实例和配置" class="headerlink" title="2.准备实例和配置"></a>2.准备实例和配置</h2><p>要在同一台虚拟机开启3个实例，必须准备三份不同的配置文件和目录，配置文件所在目录也就是工作目录。</p>
+<p>1）创建目录</p>
+<p>我们创建三个文件夹，名字分别叫7001、7002、7003：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 在usr/local/redis-colony文件夹内创建目录</span></span><br><span class="line"><span class="built_in">mkdir</span> 7001 7002 7003</span><br></pre></td></tr></table></figure>
+
+<p>如图：</p>
+<p><img src="/2022/11/05/redis-colony/image-20221105162330778.png" alt="image-20221105162330778"></p>
+<p>2）恢复原始配置</p>
+<p>修改redis-5.0.5/redis.conf文件，将其中的持久化模式改为默认的RDB模式，AOF保持关闭状态。</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 开启RDB</span></span><br><span class="line"><span class="comment"># save &quot;&quot;</span></span><br><span class="line"><span class="attr">save</span> <span class="string">3600 1</span></span><br><span class="line"><span class="attr">save</span> <span class="string">300 100</span></span><br><span class="line"><span class="attr">save</span> <span class="string">60 10000</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment"># 关闭AOF</span></span><br><span class="line"><span class="attr">appendonly</span> <span class="string">no</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>3）拷贝配置文件到每个实例目录</p>
+<p>然后将redis-5.0.5/redis.conf文件拷贝到三个目录中（在/redis-colony目录执行下列命令）：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 方式一：逐个拷贝</span></span><br><span class="line"><span class="built_in">cp</span> redis-5.0.5/redis.conf 7001</span><br><span class="line"><span class="built_in">cp</span> redis-5.0.5/redis.conf 7002</span><br><span class="line"><span class="built_in">cp</span> redis-5.0.5/redis.conf 7003</span><br><span class="line"><span class="comment"># 方式二：管道组合命令，一键拷贝</span></span><br><span class="line"><span class="built_in">echo</span> 7001 7002 7003 | xargs -t -n 1 ../redis-5.0.5/redis.conf</span><br></pre></td></tr></table></figure>
+
+
+
+<p>4）修改每个实例的端口、工作目录</p>
+<p>修改每个文件夹内的配置文件，将端口分别修改为7001、7002、7003，将rdb文件保存位置都修改为自己所在目录（在/redis-colony目录执行下列命令）：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sed -i -e <span class="string">&#x27;s/6379/7001/g&#x27;</span> -e <span class="string">&#x27;s/dir .\//dir \/usr\/local\/redis-colony\/7001\//g&#x27;</span> 7001/redis.conf</span><br><span class="line">sed -i -e <span class="string">&#x27;s/6379/7002/g&#x27;</span> -e <span class="string">&#x27;s/dir .\//dir \/usr\/local\/redis-colony\/7002\//g&#x27;</span> 7002/redis.conf</span><br><span class="line">sed -i -e <span class="string">&#x27;s/6379/7003/g&#x27;</span> -e <span class="string">&#x27;s/dir .\//dir \/usr\/local\/redis-colony\/7003\//g&#x27;</span> 7003/redis.conf</span><br></pre></td></tr></table></figure>
+
+
+
+<p>5）修改每个实例的声明IP</p>
+<p>虚拟机本身有多个IP，为了避免将来混乱，我们需要在redis.conf文件中指定每一个实例的绑定ip信息，格式如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># redis实例的声明 IP</span><br><span class="line">replica-announce-ip 192.168.237.131</span><br></pre></td></tr></table></figure>
+
+
+
+<p>每个目录都要改，我们一键完成修改（在/redis-colony目录执行下列命令）：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 逐一执行</span></span><br><span class="line">sed -i <span class="string">&#x27;1a replica-announce-ip 192.168.237.131&#x27;</span> 7001/redis.conf</span><br><span class="line">sed -i <span class="string">&#x27;1a replica-announce-ip 192.168.237.131&#x27;</span> 7002/redis.conf</span><br><span class="line">sed -i <span class="string">&#x27;1a replica-announce-ip 192.168.237.131&#x27;</span> 7003/redis.conf</span><br><span class="line"></span><br><span class="line"><span class="comment"># 或者一键修改</span></span><br><span class="line"><span class="built_in">printf</span> <span class="string">&#x27;%s\n&#x27;</span> 7001 7002 7003 | xargs -I&#123;&#125; -t sed -i <span class="string">&#x27;1a replica-announce-ip 192.168.237.131&#x27;</span> &#123;&#125;/redis.conf</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+<h2 id="3-启动"><a href="#3-启动" class="headerlink" title="3.启动"></a>3.启动</h2><p>为了方便查看日志，我们打开3个ssh窗口，分别启动3个redis实例，启动命令：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">redis-server 7001/redis.conf</span><br><span class="line">redis-server 7002/redis.conf</span><br><span class="line">redis-server 7003/redis.conf</span><br></pre></td></tr></table></figure>
+
+
+
+<p>启动后：</p>
+<p><img src="/2022/11/05/redis-colony/image-20221105163747112.png" alt="image-20221105163747112"></p>
+<p>如果要一键停止，可以运行下面命令：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">printf</span> <span class="string">&#x27;%s\n&#x27;</span> 7001 7002 7003 | xargs -I&#123;&#125; -t redis-cli -p &#123;&#125; shutdown</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h2 id="4-开启主从关系"><a href="#4-开启主从关系" class="headerlink" title="4.开启主从关系"></a>4.开启主从关系</h2><p>现在三个实例还没有任何关系，要配置主从可以使用replicaof 或者slaveof（5.0以前）命令。</p>
+<p>有临时和永久两种模式：</p>
+<ul>
+<li><p>修改配置文件（永久生效）</p>
+<ul>
+<li>在redis.conf中添加一行配置：<code>slaveof &lt;masterip&gt; &lt;masterport&gt;</code></li>
+</ul>
+</li>
+<li><p>使用redis-cli客户端连接到redis服务，执行slaveof命令（重启后失效）：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">slaveof &lt;masterip&gt; &lt;masterport&gt;</span><br><span class="line">slaveof 192.168.237.131 7001</span><br></pre></td></tr></table></figure></li>
+</ul>
+<p><strong><font color="red">注意</font></strong>：在5.0以后新增命令replicaof，与salveof效果一致。</p>
+<p>这里我们为了演示方便，使用方式二。</p>
+<p>通过redis-cli命令连接7002，执行下面命令：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 连接 7002</span></span><br><span class="line">redis-cli -p 7002</span><br><span class="line"><span class="comment"># 执行slaveof</span></span><br><span class="line">slaveof 192.168.237.131 7001</span><br></pre></td></tr></table></figure>
+
+
+
+<p>通过redis-cli命令连接7003，执行下面命令：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 连接 7003</span></span><br><span class="line">redis-cli -p 7003</span><br><span class="line"><span class="comment"># 执行slaveof</span></span><br><span class="line">slaveof 192.168.237.131 7001</span><br></pre></td></tr></table></figure>
+
+
+
+<p>然后连接 7001节点，查看集群状态：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 连接 7001</span></span><br><span class="line">redis-cli -p 7001</span><br><span class="line"><span class="comment"># 查看状态</span></span><br><span class="line">info replication</span><br></pre></td></tr></table></figure>
+
+<p>结果：</p>
+<p><img src="/2022/11/05/redis-colony/image-20221105165646834.png" alt="image-20221105165646834"></p>
+<h2 id="5-测试"><a href="#5-测试" class="headerlink" title="5.测试"></a>5.测试</h2><p>执行下列操作以测试：</p>
+<ul>
+<li><p>利用redis-cli连接7001，执行<code>set num 100 </code></p>
+<p><img src="/2022/11/05/redis-colony/image-20221105165820844.png" alt="image-20221105165820844"></p>
+</li>
+<li><p>利用redis-cli连接7002，执行<code>get num</code>，再执行<code>set num 666</code></p>
+<p><img src="/2022/11/05/redis-colony/image-20221105165907462.png" alt="image-20221105165907462"></p>
+</li>
+</ul>
+<p>可以发现，只有在7001这个master节点上可以执行写操作，而slave节点只能执行读操作。</p>
+</div><div class="tags"></div><div class="article-footer"><a class="excerpt-link" href="/2022/11/05/redis-colony/">全文...</a><div class="article-footer__right"><span class="date">写于2022年11月05日</span></div></div></section><section class="article"><a class="title" href="/2022/10/17/Tri-colour-marking/">著名的三色标记法</a><div class="content excerpt"><h2 id="一、前言"><a href="#一、前言" class="headerlink" title="一、前言"></a>一、前言</h2><p>当前主流编程语言的垃圾收集器基本上都是依靠可达性分析算法来判定对象是否存活的，可达性分析算法理论上要求全过程都基于一个能保障一致性的快照中才能够进行分析，这意味着必须全程冻结用户线程的运行（STW）。</p>
+<p>在根节点枚举这个步骤中，由于GC Roots相比起整个Java堆中全部的对象毕竟还算是极少数，且在各种优化技巧（如OopMap）的加持下，它带来的停顿已经是非常短暂且相对固定（不随堆容量而增长）的了。可从GC Roots再继续往下遍历对象图，这一步骤的停顿时间就必定会与Java堆容量直接成正比例关系了：堆越大，存储的对象越多，对象图结构越复杂，要标记更多对象而产生的停顿时间自然就更长。包含“标记”阶段是所有追踪式垃圾收集算法的共同特征，如果这个阶段会随着堆变大而等比例增加停顿时间，其影响就会波及几乎所有的垃圾收集器，同理可知，如果能够削减这部分停顿时间的话，那收益也将会是系统性的。</p>
+<h2 id="二、三色标记法"><a href="#二、三色标记法" class="headerlink" title="二、三色标记法"></a>二、三色标记法</h2><p>顾名思义，用三种颜色进行标记，其用在CMS垃圾回收器工作的并发标记阶段。</p>
+<hr>
+<ul>
+<li>白色：表示对象尚未被垃圾收集器访问过。显然在可达性分析刚刚开始的阶段，所有的对象都是白色的，若在分析结束的阶段，仍然是白色的对象，即代表不可达(白色对象会被当成垃圾对象)。</li>
+</ul>
+<ul>
+<li>黑色：表示对象已经被垃圾收集器访问过，且这个对象的所有引用（子对象）都已经扫描过。黑色的对象代表已经扫描过，它是安全存活的，如果有其他对象引用指向了黑色对象，无须重新扫描一遍。黑色对象不可能直接（不经过灰色对象）指向某个白色对象(黑色对象不会当成垃圾对象)。</li>
+</ul>
+<ul>
+<li>灰色：表示对象已经被垃圾收集器访问过，但这个对象上至少存在一个引用还没有被扫描过，可以理解为正在搜索的对象。当垃圾回收线程从暂停中再次回来，不会扫描灰色对象，而是直接扫描灰色对象的引用。</li>
+</ul>
+<p>简述三色标记法的遍历过程：</p>
+<ol>
+<li><p>初始时，全部对象都是白色的</p>
+</li>
+<li><p>GC Roots直接引用的对象变成灰色</p>
+</li>
+<li><p>从灰色集合中获取元素：</p>
+<p>3.1 将本对象直接引用的对象标记为灰色</p>
+<p>3.2 将本对象标记为黑色</p>
+</li>
+<li><p>重复步骤3，直到灰色的对象集合变为空</p>
+</li>
+<li><p>结束后，仍然被标记为白色的对象就是不可达对象，视为垃圾对象</p>
+</li>
+</ol>
+<p>当Stop The Word时，对象间的引用是不会发生变化的，因为用户线程中断了，可以轻松完成标记，但是在并发标记的时候，标记期间用户线程还在跑，对象间的引用可能发生变化，多标和漏标的情况就可能会发生</p>
+<p><strong>多标(又叫浮动垃圾)</strong></p>
+<p>假设此时我们遍历到了D对象，此时D被标记成了灰色</p>
+<p><img src="/2022/10/17/Tri-colour-marking/img1.png" alt="img1"></p>
+<p> 此时线程发生B取消了对D的引用</p>
+<p><img src="/2022/10/17/Tri-colour-marking/img4.png" alt="img4"></p>
+<p>这时候B-&gt;D的引用没了，D应该是白色，但是因为先前D已经被标记成灰色了，所以D对象仍然会被当成存活对象遍历下去。最终结果：这部分对象仍然会被标记为存活对象，本轮GC不会回收他们的内存。这部分因为并发而造成的本应该回收但是没有回收的对象被称为”浮动垃圾”，我们稍微一想也能想到，<strong>浮动垃圾不会影响应用程序的正确性，只需要等到下一轮GC到来就会被回收了</strong>。</p>
+<p>另外的，针对并发标记开始后产生的新对象，通常做法是直接标记为黑色，本轮不进行清除，这些对象即使会变成垃圾对象，这也算浮动垃圾一部分。</p>
+<p>另外的，针对并发标记开始后产生的新对象，通常做法是直接标记为黑色，本轮不进行清除，这些对象即使会变成垃圾对象，这也算浮动垃圾一部分。</p>
+<p><strong>漏标(读写屏障)</strong></p>
+<p>假设GC线程已经遍历到D对象，此时D被标记为灰色 </p>
+<p><img src="/2022/10/17/Tri-colour-marking/img2.png" alt="img2"></p>
+<p>但是此时有代码执行：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Object</span> <span class="variable">E</span> <span class="operator">=</span> D.next;</span><br><span class="line">D.next = <span class="literal">null</span>;</span><br><span class="line">B.next = E;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2022/10/17/Tri-colour-marking/img3.png" alt="img3"></p>
+<p>此时D到E的引用消失，B生成了对E的引用。当GC线程继续时，因为D已经没有了对E的引用，所以不会遍历到E，E也就不会标志为灰色，同时B已经标志为黑色了，不会再被遍历，那么也就导致E一直是白色的，最后被当成垃圾处理，这显然与事实不符，E是可打的，但是因为并发的影响漏标了E，使得E被垃圾回收，明显影响了应用程序的正确性，这是不可接受的。</p>
+<p>分析一下，漏标只有同时满足以下两个条件时才会发生：</p>
+<ol>
+<li><p>灰色对象断开了白色对象的引用</p>
+</li>
+<li><p>黑色对象重新引用了该白色对象</p>
+</li>
+</ol>
+<p>从代码角度看：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Object</span> <span class="variable">E</span> <span class="operator">=</span> D.next;</span><br><span class="line">D.next = <span class="literal">null</span>;</span><br><span class="line">B.next = E;</span><br></pre></td></tr></table></figure>
+
+<p>只要在上面三步中修改任意一步就可以将丢失的E记录下来，然后当作灰色对象继续遍历</p>
+<p>根据以上思路有两种解决办法：</p>
+<h5 id="一、写屏障-阻止第二步和第三步"><a href="#一、写屏障-阻止第二步和第三步" class="headerlink" title="一、写屏障(阻止第二步和第三步)"></a>一、写屏障(阻止第二步和第三步)</h5><p>1.写屏障 + SATB</p>
+<p>当对象D的引用发生变化时，利用写屏障，将D原来的引用对象记录下来，这样可以尝试保留开始时的对象图，保证标记依然按照原本的路线走</p>
+<p>2.写屏障 + 增量更新</p>
+<p>当对象B的引用发生变化时，利用写屏障，将B新的引用对象E记录下来</p>
+<p>即当有新的引用插入进来时，记录下新的引用</p>
+<p>这种思路不要求保留原始对象图，而是针对新的引用记录下来等待遍历即增量更新</p>
+<h5 id="二、读屏障-阻止第一步"><a href="#二、读屏障-阻止第一步" class="headerlink" title="二、读屏障(阻止第一步)"></a>二、读屏障(阻止第一步)</h5><p>读屏障针对第一步，当读取引用对象的时候，一律记录下来，显然这种方法非常保守，但是安全。</p>
+<p>将记录下的引用遍历就是了</p>
+<p>在现代的垃圾回收器当中可达性分析算法的垃圾回收器几乎都借鉴了三色标记法的思想。</p>
+<p>在Java HotSpot VM中</p>
+<p>CMS采用的是：写屏障 + 增量更新</p>
+<p>G1采用的是：写屏障 + SATB</p>
+</div><div class="tags"></div><div class="article-footer"><a class="excerpt-link" href="/2022/10/17/Tri-colour-marking/">全文...</a><div class="article-footer__right"><span class="date">写于2022年10月17日</span></div></div></section><section class="article"><a class="title" href="/2022/10/17/GC/">常用的垃圾回收算法和垃圾回收器</a><div class="content excerpt"><h4 id="一、前言"><a href="#一、前言" class="headerlink" title="一、前言"></a>一、前言</h4><p>​        相对于c/c++，java、python等高级语言引进了Garbage Collector（GC）垃圾回收器，能实现内存垃圾的自动回收，虽然牺牲了一定的运行效率，但大大地提高了开发效率，那么问题来了，常用的GC都有哪些？常用的GC算法都有哪些？GC是如何定义和定位垃圾的呢？</p>
+<h4 id="二、What-is-Garbage"><a href="#二、What-is-Garbage" class="headerlink" title="二、What is Garbage"></a>二、What is Garbage</h4><p>​        在谈论垃圾回收算法和垃圾回收器之前，我们得先了解一下垃圾的基本概念。</p>
+<h5 id="（1）Garbage的定义"><a href="#（1）Garbage的定义" class="headerlink" title="（1）Garbage的定义"></a>（1）Garbage的定义</h5><p>​        在高级语言中通常将没有引用指向的内存定义为垃圾。</p>
+<h5 id="（2）Garbage的定位"><a href="#（2）Garbage的定位" class="headerlink" title="（2）Garbage的定位"></a>（2）Garbage的定位</h5><p>​        在python中，采用的是垃圾定位算法是reference count引用计数法，即记录每块内存被引用指向的数量，当指向某块内存的数量为0时，就把这块内存定义为垃圾，被GC自动释放（这让我想起了拓扑排序0.0），但这种算法有一个弊端，其无法解决“闭环”的情况，即多块内存相互引用形成闭环，与其他内存块无依赖。</p>
+<p>​        而在java中，则使用Root Searching根可达算法来定位垃圾，从程序的根（如main方法）开始，若无法抵达某块内存，就把该块内存判作垃圾，由GC进行释放，该算法很好的解决了”内存闭环“问题。</p>
+<h4 id="三、GC-Algorithms"><a href="#三、GC-Algorithms" class="headerlink" title="三、GC Algorithms"></a>三、GC Algorithms</h4><h5 id="（1）Mark-Sweep"><a href="#（1）Mark-Sweep" class="headerlink" title="（1）Mark-Sweep"></a>（1）Mark-Sweep</h5><p>​        标记清除法，将某块内存标记为垃圾，然后清除。算法的缺点，会产生碎片空间。</p>
+<p><img src="/2022/10/17/GC/Mark-Sweep.png" alt="Mark-Sweep"></p>
+<h5 id="（2）Copying"><a href="#（2）Copying" class="headerlink" title="（2）Copying"></a>（2）Copying</h5><p>​        拷贝法，将内存区分两半，每次运行时在一半中找出所有存活对象，然后整体性的复制到另外半边，同时排列好，然后把原来半边整体回收。算法的缺点是浪费内存。</p>
+<p><img src="/2022/10/17/GC/Copying.png" alt="Copying"></p>
+<h5 id="（3）Mark-Compact"><a href="#（3）Mark-Compact" class="headerlink" title="（3）Mark-Compact"></a>（3）Mark-Compact</h5><p>​        标记压缩法，将标记为垃圾的内存回收，并且排列好。缺点是效率相对较低。</p>
+<p><img src="/2022/10/17/GC/Mark-Compact.png" alt="Mark-Compact"></p>
+<h4 id="四、Garbage-Collector"><a href="#四、Garbage-Collector" class="headerlink" title="四、Garbage Collector"></a>四、Garbage Collector</h4><p>​        三种GC算法都有自己的缺点和优点，三种的综合运用，诞生了各种各样的垃圾回收器。</p>
+<p><img src="/2022/10/17/GC/Garbage-Collector.png" alt="Garbage-Collector"></p>
+<h5 id="（1）Serial（单线程STW垃圾回收，处理-lt-100MB）"><a href="#（1）Serial（单线程STW垃圾回收，处理-lt-100MB）" class="headerlink" title="（1）Serial（单线程STW垃圾回收，处理&lt;100MB）"></a>（1）Serial（单线程STW垃圾回收，处理&lt;100MB）</h5><p>​        New：A stop-the-world（STW），copying collector which uses a single GC thread.<br>​        Old：A stop-the-world（STW），mark-sweep-compact collector that uses a single GC thread.</p>
+<p>​        即当Serial工作时，内存中所有的业务线程都停止，等Serial清扫完后继续。</p>
+<h5 id="（2）Parallel（并行多线程PS-PO，处理-lt-1G）"><a href="#（2）Parallel（并行多线程PS-PO，处理-lt-1G）" class="headerlink" title="（2）Parallel（并行多线程PS+PO，处理&lt;1G）"></a>（2）Parallel（并行多线程PS+PO，处理&lt;1G）</h5><p>​        Parallel Scavenge：A stop-the-world（STW），copying collector which uses multiple GC threads.</p>
+<p>​        Parallel Old：A stop-the-world（STW），mark-sweep-compact collector that uses multiple GC threads.</p>
+<p>​        与Serial的区别在于多个GC并行处理。</p>
+<h5 id="（3）Concurrent-GC（处理几十G）"><a href="#（3）Concurrent-GC（处理几十G）" class="headerlink" title="（3）Concurrent GC（处理几十G）"></a>（3）Concurrent GC（处理几十G）</h5><p>​        从线程角度理解Concurrent GC，即GC和业务线程能同时运行。 </p>
+<p>​        ParNew：A stop-the-world（STW），copying collector which uses multiple GC threads.<br>               It differs from “Parallel Scavenge” in that it has enhancements that make it useable with CMS<br>​<br>       CMS：垃圾回收历史的重要节点！</p>
+<h4 id="五、java的垃圾回收机制"><a href="#五、java的垃圾回收机制" class="headerlink" title="五、java的垃圾回收机制"></a>五、java的垃圾回收机制</h4><p>​        如果要将一整块内存用统一的一种算法解决，其实是比较困难的，所以在jdk中，将内存划分为两个“年代”，new（新生代）和old（老年代），综合运用不同的垃圾回收器来管理内存空间。</p>
+<p>​        一个内存块在诞生时会被优先划分到新生代的eden区，在新生代区使用的GC算法是Copying算法，其中一次年轻代的清扫被称为YGC，其中90%的垃圾都会被回收，所以划分两个Copying区域没必要按照1:1的比例，其采用8:1:1的比例，清扫不掉的垃圾会被划分到survivor区。</p>
+<p>​        若某个垃圾很顽固，经历了多次清扫仍然存活，就会被划分到old老年区，因为老年区中的都是顽固垃圾，没必要再去一遍遍清扫，等到内存装不下了再用Mark Compact算法进行回收。</p>
+<p><img src="/2022/10/17/GC/jdk-and-GC.png" alt="jdk-and-GC"></p>
+</div><div class="tags"></div><div class="article-footer"><a class="excerpt-link" href="/2022/10/17/GC/">全文...</a><div class="article-footer__right"><span class="date">写于2022年10月17日</span></div></div></section><section class="article"><a class="title" href="/2022/10/17/heap-and-stack/">从底层理解堆和栈的概念以及问题</a><div class="content excerpt"><p><img src="/2022/10/17/heap-and-stack/img.jpg" alt="img">        </p>
+<h4 id="（1）栈的概念"><a href="#（1）栈的概念" class="headerlink" title="（1）栈的概念"></a>（1）栈的概念</h4><p>​        在java程序中，存储main方法、Object o变量和m()方法的调用的结构，是一个先进后出的栈（每个线程单独占用一个栈），栈中的每块数据（m、main）由一个栈帧（stack frame指向）。</p>
+<p>​        当每个程序块结束运行，会移到下一个栈帧，而栈中上一个程序块以及其里面的数据会被自动释放，如main方法中的Object o，虽然其会占用一定的空间，但当main程序执行完，不需要程序员手动释放。</p>
+<h4 id="（2）堆的概念及其管理问题"><a href="#（2）堆的概念及其管理问题" class="headerlink" title="（2）堆的概念及其管理问题"></a>（2）堆的概念及其管理问题</h4><p>​        存储程序执行过程被手动new出来的对象的结构叫做堆。new出来的对象会占用堆的空间，若一直一直new对象，会产生爆内存的情况。堆与栈的最主要区别是，堆中的数据由程序员自己分配创建，而且得手动回收（将某处空间标记为可用）。</p>
+<p>​        而对堆空间的处理，不同的语言使用不同的方法去管理，在对堆空间的处理过程中往往会伴随着两个最难调试的bug，野指针问题和并发问题。。</p>
+<p>​        c/c++使用的是手工管理内存（malloc free/new delete）。若忘记释放，会产生memory leak内存泄漏问题（空间存在，但无法被使用），泄漏严重会演变为out of memory内存移除问题，可采用最朴素的调优方式–重启来解决；若多次释放，可能会产生并发线程问题，一个线程空间莫名其妙被另一个线程释放。</p>
+<p>​        在java、python和go等高级语言中，引入了GC（Garbage Collector）垃圾回收器，用于管理堆中垃圾的释放问题，程序员只需要负责分配，而那些错综复杂互相依赖的空间将由GC进行释放，所以相对c/c++来说开发效率更高，大大地降低了程序员的门槛。</p>
+</div><div class="tags"></div><div class="article-footer"><a class="excerpt-link" href="/2022/10/17/heap-and-stack/">全文...</a><div class="article-footer__right"><span class="date">写于2022年10月17日</span></div></div></section></div><div id="backToTop"><div class="back-arrow back-arrow-left"></div><div class="back-arrow back-arrow-right"></div></div><footer class="container"><div class="rights"><span>Powered by </span><a href="http://hexo.io" target="_blank">Hexo</a><span>, Theme </span><a href="https://github.com/gary-Shen/hexo-theme-bear" target="_blank">Bear</a><span>.</span></div></footer>
+<script src="/script/jquery.min.js"></script>
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+<script src="/script/index.js"></script>
+<script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-61220413-1', 'auto');
+ga('send', 'pageview');</script></body></html>

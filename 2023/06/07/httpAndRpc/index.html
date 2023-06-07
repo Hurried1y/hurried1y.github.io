@@ -1,0 +1,286 @@
+<!DOCTYPE html><html lang="[&quot;zh-CN&quot;,&quot;en&quot;,&quot;default&quot;]" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>HTTP与RPC区别比较分析 | Hurried1y</title><meta name="author" content="Hurried1y"><meta name="copyright" content="Hurried1y"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="HTTP与RPC区别比较分析一、TCP的特点与问题一想到TCP，我想大多数人第一时间想到的应该是：面向连接的、可靠的、基于字节流的。 如果我们需要使用TCP协议的话，就需要使用Socket编程。 12345678910111213public class Client &amp;#123;    public static void main(String[] args) throws IOExcepti">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HTTP与RPC区别比较分析">
+<meta property="og:url" content="http://example.com/2023/06/07/httpAndRpc/index.html">
+<meta property="og:site_name" content="Hurried1y">
+<meta property="og:description" content="HTTP与RPC区别比较分析一、TCP的特点与问题一想到TCP，我想大多数人第一时间想到的应该是：面向连接的、可靠的、基于字节流的。 如果我们需要使用TCP协议的话，就需要使用Socket编程。 12345678910111213public class Client &amp;#123;    public static void main(String[] args) throws IOExcepti">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">
+<meta property="article:published_time" content="2023-06-07T03:09:45.000Z">
+<meta property="article:modified_time" content="2023-06-07T03:32:38.080Z">
+<meta property="article:author" content="Hurried1y">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"><link rel="shortcut icon" href="/img/f.png"><link rel="canonical" href="http://example.com/2023/06/07/httpAndRpc/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script async="async" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script><script>(adsbygoogle = window.adsbygoogle || []).push({
+  google_ad_client: '',
+  enable_page_level_ads: 'true'
+});</script><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'HTTP与RPC区别比较分析',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-06-07 11:32:38'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/metingjs/dist/Meting.min.js"></script><meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="Hurried1y" type="application/atom+xml">
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">14</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Hurried1y</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">HTTP与RPC区别比较分析</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-06-07T03:09:45.000Z" title="发表于 2023-06-07 11:09:45">2023-06-07</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-06-07T03:32:38.080Z" title="更新于 2023-06-07 11:32:38">2023-06-07</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="HTTP与RPC区别比较分析"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="HTTP与RPC区别比较分析"><a href="#HTTP与RPC区别比较分析" class="headerlink" title="HTTP与RPC区别比较分析"></a>HTTP与RPC区别比较分析</h1><h2 id="一、TCP的特点与问题"><a href="#一、TCP的特点与问题" class="headerlink" title="一、TCP的特点与问题"></a>一、TCP的特点与问题</h2><p>一想到TCP，我想大多数人第一时间想到的应该是：面向连接的、可靠的、基于字节流的。</p>
+<p>如果我们需要使用TCP协议的话，就需要使用<strong>Socket编程</strong>。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Client</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException &#123;</span><br><span class="line">        <span class="comment">//1、创建一个Socket对象请求服务端的连接</span></span><br><span class="line">        <span class="type">Socket</span> <span class="variable">socket</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Socket</span>(<span class="string">&quot;127.0.0.1&quot;</span>, <span class="number">9999</span>);</span><br><span class="line">        <span class="comment">//2、从Socket对象中获取字节输出流</span></span><br><span class="line">        <span class="type">OutputStream</span> <span class="variable">os</span> <span class="operator">=</span> socket.getOutputStream();</span><br><span class="line">        <span class="comment">//3、把字节输出流包装成打印流</span></span><br><span class="line">        <span class="type">PrintStream</span> <span class="variable">ps</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">PrintStream</span>(os);</span><br><span class="line">        ps.println(<span class="string">&quot;hello server!&quot;</span>);</span><br><span class="line">        <span class="comment">//4、刷新</span></span><br><span class="line">        ps.flush();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Server</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        <span class="comment">//1、定义一个ServerSocket对象进行服务端的端口注册</span></span><br><span class="line">        <span class="type">ServerSocket</span> <span class="variable">ss</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ServerSocket</span>(<span class="number">9999</span>);</span><br><span class="line">        <span class="comment">//2、阻塞监听客户端的socket连接请求，当监听到一个连接请求后，执行后续代码</span></span><br><span class="line">        <span class="type">Socket</span> <span class="variable">socket</span> <span class="operator">=</span> ss.accept();</span><br><span class="line">        <span class="comment">//3、从socket管道中得到一个字节输入流对象inputStream</span></span><br><span class="line">        <span class="type">InputStream</span> <span class="variable">is</span> <span class="operator">=</span> socket.getInputStream();</span><br><span class="line">        <span class="comment">//4、把字节输入流包装成 缓冲字符输入流</span></span><br><span class="line">        <span class="type">BufferedReader</span> <span class="variable">br</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BufferedReader</span>(<span class="keyword">new</span> <span class="title class_">InputStreamReader</span>(is));</span><br><span class="line">        String msg;</span><br><span class="line">        <span class="comment">//5、按照通信的架构，对方怎么发，这里就要怎么收，服务端按行读取</span></span><br><span class="line">        <span class="comment">/*</span></span><br><span class="line"><span class="comment">         * 由于bio是同步阻塞式，若接收不到客户端的一行数据，会一直阻塞</span></span><br><span class="line"><span class="comment">         * 读到一行数据后，继续循环阻塞等待</span></span><br><span class="line"><span class="comment">         * 客户端发完数据后宕机，socket关闭，此时服务端的socket也会跟着关闭，</span></span><br><span class="line"><span class="comment">         * 报Connection reset错误</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span>((msg = br.readLine()) != <span class="literal">null</span>)&#123;</span><br><span class="line">            System.out.println(<span class="string">&quot;服务端接收到：&quot;</span>+msg);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上面我们简单演示了一下在Java中是如何基于BIO进行网络编程的，对于使用纯裸TCP存在的问题，我们关注点放在<strong>基于字节流上</strong>。</p>
+<p>什么叫基于字节流？</p>
+<p>就是当通信双方建立连接后，我们可以形象一点的看作，通信双方之间建立了一个“通信的管道”，想要通信的数据一个一个比特位在通信管道内传输。</p>
+<blockquote>
+<p>如果还不明白的话，我们可以打一个比方：<br>数据就像<strong>河流中的水</strong>一样；通信管道就是<strong>河道</strong>；河流中的水是由小的河流分支汇集而来（<strong>小分支</strong>就是一个一个用户发送数据）；最终河流汇入<strong>大海</strong>（大海就是数据接收方）。<br>大海收到河流中的水，但是收到的水并不是一批一批收到，而是不断的收到，这样大海无法确定对方在发送的时候一次发送了多少。所以在接收的时候，就可能一次收的比对方一次发的多，或者少。这就是大名鼎鼎的粘包问题</p>
+</blockquote>
+<p>总之，使用TCP就会有粘包问题，为了解决这个问题，我们就需要在TCP的上层（应用层）再设计一些自定义协议，解决粘包问题，最常见的就是HTTP，HTTP中的某一些字段就可以标识哪些属于同一个报文，这样就可以避免粘包问题。</p>
+<h2 id="二、HTTP与RPC"><a href="#二、HTTP与RPC" class="headerlink" title="二、HTTP与RPC"></a>二、HTTP与RPC</h2><p>TCP是传输层的协议，而基于TCP造出来的HTTP和各类RPC协议，它们都只是定义了不同消息格式的应用层协议而已。</p>
+<h3 id="1、HTTP协议"><a href="#1、HTTP协议" class="headerlink" title="1、HTTP协议"></a>1、HTTP协议</h3><p>HTTP协议【超文本传输协议】，平常我们用浏览器使用的就是HTTP一系列的协议，网上有很多详细的介绍，这里就不去展开了，以下是CSDN社区中的一位博主对HTTP的总结：</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/cdzg_zzk/article/details/127376175?spm=1001.2014.3001.5501">HTTP复习（一）</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/cdzg_zzk/article/details/127502145?spm=1001.2014.3001.5501">HTTP复习（二）</a></p>
+<h3 id="2、RPC协议"><a href="#2、RPC协议" class="headerlink" title="2、RPC协议"></a>2、RPC协议</h3><p>而RPC（Remote Procedure Call），又叫做远程过程调用。它本身并不是一个具体的协议，而是一种调用方式。</p>
+<p>调用方法其实跟我们平常在代码中调用自定义方法（或者叫函数）差不多。只不过这个方法是远端服务器暴露出来的接口，我们通过这个接口去使用，就好像我们在调用本地函数一样，就屏蔽了底层网络细节，就方便了很多。需要完成一个任务就调用一个接口。简直不要太爽（回想一些基于TCP的socket通信）</p>
+<p>虽然大部分RPC底层使用的是TCP，但是这也不被完全限制。RPC底层可以使用UDP/TCP，甚至是HTTP。</p>
+<h3 id="3、有了HTTP，为什么还需要RPC？"><a href="#3、有了HTTP，为什么还需要RPC？" class="headerlink" title="3、有了HTTP，为什么还需要RPC？"></a>3、有了HTTP，为什么还需要RPC？</h3><p>其实RPC出现早于HTTP。TCP是上世纪70年代出现，HTTP是90年代才流行。但是TCP的粘包问题确实一直存在，这期间就要用各种各样的自定义应用层协议来解决粘包问题。</p>
+<p>一些app，只需要客户端与自家的服务器进行消息传递【C/S架构】，这个时候各家使用各家的RPC协议就可以。</p>
+<p>但是随着【B/S架构】发展，浏览器要访问各种服务器，这个使用每家的服务器都必须遵守统一的规则，所以HTTP应用越加广泛。</p>
+<p>现在【B/S】【C/S】架构分割越来越不明显了，RPC一般只用于公司内部使用了。</p>
+<h2 id="三、HTTP与RPC的区别"><a href="#三、HTTP与RPC的区别" class="headerlink" title="三、HTTP与RPC的区别"></a>三、HTTP与RPC的区别</h2><h3 id="1、服务发现"><a href="#1、服务发现" class="headerlink" title="1、服务发现"></a>1、服务发现</h3><p>首先要向某个服务器发起请求，你得先建立连接，而建立连接的前提是，你得知道<strong>IP地址和端口</strong>。这个找到服务对应的IP端口的过程，其实就是<strong>服务发现</strong>。</p>
+<p>在<strong>HTTP</strong>中，你知道服务的域名，就可以通过<strong>DNS服务</strong>去解析得到它背后的IP地址，<strong>默认80端口</strong>。</p>
+<p>而<strong>RPC</strong>的话，就有些区别，一般会有专门的<strong>中间服务</strong>去保存服务名和IP信息，比如<strong>consul或者etcd</strong>，<strong>甚至是redis</strong>。想要访问某个服务，就去这些中间服务去获得IP和端口信息。由于dns也是服务发现的一种，所以也有基于dns去做服务发现的组件，比如CoreDNS。</p>
+<p>可以看出服务发现这一块，两者是有些区别，但不太能分高低。</p>
+<h3 id="2、底层连接形式"><a href="#2、底层连接形式" class="headerlink" title="2、底层连接形式"></a>2、底层连接形式</h3><p>以主流的HTTP1.1协议为例，其默认在建立底层TCP连接之后会一直保持这个连接（keep alive），之后的请求和响应都会复用这条连接。</p>
+<p>而RPC协议，也跟HTTP类似，也是通过建立<strong>TCP长链接</strong>进行数据交互，但不同的地方在于，RPC协议一般还会再建个<strong>连接池</strong>，在请求量大的时候，建立多条连接放在池内，要发数据的时候就从池里取一条连接出来，用完放回去，下次再复用，可以说非常高效。</p>
+<p><img src="./httpAndRpc/t1.png" alt="t1"></p>
+<h3 id="3、传输的内容"><a href="#3、传输的内容" class="headerlink" title="3、传输的内容"></a>3、传输的内容</h3><p>基于TCP传输的消息，说到底，无非都是<strong>消息头header</strong>和<strong>消息体body</strong>。</p>
+<p>header：存储的是一些标志信息。可以传字符串也可以传二进制</p>
+<p>body：实际传输的内容。一般采用JSON进行序列化</p>
+<p><img src="./httpAndRpc/t2.png" alt="t1"></p>
+<p>对于主流的HTTP1.1，虽然它现在叫超文本协议，支持音频视频，但HTTP设计初是用于做网页文本展示的，所以它传的内容以字符串为主。header和body都是如此。在body这块，它使用json来序列化结构体数据。</p>
+<blockquote>
+<p>对于HTTP/1.1来说，会有头部字段冗余，传输字符串而不是二进制，队头阻塞等等问题。但是HTTP/2进行了很好的改进。所以HTTP/2的性能不一定就比RPC差了。<br>甚至gRPC底层都是使用的HTTP/2</p>
+</blockquote>
+<p>而RPC，因为它定制化程度更高，可以采用体积更小的protobuf或其他序列化协议去保存结构体数据，同时也不需要像HTTP那样考虑各种浏览器行为，比如302重定向跳转啥的。因此性能也会更好一些，这也是在公司内部微服务中抛弃HTTP，选择使用RPC的最主要原因。</p>
+<h2 id="四、结语"><a href="#四、结语" class="headerlink" title="四、结语"></a>四、结语</h2><p>本篇文章转载自CSDN社区博主 <strong>xiao zhou</strong>，原文总结自小林coding</p>
+<p>原文连接：<a target="_blank" rel="noopener" href="https://blog.csdn.net/cdzg_zzk/article/details/127564797">https://blog.csdn.net/cdzg_zzk/article/details/127564797</a></p>
+<p>更多细节可以转至原文，也可以浏览小林coding</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="http://example.com">Hurried1y</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2023/06/07/httpAndRpc/">http://example.com/2023/06/07/httpAndRpc/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">Hurried1y</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2023/06/05/raft/"><img class="next-cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Raft共识算法</div></div></a></div></nav><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Hurried1y</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">14</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Hurried1y"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/Hurried1y" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:3049478157@qq.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#HTTP%E4%B8%8ERPC%E5%8C%BA%E5%88%AB%E6%AF%94%E8%BE%83%E5%88%86%E6%9E%90"><span class="toc-number">1.</span> <span class="toc-text">HTTP与RPC区别比较分析</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81TCP%E7%9A%84%E7%89%B9%E7%82%B9%E4%B8%8E%E9%97%AE%E9%A2%98"><span class="toc-number">1.1.</span> <span class="toc-text">一、TCP的特点与问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81HTTP%E4%B8%8ERPC"><span class="toc-number">1.2.</span> <span class="toc-text">二、HTTP与RPC</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1%E3%80%81HTTP%E5%8D%8F%E8%AE%AE"><span class="toc-number">1.2.1.</span> <span class="toc-text">1、HTTP协议</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2%E3%80%81RPC%E5%8D%8F%E8%AE%AE"><span class="toc-number">1.2.2.</span> <span class="toc-text">2、RPC协议</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3%E3%80%81%E6%9C%89%E4%BA%86HTTP%EF%BC%8C%E4%B8%BA%E4%BB%80%E4%B9%88%E8%BF%98%E9%9C%80%E8%A6%81RPC%EF%BC%9F"><span class="toc-number">1.2.3.</span> <span class="toc-text">3、有了HTTP，为什么还需要RPC？</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81HTTP%E4%B8%8ERPC%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">1.3.</span> <span class="toc-text">三、HTTP与RPC的区别</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1%E3%80%81%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0"><span class="toc-number">1.3.1.</span> <span class="toc-text">1、服务发现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2%E3%80%81%E5%BA%95%E5%B1%82%E8%BF%9E%E6%8E%A5%E5%BD%A2%E5%BC%8F"><span class="toc-number">1.3.2.</span> <span class="toc-text">2、底层连接形式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3%E3%80%81%E4%BC%A0%E8%BE%93%E7%9A%84%E5%86%85%E5%AE%B9"><span class="toc-number">1.3.3.</span> <span class="toc-text">3、传输的内容</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E7%BB%93%E8%AF%AD"><span class="toc-number">1.4.</span> <span class="toc-text">四、结语</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2023/06/07/httpAndRpc/" title="HTTP与RPC区别比较分析"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="HTTP与RPC区别比较分析"/></a><div class="content"><a class="title" href="/2023/06/07/httpAndRpc/" title="HTTP与RPC区别比较分析">HTTP与RPC区别比较分析</a><time datetime="2023-06-07T03:09:45.000Z" title="发表于 2023-06-07 11:09:45">2023-06-07</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/06/05/raft/" title="Raft共识算法"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Raft共识算法"/></a><div class="content"><a class="title" href="/2023/06/05/raft/" title="Raft共识算法">Raft共识算法</a><time datetime="2023-06-05T13:38:43.000Z" title="发表于 2023-06-05 21:38:43">2023-06-05</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/05/15/rpc-framework-4/" title="简易RPC框架 - 4"><img src="/../img/top-img/rpc-framework-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="简易RPC框架 - 4"/></a><div class="content"><a class="title" href="/2023/05/15/rpc-framework-4/" title="简易RPC框架 - 4">简易RPC框架 - 4</a><time datetime="2023-05-15T11:44:29.000Z" title="发表于 2023-05-15 19:44:29">2023-05-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/05/14/rpc-framework-3/" title="简易RPC框架 - 3"><img src="/../img/top-img/rpc-framework-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="简易RPC框架 - 3"/></a><div class="content"><a class="title" href="/2023/05/14/rpc-framework-3/" title="简易RPC框架 - 3">简易RPC框架 - 3</a><time datetime="2023-05-14T14:21:03.000Z" title="发表于 2023-05-14 22:21:03">2023-05-14</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/05/12/rpc-framework-2/" title="简易RPC框架 - 2"><img src="/../img/top-img/rpc-framework-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="简易RPC框架 - 2"/></a><div class="content"><a class="title" href="/2023/05/12/rpc-framework-2/" title="简易RPC框架 - 2">简易RPC框架 - 2</a><time datetime="2023-05-12T06:18:57.000Z" title="发表于 2023-05-12 14:18:57">2023-05-12</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By Hurried1y</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">Hi, welcome to my <a target="_blank" rel="noopener" href="https://butterfly.js.org/">blog</a>!</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: 'pOoG0rLYQfXlKJlIJiJbbbTX-gzGzoHsz',
+      appKey: 'wWueq11OZxJgQR6tIl4kd6s0',
+      avatar: 'monsterid',
+      serverURLs: '',
+      emojiMaps: "",
+      path: window.location.pathname,
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><div class="aplayer no-destroy" data-id="7727330670" data-server="netease" data-type="playlist" data-fixed="true" data-autoplay="true"> </div><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/fireworks.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/metingjs/dist/Meting.min.js"></script><script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener scroll 
+  window.tocScrollFn && window.removeEventListener('scroll', window.tocScrollFn)
+  window.scrollCollect && window.removeEventListener('scroll', scrollCollect)
+
+  document.getElementById('rightside').style.cssText = "opacity: ''; transform: ''"
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+  typeof disqusjs === 'object' && disqusjs.destroy()
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof chatBtnFn === 'function' && chatBtnFn()
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', (e) => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

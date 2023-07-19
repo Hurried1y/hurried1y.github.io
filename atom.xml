@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2023-06-18T08:18:14.401Z</updated>
+  <updated>2023-07-19T07:34:05.146Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -15,6 +15,34 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Flink中TaskManager与Slots的关系</title>
+    <link href="http://example.com/2023/07/19/flink-taskManager-slots/"/>
+    <id>http://example.com/2023/07/19/flink-taskManager-slots/</id>
+    <published>2023-07-19T06:44:31.000Z</published>
+    <updated>2023-07-19T07:34:05.146Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="Flink中TaskManager与Slots的关系"><a href="#Flink中TaskManager与Slots的关系" class="headerlink" title="Flink中TaskManager与Slots的关系"></a>Flink中TaskManager与Slots的关系</h1><h2 id="一、基本概念"><a href="#一、基本概念" class="headerlink" title="一、基本概念"></a>一、基本概念</h2><h3 id="1、TaskManager"><a href="#1、TaskManager" class="headerlink" title="1、TaskManager"></a>1、TaskManager</h3><p>Flink 采用 <strong>Master-Slave</strong> 主从架构，其中 <strong>JobManager</strong> 作为集群 <strong>Master节点</strong> ，主要负责<code>任务协调</code>和<code>资源分配</code>，<strong>TaskWorker</strong> （TaskManager） 作为<strong>Salve节点</strong>，用于<code>执行流task</code>。</p><p><code>JobManager</code>是<strong>控制</strong>一个<strong>应用程序执行</strong>的<code>主进程</code>，相当于集群的<strong>Master节点</strong>，且整个集群<code>有且只有一个</code><strong>活跃的 JobManager</strong> ，<strong>JobManager</strong> 负责整个 Flink 集群<code>任务的调度</code>以及<code>资源的管理</code>。</p><p>Flink  TaskManager 执行作业流的 task，并且缓存和交换数据流，TaskManager 负责执行用户代码。根据实际需求为 TaskManager 配置内存将有助于减少 Flink 的资源占用，增强作业运行的稳定性。</p><h3 id="2、Slots"><a href="#2、Slots" class="headerlink" title="2、Slots"></a>2、Slots</h3><p>Flink中每一个worker(TaskManager)都是一个 <strong>JVM进程</strong> ，它可能会在<strong>独立的线程</strong>上执行一个或多个subtask。为了控制一个TaskManager能接收多少个task，TaskManager通过task slot来进行控制（一个TaskManager至少有一个task slot）。</p><h2 id="二、TaskManager与Slots的关系"><a href="#二、TaskManager与Slots的关系" class="headerlink" title="二、TaskManager与Slots的关系"></a>二、TaskManager与Slots的关系</h2><p>每个task slot表示TaskManager拥有资源的一个固定大小的子集。假如一个TaskManager有三个slot，那么它会将其管理的内存分成三份给各个slot。资源slot化意味着一个subtask将不需要跟来自其他job的subtask竞争被管理的内存，取而代之的是它将拥有一定数量的内存储备。需要注意的是，这里不会涉及到CPU的隔离，slot目前仅仅用来隔离task的受管理的内存。</p><p>通过调整task slot的数量，允许用户定义subtask之间如何互相隔离。如果一个TaskManager一个slot，那将意味着每个task group运行在独立的JVM中（该JVM可能是通过一个特定的容器启动的），而一个TaskManager多个slot意味着更多的subtask可以共享同一个JVM。而在同一个JVM进程中的task将共享TCP连接（基于多路复用）和心跳消息。它们也可能共享数据集和数据结构，因此这减少了每个task的负载。</p><p>默认情况下，Flink允许子任务共享slot，即使它们是不同任务的子任务（前提是它们来自同一个job）。 这样的结果是，一个slot可以保存作业的整个管道。</p><p><strong>Task Slot是静态的概念，是指TaskManager具有的并发执行能力</strong>，可以通过参数taskmanager.numberOfTaskSlots进行配置；<strong>而并行度parallelism是动态概念，即TaskManager运行程序时实际使用的并发能力</strong>，可以通过参数parallelism.default进行配置。</p><p>假设现在有这样一个程序：</p><p><img src="/2023/07/19/flink-taskManager-slots/t1.png" alt="t1"></p><p>其任务划分大概如下图所示：</p><p><img src="/2023/07/19/flink-taskManager-slots/t2.png" alt="image-20230719150157728"></p><p>Flink程序的执行具有<strong>并行、分布式</strong>的特征。在执行过程中</p><p>假设我们此时以集群部署三台TaskManager，每台TaskManager划分3个Slot，其执行流程图大致如下图所示：</p><p><img src="/2023/07/19/flink-taskManager-slots/Users\A\AppData\Roaming\Typora\typora-user-images\image-20230719150310433.png" alt="image-20230719150310433"></p><p>比如此时我们的Job是 <strong>A(source+flatMap) —&gt; B(keyBy) —&gt; C(sum+print)</strong> 这样一个流，在单节点的情况下是一个<strong>串行流</strong>。但在分布式情况下，Job的执行流程可以大致理解为一个<strong>有向无环图</strong>，其执行流程可以如下图所示：</p><p><img src="/2023/07/19/flink-taskManager-slots/t4.png" alt="image-20230719152544567"></p><p>可以看到，Flink允许子任务共享Slot，即使它们是不同任务的子任务，如上图中的<strong>D —&gt; B —&gt; C</strong> 流，其与 <strong>A —&gt; B —&gt; C</strong> 流并不是同一个流，但它们仍能共享同一个 Slot。</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;Flink中TaskManager与Slots的关系&quot;&gt;&lt;a href=&quot;#Flink中TaskManager与Slots的关系&quot; class=&quot;headerlink&quot; title=&quot;Flink中TaskManager与Slots的关系&quot;&gt;&lt;/a&gt;Flink中Ta</summary>
+      
+    
+    
+    
+    <category term="Flink" scheme="http://example.com/categories/Flink/"/>
+    
+    
+    <category term="分布式" scheme="http://example.com/tags/%E5%88%86%E5%B8%83%E5%BC%8F/"/>
+    
+    <category term="Hadoop" scheme="http://example.com/tags/Hadoop/"/>
+    
+    <category term="Flink" scheme="http://example.com/tags/Flink/"/>
+    
+  </entry>
   
   <entry>
     <title>怎么去实现动态扩展机制SPI</title>
@@ -512,33 +540,6 @@
     <category term="JVM" scheme="http://example.com/tags/JVM/"/>
     
     <category term="GC" scheme="http://example.com/tags/GC/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>从底层理解堆和栈的概念以及问题</title>
-    <link href="http://example.com/2022/10/17/heap-and-stack/"/>
-    <id>http://example.com/2022/10/17/heap-and-stack/</id>
-    <published>2022-10-17T10:05:37.000Z</published>
-    <updated>2023-06-13T07:24:16.260Z</updated>
-    
-    <content type="html"><![CDATA[<p><img src="/2022/10/17/heap-and-stack/img.jpg" alt="img">        </p><h4 id="（1）栈的概念"><a href="#（1）栈的概念" class="headerlink" title="（1）栈的概念"></a>（1）栈的概念</h4><p>​        在java程序中，存储main方法、Object o变量和m()方法的调用的结构，是一个先进后出的栈（每个线程单独占用一个栈），栈中的每块数据（m、main）由一个栈帧（stack frame指向）。</p><p>​        当每个程序块结束运行，会移到下一个栈帧，而栈中上一个程序块以及其里面的数据会被自动释放，如main方法中的Object o，虽然其会占用一定的空间，但当main程序执行完，不需要程序员手动释放。</p><h4 id="（2）堆的概念及其管理问题"><a href="#（2）堆的概念及其管理问题" class="headerlink" title="（2）堆的概念及其管理问题"></a>（2）堆的概念及其管理问题</h4><p>​        存储程序执行过程被手动new出来的对象的结构叫做堆。new出来的对象会占用堆的空间，若一直一直new对象，会产生爆内存的情况。堆与栈的最主要区别是，堆中的数据由程序员自己分配创建，而且得手动回收（将某处空间标记为可用）。</p><p>​        而对堆空间的处理，不同的语言使用不同的方法去管理，在对堆空间的处理过程中往往会伴随着两个最难调试的bug，野指针问题和并发问题。。</p><p>​        c/c++使用的是手工管理内存（malloc free/new delete）。若忘记释放，会产生memory leak内存泄漏问题（空间存在，但无法被使用），泄漏严重会演变为out of memory内存移除问题，可采用最朴素的调优方式–重启来解决；若多次释放，可能会产生并发线程问题，一个线程空间莫名其妙被另一个线程释放。</p><p>​        在java、python和go等高级语言中，引入了GC（Garbage Collector）垃圾回收器，用于管理堆中垃圾的释放问题，程序员只需要负责分配，而那些错综复杂互相依赖的空间将由GC进行释放，所以相对c/c++来说开发效率更高，大大地降低了程序员的门槛。</p>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;p&gt;&lt;img src=&quot;/2022/10/17/heap-and-stack/img.jpg&quot; alt=&quot;img&quot;&gt;        &lt;/p&gt;
-&lt;h4 id=&quot;（1）栈的概念&quot;&gt;&lt;a href=&quot;#（1）栈的概念&quot; class=&quot;headerlink&quot; title=&quot;（1）栈的概</summary>
-      
-    
-    
-    
-    <category term="数据结构" scheme="http://example.com/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
-    
-    
-    <category term="堆" scheme="http://example.com/tags/%E5%A0%86/"/>
-    
-    <category term="栈" scheme="http://example.com/tags/%E6%A0%88/"/>
     
   </entry>
   

@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2023-08-23T15:12:10.539Z</updated>
+  <updated>2023-08-23T15:09:23.963Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -15,6 +15,34 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>关于加密解密的小小总结</title>
+    <link href="http://example.com/2023/08/23/crypt/"/>
+    <id>http://example.com/2023/08/23/crypt/</id>
+    <published>2023-08-23T12:51:33.000Z</published>
+    <updated>2023-08-23T15:09:23.963Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="关于加密解密的小小总结"><a href="#关于加密解密的小小总结" class="headerlink" title="关于加密解密的小小总结"></a>关于加密解密的小小总结</h1><h2 id="一、前言"><a href="#一、前言" class="headerlink" title="一、前言"></a>一、前言</h2><p>这篇文章不讲具体的加密算法，主要总结加密解密在项目中的具体应用，其中加密算法介绍内容来自</p><p>流程内容自于自己平常工作学习的总结，在这里小小记录一下。</p><h2 id="二、可逆加密与不可逆加密"><a href="#二、可逆加密与不可逆加密" class="headerlink" title="二、可逆加密与不可逆加密"></a>二、可逆加密与不可逆加密</h2><p>加密算法我们整体可以分为：<strong>可逆加密和不可逆加密</strong>，可逆加密又可以分为：<strong>对称加密和非对称加密</strong>。</p><h3 id="1、不可逆加密"><a href="#1、不可逆加密" class="headerlink" title="1、不可逆加密"></a>1、不可逆加密</h3><p>常见的不可逆加密算法有<strong>MD5</strong>，HMAC，SHA1、SHA-224、<strong>SHA-256</strong>、SHA-384，和SHA-512，其中SHA-224、SHA-256、SHA-384，和SHA-512我们可以统称为<strong>SHA2加密算法</strong>，SHA加密算法的安全性要比MD5更高，而SHA2加密算法比SHA1的要高。其中SHA后面的数字表示的是加密后的字符串长度，SHA1默认会产生一个160位的信息摘要。</p><p>由于这些加密都是不可逆的，因此比较常用的场景就是<strong>用户密码加密</strong>，其验证过程就是<strong>通过比较两个加密后的字符串是否一样来确认身份的</strong>。网上也有很多自称是可以破解MD5密码的网站，其原理也是一样，就是有一个巨大的资源库，存放了许多字符串及对应的MD5加密后的字符串，通过你输入的MD5加密串来进行比较，如果过你的密码复杂度比较低，还是有很大机率验证出来的。</p><p>这里我们介绍一下SHA256，简单来说就是一个哈希函数。<strong>哈希函数，又称散列算法，是一种从任何一种数据中创建小的数字“指纹”的方法</strong>。散列函数把消息或数据压缩成摘要，使得数据量变小，将数据的格式固定下来。该函数将数据打乱混合，重新创建一个叫做散列值（或哈希值）的指纹。散列值通常用一个短的随机字母和数字组成的字符串来代表。</p><p><strong>对于任意长度的消息，SHA256都会产生一个256bit长的哈希值，称作消息摘要。</strong>这个摘要相当于是个长度为32个字节的数组，通常用一个长度为64的十六进制字符串来表示。</p><h3 id="2、对称加密算法"><a href="#2、对称加密算法" class="headerlink" title="2、对称加密算法"></a>2、对称加密算法</h3><p>对称加密算法是应用比较早的算法，<strong>在数据加密和解密的时用的都是同一个密钥</strong>，这就造成了密钥管理困难的问题。常见的对称加密算法有DES、3DES、AES128、AES192、<strong>AES256</strong> （默认安装的 JDK 尚不支持 AES256，需要安装对应的 jce 补丁进行升级 jce1.7，jce1.8）。其中AES后面的数字代表的是密钥长度。对称加密算法的安全性相对较低，比较适用的场景就是内网环境中的加解密。</p><h3 id="3、非对称加密算法"><a href="#3、非对称加密算法" class="headerlink" title="3、非对称加密算法"></a>3、非对称加密算法</h3><p>非对称加密算法有两个密钥，<strong>这两个密钥完全不同但又完全匹配</strong>。只有使用匹配的一对公钥和私钥，才能完成对明文的加密和解密过程。常见的非对称加密有<strong>RSA、SM2</strong>等。</p><h3 id="4、加密盐"><a href="#4、加密盐" class="headerlink" title="4、加密盐"></a>4、加密盐</h3><p>加密盐也是比较常听到的一个概念，盐就是<strong>一个随机字符串</strong>用来和我们的加密串拼接后进行加密。加盐主要是为了提供加密字符串的安全性。假如有一个加盐后的加密串，黑客通过一定手段这个加密串，他拿到的明文，并不是我们加密前的字符串，而是加密前的字符串和盐组合的字符串，这样相对来说又增加了字符串的安全性。</p><h2 id="三、应用场景"><a href="#三、应用场景" class="headerlink" title="三、应用场景"></a>三、应用场景</h2><h3 id="1、注册登陆加密流程-SM2-SHA256"><a href="#1、注册登陆加密流程-SM2-SHA256" class="headerlink" title="1、注册登陆加密流程(SM2+SHA256)"></a>1、注册登陆加密流程(SM2+SHA256)</h3><p>注册：<br>  1、前端传入账号密码<br>  2、对密码使用SHA256哈希盐值加密(不可逆)，最终加密后的数据存入数据库<br>        可能格式：加密算法$迭代次数$盐值$最终密文<br>登陆：<br>  1、前端获取SM2公钥，对密码明文进行加密<br>  2、后端通过SM2私钥解密密码密文，之后从数据库获得用户的密码(盐值加密后的数据)，在密文中获得加密算法、盐值等数据，对SM2解密得到的密码明文进行盐值加密，比较两个数据是否一致</p><h3 id="2、API调用数据传输加密-RSA-AES、SM2-AES"><a href="#2、API调用数据传输加密-RSA-AES、SM2-AES" class="headerlink" title="2、API调用数据传输加密(RSA+AES、SM2+AES)"></a>2、API调用数据传输加密(RSA+AES、SM2+AES)</h3><p>RSA+AES、SM2+AES用于<strong>传输加密</strong>，为<strong>请求/返回信息</strong>做加密处理，保障数据传输的安全性。</p><p>RSA和SM2为<strong>非对称加密算法</strong>，SM2算法是一种更先进安全的算法，在安全性能、速度性能等方面都优于RSA算法，在我国商用密码体系中被用来替换RSA算法。</p><p>AES是<strong>对称加密算法</strong>，使用<strong>非对称加密算法和对称加密算法混合模式</strong>，在支持对大量数据加解密的同时，保证了加解密速度，安全性更高，主要应用于一些用户信息、敏感信息加密的安全性要求较高的场景。</p><p><strong>RSA/SM2</strong>：在API调用过程中，为每位用户创建<strong>相互独立的RSA、SM2密钥对</strong>，“公钥加密、私钥解密，私钥加密、公钥解密”。RSA/SM2公钥对用户可见，<strong>私钥平台进行管理</strong>。 RSA/SM2公钥用途：<strong>对AES密钥进行加密处理</strong>。 RSA/SM2私钥用途：<strong>对RSA/SM2公钥加密后的AES密钥进行解密</strong>。</p><p><strong>AES</strong>：需调用者通过程序手动生成AES密钥。 AES密钥用途：<strong>对请求/返回信息进行加密/解密处理</strong>。 </p><p>下面是传输加密的具体流程。</p><p>客户端：</p><ol><li>主动生成 AES主密钥</li><li>使用 AES主密钥 加密 请求信息</li><li>使用 RSA公钥(由私钥平台管理/提供) 加密 AES主密钥</li><li>发送 “RSA公钥加密后的AES主密钥” 和 由AES主密钥加密后的请求信息</li></ol><p>服务端：</p><ol><li>获取API的RSA公钥私钥信息(与上面的是同一对)，通过 RSA私钥 解密得到 AES主密钥</li><li>通过 AES主密钥 解密请求信息</li><li>通过 AES主密钥 加密返回数据，返回结果</li></ol><h3 id="3、AK-SK签名认证"><a href="#3、AK-SK签名认证" class="headerlink" title="3、AK/SK签名认证"></a>3、AK/SK签名认证</h3><p>AK/SK(AppKey+AppSecret/AccessKey+SecretAccessKey)签名是调用API的用户认证方式之一，常见的用户认证方式还有API-TOKEN、USER-TOKEN等，下面是具体流程。</p><p>客户端：</p><ol><li>使用AppSecret对请求内容计算得到签名(Signature)</li><li>发送请求，请求额外包含AppKey和Signature</li></ol><p>服务端：</p><ol><li>根据发送的AppKey查找数据库得到对应的AppSecret</li><li>使用同样的算法将请求内容和AppSecret一起计算签名（Signature）</li><li>对比用户发送的签名和服务端计算的签名，两者相同则认证通过，否则失败。</li></ol>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;关于加密解密的小小总结&quot;&gt;&lt;a href=&quot;#关于加密解密的小小总结&quot; class=&quot;headerlink&quot; title=&quot;关于加密解密的小小总结&quot;&gt;&lt;/a&gt;关于加密解密的小小总结&lt;/h1&gt;&lt;h2 id=&quot;一、前言&quot;&gt;&lt;a href=&quot;#一、前言&quot; class=&quot;</summary>
+      
+    
+    
+    
+    <category term="加密算法" scheme="http://example.com/categories/%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95/"/>
+    
+    
+    <category term="加密算法" scheme="http://example.com/tags/%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95/"/>
+    
+    <category term="对称加密" scheme="http://example.com/tags/%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86/"/>
+    
+    <category term="签名认证" scheme="http://example.com/tags/%E7%AD%BE%E5%90%8D%E8%AE%A4%E8%AF%81/"/>
+    
+  </entry>
   
   <entry>
     <title>PostgreSQL 存储过程</title>
@@ -514,34 +542,6 @@
     <category term="集群" scheme="http://example.com/tags/%E9%9B%86%E7%BE%A4/"/>
     
     <category term="主从集群" scheme="http://example.com/tags/%E4%B8%BB%E4%BB%8E%E9%9B%86%E7%BE%A4/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>著名的三色标记法</title>
-    <link href="http://example.com/2022/10/17/Tri-colour-marking/"/>
-    <id>http://example.com/2022/10/17/Tri-colour-marking/</id>
-    <published>2022-10-17T12:44:16.000Z</published>
-    <updated>2023-06-13T07:38:59.210Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="一、前言"><a href="#一、前言" class="headerlink" title="一、前言"></a>一、前言</h2><p>当前主流编程语言的垃圾收集器基本上都是依靠可达性分析算法来判定对象是否存活的，可达性分析算法理论上要求全过程都基于一个能保障一致性的快照中才能够进行分析，这意味着必须全程冻结用户线程的运行（STW）。</p><p>在根节点枚举这个步骤中，由于GC Roots相比起整个Java堆中全部的对象毕竟还算是极少数，且在各种优化技巧（如OopMap）的加持下，它带来的停顿已经是非常短暂且相对固定（不随堆容量而增长）的了。可从GC Roots再继续往下遍历对象图，这一步骤的停顿时间就必定会与Java堆容量直接成正比例关系了：堆越大，存储的对象越多，对象图结构越复杂，要标记更多对象而产生的停顿时间自然就更长。包含“标记”阶段是所有追踪式垃圾收集算法的共同特征，如果这个阶段会随着堆变大而等比例增加停顿时间，其影响就会波及几乎所有的垃圾收集器，同理可知，如果能够削减这部分停顿时间的话，那收益也将会是系统性的。</p><h2 id="二、三色标记法"><a href="#二、三色标记法" class="headerlink" title="二、三色标记法"></a>二、三色标记法</h2><p>顾名思义，用三种颜色进行标记，其用在CMS垃圾回收器工作的并发标记阶段。</p><hr><ul><li>白色：表示对象尚未被垃圾收集器访问过。显然在可达性分析刚刚开始的阶段，所有的对象都是白色的，若在分析结束的阶段，仍然是白色的对象，即代表不可达(白色对象会被当成垃圾对象)。</li></ul><ul><li>黑色：表示对象已经被垃圾收集器访问过，且这个对象的所有引用（子对象）都已经扫描过。黑色的对象代表已经扫描过，它是安全存活的，如果有其他对象引用指向了黑色对象，无须重新扫描一遍。黑色对象不可能直接（不经过灰色对象）指向某个白色对象(黑色对象不会当成垃圾对象)。</li></ul><ul><li>灰色：表示对象已经被垃圾收集器访问过，但这个对象上至少存在一个引用还没有被扫描过，可以理解为正在搜索的对象。当垃圾回收线程从暂停中再次回来，不会扫描灰色对象，而是直接扫描灰色对象的引用。</li></ul><p>简述三色标记法的遍历过程：</p><ol><li><p>初始时，全部对象都是白色的</p></li><li><p>GC Roots直接引用的对象变成灰色</p></li><li><p>从灰色集合中获取元素：</p><p>3.1 将本对象直接引用的对象标记为灰色</p><p>3.2 将本对象标记为黑色</p></li><li><p>重复步骤3，直到灰色的对象集合变为空</p></li><li><p>结束后，仍然被标记为白色的对象就是不可达对象，视为垃圾对象</p></li></ol><p>当Stop The Word时，对象间的引用是不会发生变化的，因为用户线程中断了，可以轻松完成标记，但是在并发标记的时候，标记期间用户线程还在跑，对象间的引用可能发生变化，多标和漏标的情况就可能会发生</p><p><strong>多标(又叫浮动垃圾)</strong></p><p>假设此时我们遍历到了D对象，此时D被标记成了灰色</p><p><img src="/2022/10/17/Tri-colour-marking/img1.png" alt="img1"></p><p> 此时线程发生B取消了对D的引用</p><p><img src="/2022/10/17/Tri-colour-marking/img4.png" alt="img4"></p><p>这时候B-&gt;D的引用没了，D应该是白色，但是因为先前D已经被标记成灰色了，所以D对象仍然会被当成存活对象遍历下去。最终结果：这部分对象仍然会被标记为存活对象，本轮GC不会回收他们的内存。这部分因为并发而造成的本应该回收但是没有回收的对象被称为”浮动垃圾”，我们稍微一想也能想到，<strong>浮动垃圾不会影响应用程序的正确性，只需要等到下一轮GC到来就会被回收了</strong>。</p><p>另外的，针对并发标记开始后产生的新对象，通常做法是直接标记为黑色，本轮不进行清除，这些对象即使会变成垃圾对象，这也算浮动垃圾一部分。</p><p>另外的，针对并发标记开始后产生的新对象，通常做法是直接标记为黑色，本轮不进行清除，这些对象即使会变成垃圾对象，这也算浮动垃圾一部分。</p><p><strong>漏标(读写屏障)</strong></p><p>假设GC线程已经遍历到D对象，此时D被标记为灰色 </p><p><img src="/2022/10/17/Tri-colour-marking/img2.png" alt="img2"></p><p>但是此时有代码执行：</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Object</span> <span class="variable">E</span> <span class="operator">=</span> D.next;</span><br><span class="line">D.next = <span class="literal">null</span>;</span><br><span class="line">B.next = E;</span><br></pre></td></tr></table></figure><p><img src="/2022/10/17/Tri-colour-marking/img3.png" alt="img3"></p><p>此时D到E的引用消失，B生成了对E的引用。当GC线程继续时，因为D已经没有了对E的引用，所以不会遍历到E，E也就不会标志为灰色，同时B已经标志为黑色了，不会再被遍历，那么也就导致E一直是白色的，最后被当成垃圾处理，这显然与事实不符，E是可打的，但是因为并发的影响漏标了E，使得E被垃圾回收，明显影响了应用程序的正确性，这是不可接受的。</p><p>分析一下，漏标只有同时满足以下两个条件时才会发生：</p><ol><li><p>灰色对象断开了白色对象的引用</p></li><li><p>黑色对象重新引用了该白色对象</p></li></ol><p>从代码角度看：</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Object</span> <span class="variable">E</span> <span class="operator">=</span> D.next;</span><br><span class="line">D.next = <span class="literal">null</span>;</span><br><span class="line">B.next = E;</span><br></pre></td></tr></table></figure><p>只要在上面三步中修改任意一步就可以将丢失的E记录下来，然后当作灰色对象继续遍历</p><p>根据以上思路有两种解决办法：</p><h5 id="一、写屏障-阻止第二步和第三步"><a href="#一、写屏障-阻止第二步和第三步" class="headerlink" title="一、写屏障(阻止第二步和第三步)"></a>一、写屏障(阻止第二步和第三步)</h5><p>1.写屏障 + SATB</p><p>当对象D的引用发生变化时，利用写屏障，将D原来的引用对象记录下来，这样可以尝试保留开始时的对象图，保证标记依然按照原本的路线走</p><p>2.写屏障 + 增量更新</p><p>当对象B的引用发生变化时，利用写屏障，将B新的引用对象E记录下来</p><p>即当有新的引用插入进来时，记录下新的引用</p><p>这种思路不要求保留原始对象图，而是针对新的引用记录下来等待遍历即增量更新</p><h5 id="二、读屏障-阻止第一步"><a href="#二、读屏障-阻止第一步" class="headerlink" title="二、读屏障(阻止第一步)"></a>二、读屏障(阻止第一步)</h5><p>读屏障针对第一步，当读取引用对象的时候，一律记录下来，显然这种方法非常保守，但是安全。</p><p>将记录下的引用遍历就是了</p><p>在现代的垃圾回收器当中可达性分析算法的垃圾回收器几乎都借鉴了三色标记法的思想。</p><p>在Java HotSpot VM中</p><p>CMS采用的是：写屏障 + 增量更新</p><p>G1采用的是：写屏障 + SATB</p>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;h2 id=&quot;一、前言&quot;&gt;&lt;a href=&quot;#一、前言&quot; class=&quot;headerlink&quot; title=&quot;一、前言&quot;&gt;&lt;/a&gt;一、前言&lt;/h2&gt;&lt;p&gt;当前主流编程语言的垃圾收集器基本上都是依靠可达性分析算法来判定对象是否存活的，可达性分析算法理论上要求全过程都基于一个能保障</summary>
-      
-    
-    
-    
-    <category term="Java" scheme="http://example.com/categories/Java/"/>
-    
-    
-    <category term="JVM" scheme="http://example.com/tags/JVM/"/>
-    
-    <category term="三色标记" scheme="http://example.com/tags/%E4%B8%89%E8%89%B2%E6%A0%87%E8%AE%B0/"/>
-    
-    <category term="GC" scheme="http://example.com/tags/GC/"/>
     
   </entry>
   

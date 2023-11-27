@@ -1,0 +1,288 @@
+<!DOCTYPE html><html lang="[&quot;zh-CN&quot;,&quot;en&quot;,&quot;default&quot;]" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>RocketMQ梳理 - namesrv | Hurried1y</title><meta name="author" content="Hurried1y"><meta name="copyright" content="Hurried1y"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="RocketMQ梳理 - namesrv一、前言最近实习用到了rocketmq，在完成项目后，心血来潮，突然想深入地了解一下rocketmq，特在此记录一下。 本文结合rocketmq官方文档和网上的一些零零散散的资料，常识去简单梳理rocketmq整体执行流程，作为个人学习历程的记录。 二、整体模块如下 这是从gitHub上down下来的rocketmq源码，可以大致分为以下模块：  rocke">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RocketMQ梳理 - namesrv">
+<meta property="og:url" content="http://example.com/2023/11/27/rocketmq-namesrv/index.html">
+<meta property="og:site_name" content="Hurried1y">
+<meta property="og:description" content="RocketMQ梳理 - namesrv一、前言最近实习用到了rocketmq，在完成项目后，心血来潮，突然想深入地了解一下rocketmq，特在此记录一下。 本文结合rocketmq官方文档和网上的一些零零散散的资料，常识去简单梳理rocketmq整体执行流程，作为个人学习历程的记录。 二、整体模块如下 这是从gitHub上down下来的rocketmq源码，可以大致分为以下模块：  rocke">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/top-img/rocketmq.png">
+<meta property="article:published_time" content="2023-11-27T12:30:26.000Z">
+<meta property="article:modified_time" content="2023-11-27T12:38:18.247Z">
+<meta property="article:author" content="Hurried1y">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="RocketMQ">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/img/top-img/rocketmq.png"><link rel="shortcut icon" href="/img/f.png"><link rel="canonical" href="http://example.com/2023/11/27/rocketmq-namesrv/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script async="async" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script><script>(adsbygoogle = window.adsbygoogle || []).push({
+  google_ad_client: '',
+  enable_page_level_ads: 'true'
+});</script><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'RocketMQ梳理 - namesrv',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-11-27 20:38:18'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/metingjs/dist/Meting.min.js"></script><meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="Hurried1y" type="application/atom+xml">
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">25</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">37</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">13</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/../img/top-img/rocketmq.png')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Hurried1y</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">RocketMQ梳理 - namesrv</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-11-27T12:30:26.000Z" title="发表于 2023-11-27 20:30:26">2023-11-27</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-11-27T12:38:18.247Z" title="更新于 2023-11-27 20:38:18">2023-11-27</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/">消息中间件</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="RocketMQ梳理 - namesrv"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="RocketMQ梳理-namesrv"><a href="#RocketMQ梳理-namesrv" class="headerlink" title="RocketMQ梳理 - namesrv"></a>RocketMQ梳理 - namesrv</h1><h3 id="一、前言"><a href="#一、前言" class="headerlink" title="一、前言"></a>一、前言</h3><p>最近实习用到了rocketmq，在完成项目后，心血来潮，突然想深入地了解一下rocketmq，特在此记录一下。</p>
+<p>本文结合rocketmq官方文档和网上的一些零零散散的资料，常识去简单梳理rocketmq整体执行流程，作为个人学习历程的记录。</p>
+<h3 id="二、整体模块如下"><a href="#二、整体模块如下" class="headerlink" title="二、整体模块如下"></a>二、整体模块如下</h3><p><img src="/2023/11/27/rocketmq-namesrv/i1.png" alt="image-20231127105106106"></p>
+<p>这是从gitHub上down下来的rocketmq源码，可以大致分为以下模块：</p>
+<ol>
+<li><strong>rocketmq-namesrv</strong>：namesrv服务，更新和路由发现 broker服务。</li>
+<li><strong>rocketmq-broker</strong>：mq的核心，主要做消息存储，可以接收consumer和producer的请求，然后通过调用<strong>rocketmq-store</strong>服务对消息进行处理。</li>
+<li><strong>rocketmq-store</strong>：存储层实现。</li>
+<li><strong>rocketmq-remoting</strong>：基于netty的底层通信实现，rocketmq的底层实现。</li>
+<li><strong>rocketmq-common</strong>：common服务，比如一些配置文件、常量。</li>
+<li><strong>rocketmq-client</strong>：java版本的mq客户端。</li>
+<li><strong>rocketmq-filter</strong>：消息过滤服务，相当于在broker和consumer中间加入了一个filter代理。</li>
+<li><strong>rocketmq-srvutil</strong>：解析命令行的工具类ServerUtil。</li>
+<li><strong>rocketmq-tools</strong>： mq集群管理工具，查询rocketmq的一些信息，如topic、message等</li>
+</ol>
+<h3 id="三、NameSrv源码分析"><a href="#三、NameSrv源码分析" class="headerlink" title="三、NameSrv源码分析"></a>三、NameSrv源码分析</h3><p>以下是namesrv的总入口，主要是要初始化两个类，<strong>NamesrvController</strong>与<strong>ControllerManager</strong>。</p>
+<ol>
+<li><strong>NamesrvController</strong>：NamesrvController是RocketMQ中的Name Server模块的控制器，负责<strong>管理Name Server节点的状态</strong>、<strong>消息的路由注册</strong>与<strong>查询</strong>等功能。它通过监控集群中所有的Name Server节点，并维护一张<strong>路由信息表</strong>，用于提供消息发送者和接收者之间的消息路由信息。NamesrvController还负责处理新的Name Server<strong>节点加入和退出集群时的动态路由更新</strong>。</li>
+<li><strong>ControllerManager</strong>：ControllerManager是RocketMQ中的Controller模块的管理器，负责管理Broker、Topic、Cluster等<strong>元数据信息的变更和路由计算</strong>。ControllerManager通过选举产生一个Controller节点，该节点负责管理整个集群的元数据信息，并保证集群中各个Broker节点之间的<strong>状态一致性</strong>。ControllerManager通过<strong>心跳检测</strong>和<strong>元数据同步</strong>等机制来实现集群中<strong>元数据的一致性和可靠性</strong>。</li>
+</ol>
+<p>总的来说，NamesrvController主要负责<strong>管理Name Server节点的状态和消息路由信息</strong>，而ControllerManager则负责<strong>管理整个集群的元数据信息和路由计算</strong>。它们分别在RocketMQ的Name Server和Broker集群中扮演着重要的角色，确保了RocketMQ集群的稳定性和可靠性。</p>
+<p><img src="/2023/11/27/rocketmq-namesrv/i2.png" alt="image-20231127110500654"></p>
+<p>我们先来看NamesrvController的初始化，先是读取命令行和配置文件信息，为后续初始化做铺垫。</p>
+<p><img src="/2023/11/27/rocketmq-namesrv/i4.png" alt="image-20231127111432393"></p>
+<p><img src="/2023/11/27/rocketmq-namesrv/i3.png" alt="image-20231127111155609"></p>
+<p>之后进行一系列基础组件的初始化，此处的loadConfig，就是依赖前面的namesrvConfig，之后就是初始化网络组件、线程池、registerProcessor等。</p>
+<p><img src="/2023/11/27/rocketmq-namesrv/image-20231127111559360.png" alt="image-20231127111559360"></p>
+<p>这里主要说一下上面的定时任务，我们知道namesrv是靠<strong>心跳机制</strong>去感知broker的，namesrv启动后，会一直监听，等待broker、producer、comsumer连接。broker在<strong>启动时向所有namesrv注册</strong>，生产者在发送消息之前先<strong>从namesrv获取broker服务器地址列表</strong>，然后根据<strong>负载均衡</strong>算法从列表中选择一台服务器进行消息发送。消费者在订阅某个主题的消息之前从namesrv获取broker服务器地址列表（有可能是集群），但是消费者选择从broker中订阅消息，订阅规则由 broker 配置决定。</p>
+<p>可以说namesrv就是rocketmq的大脑，用于把broker、producer、consumer三者串联起来，这里就涉及到路由注册了。因为broker启动后向所有namesrv发送路由，然后通过心跳机制与namesrv之间维持一个<strong>长连接</strong>，当broker挂了后就需要把它从namesrv中剔除掉。</p>
+<p><img src="/2023/11/27/rocketmq-namesrv/i5.png" alt="image-20231127112449538"></p>
+<p><img src="/2023/11/27/rocketmq-namesrv/i6.png" alt="image-20231127112518324"></p>
+<p>可以看到，namesrv每10s都会去brokerLiveTable去找超时的broker，并把相应的channel给关闭，然后将其从路由表中去除掉。</p>
+<p>之后就是启动namesrv了，本质就是启动nettyServer与nettyClient。</p>
+<p><img src="/2023/11/27/rocketmq-namesrv/i7.png" alt="image-20231127113109613"></p>
+<p>这里我们看看这个<strong>routeInfoManager</strong>，因为我们之前namesrv剔除超时的broker时也用到了它。routeInfoManager主要用于路由管理，消息发送时客户端会从namesrv获取路由信息，同时broker会定时更新namesrv的路由信息。</p>
+<p><img src="/2023/11/27/rocketmq-namesrv/i8.png" alt="image-20231127114006995"></p>
+<p><img src="/2023/11/27/rocketmq-namesrv/i9.png" alt="image-20231127114042195"></p>
+<p><img src="/2023/11/27/rocketmq-namesrv/i10.png" alt="image-20231127114110407"></p>
+<p>我们从routeInfoManager中随便截了几个方法，可以看到它们都有一个共同点，都用到了锁，而且是<strong>读写锁</strong>。</p>
+<p>因为我们之前说过，路由表上的操作可能非常频繁，消费者发送消息时需要获取topic列表，broker需要定时向namesrv发送心跳以维持长连接，需要频繁地读写路由表，所以这里用到了读写锁。</p>
+<p>我们还可以观察到routeInfoManager了很多信息，topic消息队列路由信息、broker地址、cluster等等，但它们都有一个共同特点，就是<strong>内存存储</strong>，我们在前面分析模块时提到过，rocketmq-broker借助rocketmq-store模块做持久化存储，<strong>rocketmq-namesrv是没有持久化的功能的</strong>，这样设计可以提高namesrv的处理能力，专注于其“大脑”的功能。</p>
+<p><img src="/2023/11/27/rocketmq-namesrv/i11.png" alt="image-20231127115444987"></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="http://example.com">Hurried1y</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2023/11/27/rocketmq-namesrv/">http://example.com/2023/11/27/rocketmq-namesrv/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">Hurried1y</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Java/">Java</a><a class="post-meta__tags" href="/tags/RocketMQ/">RocketMQ</a></div><div class="post_share"><div class="social-share" data-image="/../img/top-img/rocketmq.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2023/09/26/yarn-workflow/"><img class="next-cover" src="/../img/top-img/yarn.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Hadoop核心组件—Yarn的工作流程</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2023/05/12/rpc-framework-1/" title="简易RPC框架 - 1"><img class="cover" src="/../img/top-img/rpc-framework-cover.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-05-12</div><div class="title">简易RPC框架 - 1</div></div></a></div><div><a href="/2023/05/12/rpc-framework-2/" title="简易RPC框架 - 2"><img class="cover" src="/../img/top-img/rpc-framework-cover.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-05-12</div><div class="title">简易RPC框架 - 2</div></div></a></div><div><a href="/2023/05/14/rpc-framework-3/" title="简易RPC框架 - 3"><img class="cover" src="/../img/top-img/rpc-framework-cover.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-05-14</div><div class="title">简易RPC框架 - 3</div></div></a></div><div><a href="/2023/05/15/rpc-framework-4/" title="简易RPC框架 - 4"><img class="cover" src="/../img/top-img/rpc-framework-cover.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-05-15</div><div class="title">简易RPC框架 - 4</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Hurried1y</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">25</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">37</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">13</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Hurried1y"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/Hurried1y" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="https://gitee.com/hurried1y" target="_blank" title="Gitee"><i class="fab fa-gitee"></i></a><a class="social-icon" href="mailto:3049478157@qq.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#RocketMQ%E6%A2%B3%E7%90%86-namesrv"><span class="toc-number">1.</span> <span class="toc-text">RocketMQ梳理 - namesrv</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E5%89%8D%E8%A8%80"><span class="toc-number">1.0.1.</span> <span class="toc-text">一、前言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E6%95%B4%E4%BD%93%E6%A8%A1%E5%9D%97%E5%A6%82%E4%B8%8B"><span class="toc-number">1.0.2.</span> <span class="toc-text">二、整体模块如下</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%89%E3%80%81NameSrv%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90"><span class="toc-number">1.0.3.</span> <span class="toc-text">三、NameSrv源码分析</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2023/11/27/rocketmq-namesrv/" title="RocketMQ梳理 - namesrv"><img src="/../img/top-img/rocketmq.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="RocketMQ梳理 - namesrv"/></a><div class="content"><a class="title" href="/2023/11/27/rocketmq-namesrv/" title="RocketMQ梳理 - namesrv">RocketMQ梳理 - namesrv</a><time datetime="2023-11-27T12:30:26.000Z" title="发表于 2023-11-27 20:30:26">2023-11-27</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/09/26/yarn-workflow/" title="Hadoop核心组件—Yarn的工作流程"><img src="/../img/top-img/yarn.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Hadoop核心组件—Yarn的工作流程"/></a><div class="content"><a class="title" href="/2023/09/26/yarn-workflow/" title="Hadoop核心组件—Yarn的工作流程">Hadoop核心组件—Yarn的工作流程</a><time datetime="2023-09-26T13:39:42.000Z" title="发表于 2023-09-26 21:39:42">2023-09-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/08/23/crypt/" title="关于加密解密的小小总结"><img src="/../img/top-img/crypt.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="关于加密解密的小小总结"/></a><div class="content"><a class="title" href="/2023/08/23/crypt/" title="关于加密解密的小小总结">关于加密解密的小小总结</a><time datetime="2023-08-23T12:51:33.000Z" title="发表于 2023-08-23 20:51:33">2023-08-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/08/19/store-procedure/" title="PostgreSQL 存储过程"><img src="/../img/top-img/sql.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="PostgreSQL 存储过程"/></a><div class="content"><a class="title" href="/2023/08/19/store-procedure/" title="PostgreSQL 存储过程">PostgreSQL 存储过程</a><time datetime="2023-08-19T06:36:38.000Z" title="发表于 2023-08-19 14:36:38">2023-08-19</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/07/19/flink-taskManager-slots/" title="Flink中TaskManager与Slots的关系"><img src="/../img/top-img/flink.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Flink中TaskManager与Slots的关系"/></a><div class="content"><a class="title" href="/2023/07/19/flink-taskManager-slots/" title="Flink中TaskManager与Slots的关系">Flink中TaskManager与Slots的关系</a><time datetime="2023-07-19T06:44:31.000Z" title="发表于 2023-07-19 14:44:31">2023-07-19</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By Hurried1y</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">Hi, welcome to my <a target="_blank" rel="noopener" href="https://butterfly.js.org/">blog</a>!</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: 'pOoG0rLYQfXlKJlIJiJbbbTX-gzGzoHsz',
+      appKey: 'wWueq11OZxJgQR6tIl4kd6s0',
+      avatar: 'monsterid',
+      serverURLs: '',
+      emojiMaps: "",
+      path: window.location.pathname,
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><div class="aplayer no-destroy" data-id="7727330670" data-server="netease" data-type="playlist" data-fixed="true" data-autoplay="true"> </div><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/fireworks.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/metingjs/dist/Meting.min.js"></script><script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener scroll 
+  window.tocScrollFn && window.removeEventListener('scroll', window.tocScrollFn)
+  window.scrollCollect && window.removeEventListener('scroll', scrollCollect)
+
+  document.getElementById('rightside').style.cssText = "opacity: ''; transform: ''"
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+  typeof disqusjs === 'object' && disqusjs.destroy()
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof chatBtnFn === 'function' && chatBtnFn()
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', (e) => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2023-09-26T14:05:49.411Z</updated>
+  <updated>2023-11-27T12:38:18.247Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>RocketMQ梳理 - namesrv</title>
+    <link href="http://example.com/2023/11/27/rocketmq-namesrv/"/>
+    <id>http://example.com/2023/11/27/rocketmq-namesrv/</id>
+    <published>2023-11-27T12:30:26.000Z</published>
+    <updated>2023-11-27T12:38:18.247Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="RocketMQ梳理-namesrv"><a href="#RocketMQ梳理-namesrv" class="headerlink" title="RocketMQ梳理 - namesrv"></a>RocketMQ梳理 - namesrv</h1><h3 id="一、前言"><a href="#一、前言" class="headerlink" title="一、前言"></a>一、前言</h3><p>最近实习用到了rocketmq，在完成项目后，心血来潮，突然想深入地了解一下rocketmq，特在此记录一下。</p><p>本文结合rocketmq官方文档和网上的一些零零散散的资料，常识去简单梳理rocketmq整体执行流程，作为个人学习历程的记录。</p><h3 id="二、整体模块如下"><a href="#二、整体模块如下" class="headerlink" title="二、整体模块如下"></a>二、整体模块如下</h3><p><img src="/2023/11/27/rocketmq-namesrv/i1.png" alt="image-20231127105106106"></p><p>这是从gitHub上down下来的rocketmq源码，可以大致分为以下模块：</p><ol><li><strong>rocketmq-namesrv</strong>：namesrv服务，更新和路由发现 broker服务。</li><li><strong>rocketmq-broker</strong>：mq的核心，主要做消息存储，可以接收consumer和producer的请求，然后通过调用<strong>rocketmq-store</strong>服务对消息进行处理。</li><li><strong>rocketmq-store</strong>：存储层实现。</li><li><strong>rocketmq-remoting</strong>：基于netty的底层通信实现，rocketmq的底层实现。</li><li><strong>rocketmq-common</strong>：common服务，比如一些配置文件、常量。</li><li><strong>rocketmq-client</strong>：java版本的mq客户端。</li><li><strong>rocketmq-filter</strong>：消息过滤服务，相当于在broker和consumer中间加入了一个filter代理。</li><li><strong>rocketmq-srvutil</strong>：解析命令行的工具类ServerUtil。</li><li><strong>rocketmq-tools</strong>： mq集群管理工具，查询rocketmq的一些信息，如topic、message等</li></ol><h3 id="三、NameSrv源码分析"><a href="#三、NameSrv源码分析" class="headerlink" title="三、NameSrv源码分析"></a>三、NameSrv源码分析</h3><p>以下是namesrv的总入口，主要是要初始化两个类，<strong>NamesrvController</strong>与<strong>ControllerManager</strong>。</p><ol><li><strong>NamesrvController</strong>：NamesrvController是RocketMQ中的Name Server模块的控制器，负责<strong>管理Name Server节点的状态</strong>、<strong>消息的路由注册</strong>与<strong>查询</strong>等功能。它通过监控集群中所有的Name Server节点，并维护一张<strong>路由信息表</strong>，用于提供消息发送者和接收者之间的消息路由信息。NamesrvController还负责处理新的Name Server<strong>节点加入和退出集群时的动态路由更新</strong>。</li><li><strong>ControllerManager</strong>：ControllerManager是RocketMQ中的Controller模块的管理器，负责管理Broker、Topic、Cluster等<strong>元数据信息的变更和路由计算</strong>。ControllerManager通过选举产生一个Controller节点，该节点负责管理整个集群的元数据信息，并保证集群中各个Broker节点之间的<strong>状态一致性</strong>。ControllerManager通过<strong>心跳检测</strong>和<strong>元数据同步</strong>等机制来实现集群中<strong>元数据的一致性和可靠性</strong>。</li></ol><p>总的来说，NamesrvController主要负责<strong>管理Name Server节点的状态和消息路由信息</strong>，而ControllerManager则负责<strong>管理整个集群的元数据信息和路由计算</strong>。它们分别在RocketMQ的Name Server和Broker集群中扮演着重要的角色，确保了RocketMQ集群的稳定性和可靠性。</p><p><img src="/2023/11/27/rocketmq-namesrv/i2.png" alt="image-20231127110500654"></p><p>我们先来看NamesrvController的初始化，先是读取命令行和配置文件信息，为后续初始化做铺垫。</p><p><img src="/2023/11/27/rocketmq-namesrv/i4.png" alt="image-20231127111432393"></p><p><img src="/2023/11/27/rocketmq-namesrv/i3.png" alt="image-20231127111155609"></p><p>之后进行一系列基础组件的初始化，此处的loadConfig，就是依赖前面的namesrvConfig，之后就是初始化网络组件、线程池、registerProcessor等。</p><p><img src="/2023/11/27/rocketmq-namesrv/image-20231127111559360.png" alt="image-20231127111559360"></p><p>这里主要说一下上面的定时任务，我们知道namesrv是靠<strong>心跳机制</strong>去感知broker的，namesrv启动后，会一直监听，等待broker、producer、comsumer连接。broker在<strong>启动时向所有namesrv注册</strong>，生产者在发送消息之前先<strong>从namesrv获取broker服务器地址列表</strong>，然后根据<strong>负载均衡</strong>算法从列表中选择一台服务器进行消息发送。消费者在订阅某个主题的消息之前从namesrv获取broker服务器地址列表（有可能是集群），但是消费者选择从broker中订阅消息，订阅规则由 broker 配置决定。</p><p>可以说namesrv就是rocketmq的大脑，用于把broker、producer、consumer三者串联起来，这里就涉及到路由注册了。因为broker启动后向所有namesrv发送路由，然后通过心跳机制与namesrv之间维持一个<strong>长连接</strong>，当broker挂了后就需要把它从namesrv中剔除掉。</p><p><img src="/2023/11/27/rocketmq-namesrv/i5.png" alt="image-20231127112449538"></p><p><img src="/2023/11/27/rocketmq-namesrv/i6.png" alt="image-20231127112518324"></p><p>可以看到，namesrv每10s都会去brokerLiveTable去找超时的broker，并把相应的channel给关闭，然后将其从路由表中去除掉。</p><p>之后就是启动namesrv了，本质就是启动nettyServer与nettyClient。</p><p><img src="/2023/11/27/rocketmq-namesrv/i7.png" alt="image-20231127113109613"></p><p>这里我们看看这个<strong>routeInfoManager</strong>，因为我们之前namesrv剔除超时的broker时也用到了它。routeInfoManager主要用于路由管理，消息发送时客户端会从namesrv获取路由信息，同时broker会定时更新namesrv的路由信息。</p><p><img src="/2023/11/27/rocketmq-namesrv/i8.png" alt="image-20231127114006995"></p><p><img src="/2023/11/27/rocketmq-namesrv/i9.png" alt="image-20231127114042195"></p><p><img src="/2023/11/27/rocketmq-namesrv/i10.png" alt="image-20231127114110407"></p><p>我们从routeInfoManager中随便截了几个方法，可以看到它们都有一个共同点，都用到了锁，而且是<strong>读写锁</strong>。</p><p>因为我们之前说过，路由表上的操作可能非常频繁，消费者发送消息时需要获取topic列表，broker需要定时向namesrv发送心跳以维持长连接，需要频繁地读写路由表，所以这里用到了读写锁。</p><p>我们还可以观察到routeInfoManager了很多信息，topic消息队列路由信息、broker地址、cluster等等，但它们都有一个共同特点，就是<strong>内存存储</strong>，我们在前面分析模块时提到过，rocketmq-broker借助rocketmq-store模块做持久化存储，<strong>rocketmq-namesrv是没有持久化的功能的</strong>，这样设计可以提高namesrv的处理能力，专注于其“大脑”的功能。</p><p><img src="/2023/11/27/rocketmq-namesrv/i11.png" alt="image-20231127115444987"></p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;RocketMQ梳理-namesrv&quot;&gt;&lt;a href=&quot;#RocketMQ梳理-namesrv&quot; class=&quot;headerlink&quot; title=&quot;RocketMQ梳理 - namesrv&quot;&gt;&lt;/a&gt;RocketMQ梳理 - namesrv&lt;/h1&gt;&lt;h3 i</summary>
+      
+    
+    
+    
+    <category term="消息中间件" scheme="http://example.com/categories/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/"/>
+    
+    
+    <category term="Java" scheme="http://example.com/tags/Java/"/>
+    
+    <category term="RocketMQ" scheme="http://example.com/tags/RocketMQ/"/>
+    
+  </entry>
   
   <entry>
     <title>Hadoop核心组件—Yarn的工作流程</title>
@@ -514,32 +540,6 @@
     
     
     <category term="内网穿透" scheme="http://example.com/tags/%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>搭建redis哨兵集群</title>
-    <link href="http://example.com/2022/11/05/sentinel-colony/"/>
-    <id>http://example.com/2022/11/05/sentinel-colony/</id>
-    <published>2022-11-05T09:06:28.000Z</published>
-    <updated>2023-06-13T07:38:09.991Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="搭建哨兵集群"><a href="#搭建哨兵集群" class="headerlink" title="搭建哨兵集群"></a>搭建哨兵集群</h1><h2 id="1-集群结构"><a href="#1-集群结构" class="headerlink" title="1.集群结构"></a>1.集群结构</h2><p>Redis提供了哨兵（Sentinel）机制来实现主从集群的自动故障恢复。哨兵的结构和作用如下：</p><h4 id="1-1哨兵的作用"><a href="#1-1哨兵的作用" class="headerlink" title="1.1哨兵的作用"></a>1.1哨兵的作用</h4><ul><li><p><strong>监控</strong>：Sentinel 会不断检查您的master和slave是否按预期工作</p></li><li><p><strong>自动故障恢复</strong>：如果master故障，Sentinel会将一个slave提升为master。当故障实例恢复后也以新的master为主</p></li><li><p><strong>通知</strong>：Sentinel充当Redis客户端的服务发现来源，当集群发生故障转移时，会将最新信息推送给Redis的客户端</p></li></ul><h4 id="1-2服务状态监控"><a href="#1-2服务状态监控" class="headerlink" title="1.2服务状态监控"></a>1.2服务状态监控</h4><p>Sentinel基于心跳机制监测服务状态，每隔1秒向集群的每个实例发送ping命令：</p><ul><li>主观下线：如果某sentinel节点发现某实例未在规定时间响应，则认为该实例<strong>主观下线</strong>。</li><li>客观下线：若超过指定数量（quorum）的sentinel都认为该实例主观下线，则该实例<strong>客观下线</strong>。quorum值最好超过Sentinel实例数量的一半。</li></ul><h4 id="1-3选举新的master"><a href="#1-3选举新的master" class="headerlink" title="1.3选举新的master"></a>1.3选举新的master</h4><p>一旦发现master故障，sentinel需要在salve中选择一个作为新的master，选择依据是这样的：</p><ul><li>首先会判断slave节点与master节点断开时间长短，如果超过指定值（down-after-milliseconds * 10）则会排除该slave节点</li><li>然后判断slave节点的slave-priority值，越小优先级越高，如果是0则永不参与选举</li><li>如果slave-prority一样，则判断slave节点的offset值，越大说明数据越新，优先级越高</li><li>最后是判断slave节点的运行id大小，越小优先级越高。</li></ul><h4 id="1-2如何实现故障转移"><a href="#1-2如何实现故障转移" class="headerlink" title="1.2如何实现故障转移"></a>1.2如何实现故障转移</h4><ul><li>sentinel给备选的slave1节点发送slaveof no one命令，让该节点成为master</li><li>sentinel给所有其它slave发送slaveof 192.168.237.131 7002 命令，让这些slave成为新master的从节点，开始从新的master上同步数据。</li><li>最后，sentinel将故障节点标记为slave，当故障节点恢复后会自动成为新的master的slave节点</li></ul><p>这里我们搭建一个三节点形成的Sentinel集群，来监管之前的Redis主从集群。如图：</p><p><img src="/2022/11/05/sentinel-colony/image-20210701215227018.png" alt="image-20210701215227018"></p><p>三个sentinel实例信息如下：</p><table><thead><tr><th>节点</th><th align="center">IP</th><th align="center">PORT</th></tr></thead><tbody><tr><td>s1</td><td align="center">192.168.237.131</td><td align="center">27001</td></tr><tr><td>s2</td><td align="center">192.168.237.131</td><td align="center">27002</td></tr><tr><td>s3</td><td align="center">192.168.237.131</td><td align="center">27003</td></tr></tbody></table><h2 id="2-准备实例和配置"><a href="#2-准备实例和配置" class="headerlink" title="2.准备实例和配置"></a>2.准备实例和配置</h2><p>要在同一台虚拟机开启3个实例，必须准备三份不同的配置文件和目录，配置文件所在目录也就是工作目录。</p><p>我们创建三个文件夹，名字分别叫s1、s2、s3：</p><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 在usr/local/redis-colony文件夹内创建目录</span></span><br><span class="line"><span class="built_in">mkdir</span> s1 s2 s3</span><br></pre></td></tr></table></figure><p>如图：</p><p><img src="/2022/11/05/sentinel-colony/image-20221105170909619.png" alt="image-20221105170909619"></p><p>然后我们在s1目录创建一个sentinel.conf文件，添加下面的内容：</p><figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">port 27001</span><br><span class="line">sentinel announce-ip 192.168.237.131</span><br><span class="line">sentinel monitor mymaster 192.168.237.131 7001 2</span><br><span class="line">sentinel down-after-milliseconds mymaster 5000</span><br><span class="line">sentinel failover-timeout mymaster 60000</span><br><span class="line">dir &quot;/usr/local/redis-colony/s1&quot;</span><br></pre></td></tr></table></figure><p>解读：</p><ul><li><code>port 27001</code>：是当前sentinel实例的端口</li><li><code>sentinel monitor mymaster 192.168.237.131 7001 2</code>：指定主节点信息<ul><li><code>mymaster</code>：主节点名称，自定义，任意写</li><li><code>192.168.237.131 7001</code>：主节点的ip和端口</li><li><code>2</code>：选举master时的quorum值，此时配了3台sentinel，有两台以上就认为挂了</li></ul></li></ul><p>然后将s1/sentinel.conf文件拷贝到s2、s3两个目录中：</p><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 方式一：逐个拷贝</span></span><br><span class="line"><span class="built_in">cp</span> s1/sentinel.conf s2</span><br><span class="line"><span class="built_in">cp</span> s1/sentinel.conf s3</span><br><span class="line"><span class="comment"># 方式二：管道组合命令，一键拷贝</span></span><br><span class="line"><span class="built_in">echo</span> s2 s3 | xargs -t -n 1 <span class="built_in">cp</span> s1/sentinel.conf</span><br></pre></td></tr></table></figure><p>修改s2、s3两个文件夹内的配置文件，将端口分别修改为27002、27003：</p><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sed -i -e <span class="string">&#x27;s/27001/27002/g&#x27;</span> -e <span class="string">&#x27;s/s1/s2/g&#x27;</span> s2/sentinel.conf</span><br><span class="line">sed -i -e <span class="string">&#x27;s/27001/27003/g&#x27;</span> -e <span class="string">&#x27;s/s1/s3/g&#x27;</span> s3/sentinel.conf</span><br></pre></td></tr></table></figure><h2 id="3-启动"><a href="#3-启动" class="headerlink" title="3.启动"></a>3.启动</h2><p>先启动redis主从集群</p><p>7002</p><p><img src="/2022/11/05/sentinel-colony/image-20221105190006728.png" alt="image-20221105190006728"></p><p>7003</p><p><img src="/2022/11/05/sentinel-colony/image-20221105190038169.png" alt="image-20221105190038169"></p><p>为了方便查看日志，我们打开3个ssh窗口，分别启动3个redis实例，启动命令：</p><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">redis-sentinel s1/sentinel.conf</span><br><span class="line">redis-sentinel s2/sentinel.conf</span><br><span class="line">redis-sentinel s3/sentinel.conf</span><br></pre></td></tr></table></figure><p>启动后：</p><p><img src="/2022/11/05/sentinel-colony/image-20221105181013812.png" alt="image-20221105181013812"></p><p><img src="/2022/11/05/sentinel-colony/image-20221105181040781.png" alt="image-20221105181040781"></p><p><img src="/2022/11/05/sentinel-colony/image-20221105181059522.png" alt="image-20221105181059522"></p><h2 id="3-4-测试"><a href="#3-4-测试" class="headerlink" title="3.4.测试"></a>3.4.测试</h2><p>尝试让master节点7001宕机</p><p><img src="/2022/11/05/sentinel-colony/image-20221105181244740.png" alt="image-20221105181244740"></p><p>查看sentinel27002的日志：</p><p><img src="/2022/11/05/sentinel-colony/image-20221105190717411.png" alt="image-20221105190717411"></p><ol><li>第一行，+sdown，sentinel主观认为7001下线</li><li>第三行，+vote-for-leader，sentinel选出一个leader，选出的sentinel实例去执行故障切换</li><li>第四行，+odown，quorum达标，sentinel客观认为7001下线</li><li>第七行，+switch-master，选7003为新的master</li></ol><p>查看27003的日志：</p><p><img src="/2022/11/05/sentinel-colony/image-20221105190809034.png" alt="image-20221105190809034"></p><p>查看7002的日志：</p><p><img src="/2022/11/05/sentinel-colony/image-20221105190856348.png" alt="image-20221105190856348"></p><ol><li>第一行，7002与其主机7001之间的连接断开</li><li>第三行，由于sentinel实例执行了故障切换，把7003选举为新的master，所以自动更改7002的配置</li><li>第四行，Connecting to master 192.168.237.131:7003 建立7002与其新master7003之间的连接</li><li>第八行，Trying a partial…，重新执行数据同步psync</li></ol><p>查看7003的日志</p><p><img src="/2022/11/05/sentinel-colony/image-20221105190927905.png" alt="image-20221105190927905"></p>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;h1 id=&quot;搭建哨兵集群&quot;&gt;&lt;a href=&quot;#搭建哨兵集群&quot; class=&quot;headerlink&quot; title=&quot;搭建哨兵集群&quot;&gt;&lt;/a&gt;搭建哨兵集群&lt;/h1&gt;&lt;h2 id=&quot;1-集群结构&quot;&gt;&lt;a href=&quot;#1-集群结构&quot; class=&quot;headerlink&quot; titl</summary>
-      
-    
-    
-    
-    <category term="Redis" scheme="http://example.com/categories/Redis/"/>
-    
-    
-    <category term="集群" scheme="http://example.com/tags/%E9%9B%86%E7%BE%A4/"/>
-    
-    <category term="哨兵集群" scheme="http://example.com/tags/%E5%93%A8%E5%85%B5%E9%9B%86%E7%BE%A4/"/>
     
   </entry>
   

@@ -1,0 +1,321 @@
+<!DOCTYPE html><html lang="[&quot;zh-CN&quot;,&quot;en&quot;,&quot;default&quot;]" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>RocketMQ梳理 - broker | Hurried1y</title><meta name="author" content="Hurried1y"><meta name="copyright" content="Hurried1y"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="RocketMQ梳理 - broker一、前言上一篇文章简单的过了一遍namesrv的流程，其中很多的细节都没有进行展开，整篇文章抓不住重点，权当流程速览了。在这篇文章中将会尝试对rocketmq的流程进行简单的分析。 二、源码分析1、启动流程分析下图就是broker的启动类，在namesrv中，有着一个NamesrvController，负责管理Name Server节点的状态、消息的路由注册与">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RocketMQ梳理 - broker">
+<meta property="og:url" content="http://example.com/2023/12/06/rocketmq-broker/index.html">
+<meta property="og:site_name" content="Hurried1y">
+<meta property="og:description" content="RocketMQ梳理 - broker一、前言上一篇文章简单的过了一遍namesrv的流程，其中很多的细节都没有进行展开，整篇文章抓不住重点，权当流程速览了。在这篇文章中将会尝试对rocketmq的流程进行简单的分析。 二、源码分析1、启动流程分析下图就是broker的启动类，在namesrv中，有着一个NamesrvController，负责管理Name Server节点的状态、消息的路由注册与">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/top-img/rocketmq.png">
+<meta property="article:published_time" content="2023-12-06T11:00:12.000Z">
+<meta property="article:modified_time" content="2023-12-06T11:54:33.412Z">
+<meta property="article:author" content="Hurried1y">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="RocketMQ">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/img/top-img/rocketmq.png"><link rel="shortcut icon" href="/img/f.png"><link rel="canonical" href="http://example.com/2023/12/06/rocketmq-broker/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script async="async" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script><script>(adsbygoogle = window.adsbygoogle || []).push({
+  google_ad_client: '',
+  enable_page_level_ads: 'true'
+});</script><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'RocketMQ梳理 - broker',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-12-06 19:54:33'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/metingjs/dist/Meting.min.js"></script><meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="Hurried1y" type="application/atom+xml">
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">26</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">37</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">13</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/../img/top-img/rocketmq.png')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Hurried1y</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">RocketMQ梳理 - broker</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-12-06T11:00:12.000Z" title="发表于 2023-12-06 19:00:12">2023-12-06</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-12-06T11:54:33.412Z" title="更新于 2023-12-06 19:54:33">2023-12-06</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/">消息中间件</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="RocketMQ梳理 - broker"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="RocketMQ梳理-broker"><a href="#RocketMQ梳理-broker" class="headerlink" title="RocketMQ梳理 - broker"></a>RocketMQ梳理 - broker</h1><h3 id="一、前言"><a href="#一、前言" class="headerlink" title="一、前言"></a>一、前言</h3><p>上一篇文章简单的过了一遍namesrv的流程，其中很多的细节都没有进行展开，整篇文章抓不住重点，权当流程速览了。在这篇文章中将会尝试对rocketmq的流程进行简单的分析。</p>
+<h3 id="二、源码分析"><a href="#二、源码分析" class="headerlink" title="二、源码分析"></a>二、源码分析</h3><h4 id="1、启动流程分析"><a href="#1、启动流程分析" class="headerlink" title="1、启动流程分析"></a>1、启动流程分析</h4><p>下图就是broker的启动类，在namesrv中，有着一个<code>NamesrvController</code>，负责<strong>管理Name Server节点的状态</strong>、<strong>消息的路由注册</strong>与<strong>查询</strong>等功能，在broker中也有类似的BrokerController，负责管理broker的核心逻辑和状态。在<code>brokerController</code>中，包含了对消息存储、消息发送和接收、消息队列管理等方面的处理逻辑。</p>
+<p><img src="/2023/12/06/rocketmq-broker/i1.png" alt="image-20231201102505627"></p>
+<p>broker的启动流程跟namesrv差不多，可以大致分为 <strong>initialize</strong>、<strong>start</strong>，我们先来看initialize初始化。</p>
+<h5 id="1）BrokerController-initialize"><a href="#1）BrokerController-initialize" class="headerlink" title="1）BrokerController initialize"></a>1）BrokerController initialize</h5><p>initialize可以分为两部分，初始化broker的元数据和broker中的消息存储的一些配置(比如commitLog、storePath等)。</p>
+<p><img src="/2023/12/06/rocketmq-broker/i20.png" alt="image-20231201103338259"></p>
+<p>可以看到，第一步初始化元数据，就是从文件中加载配置信息，此处还分了<code>topicConfigManager</code>、<code>topicQueueMappingManager</code>、<code>consumerOffsetManager</code>等，主要做了职责细分，比如topicConfigManager.load()，topicConfigManager 会从磁盘上的存储文件（通常是<code>$&#123;ROCKETMQ_HOME&#125;/store/config/topics.json</code>）中读取Topic的配置信息。这些配置信息包括Topic的名称、队列数、读写权限等。一旦加载完成，<code>TopicConfigManager</code>会将这些配置信息存储在内存中，以便快速访问和查询。</p>
+<p><img src="/2023/12/06/rocketmq-broker/i3.png" alt="image-20231201104132856"></p>
+<p><img src="/2023/12/06/rocketmq-broker/i4.png" alt="image-20231201104330642"></p>
+<p>接下来我们看initializeMessageStore，<code>DefaultMessageStore</code>是Broker的核心组件之一，负责管理消息的存储和读取。<code>initializeMessageStore()</code>方法用于初始化消息存储相关的组件和数据结构，确保消息存储的正常运行。</p>
+<p>其内部主要进行这几个工作，<strong>初始化消息钩子</strong>、<strong>加载存储插件</strong>等，主要就是初始化<code>messageStore</code>这个服务。</p>
+<p><img src="/2023/12/06/rocketmq-broker/i5.png" alt="image-20231201104942256"></p>
+<p>这些组件都创建完后就进入到<strong>存储组件配置的加载</strong>、<strong>消息加载</strong>等步骤。</p>
+<p><img src="/2023/12/06/rocketmq-broker/i23.png" alt="image-20231205172720014"></p>
+<p><img src="/2023/12/06/rocketmq-broker/i24.png" alt="image-20231205172741212"></p>
+<h5 id="2）brokerController-start"><a href="#2）brokerController-start" class="headerlink" title="2）brokerController start"></a>2）brokerController start</h5><p>当调用 <code>brokerController.start()</code>时，会执行一系列的初始化操作和启动流程，包括但不限于：</p>
+<ol>
+<li><strong>加载配置文件</strong>：读取Broker的配置文件，包括Broker的角色、监听端口、存储路径等配置信息。</li>
+<li><strong>初始化存储服务</strong>：根据配置信息初始化消息存储服务，包括创建存储目录、加载存储索引等操作。</li>
+<li><strong>注册Broker</strong>：将当前Broker注册到NameServer，以便Client端可以发现和连接到该Broker。</li>
+<li><strong>启动网络服务</strong>：启动监听端口，接收来自Producer和Consumer的请求。</li>
+<li><strong>启动定时任务</strong>：启动定时任务服务，包括消息延时投递、定时消息等功能。</li>
+<li><strong>启动消息消费服务</strong>：启动消息消费线程池，负责处理消息的消费和投递。</li>
+<li><strong>启动消息拉取服务</strong>：启动消息拉取线程池，负责从存储中拉取消息给Consumer消费。</li>
+</ol>
+<p><img src="/2023/12/06/rocketmq-broker/i6.png" alt="image-20231201110942999"></p>
+<p>此处就先启动一系列的基础服务，如<strong>消息存储</strong>，<strong>定时存储</strong>、<strong>文件监听</strong>、<strong>心跳处理</strong>、<strong>路由管理</strong>等等。</p>
+<p><img src="/2023/12/06/rocketmq-broker/i7.png" alt="image-20231201111635266"></p>
+<p>之后启动一系列定时任务，如<strong>心跳维护</strong>、<strong>元数据刷新</strong>等。</p>
+<p><img src="/2023/12/06/rocketmq-broker/i8.png" alt="image-20231201111954763"></p>
+<p><img src="/2023/12/06/rocketmq-broker/i9.png" alt="image-20231201112011736"></p>
+<p><img src="/2023/12/06/rocketmq-broker/i10.png" alt="image-20231201112020639"></p>
+<h4 id="2、消息存储设计"><a href="#2、消息存储设计" class="headerlink" title="2、消息存储设计"></a>2、消息存储设计</h4><p>RocketMQ是一个高性能的消息中间件，其在消息写入时追求极致的效率，采用的策略是顺序写入，所有的消息都写入到<code>commitLog</code>文件中，再在文件内部去维护消息的详细信息，如topic、msgBody等等，这就区别于<code>Kafka</code>，kafka在topic之下还存在<code>分区(Partition)</code>，消息的写入会随着partition的增多而变得分散，这里便不再对其详细展开。除了<code>CommitLog</code>，rocketmq的消息存储系统还包括了<code>ConsumeQueue</code>、<code>IndexFile</code>和<code>Config</code>，下面我们逐一展开。</p>
+<p><img src="/2023/12/06/rocketmq-broker/i17.png" alt="image-20231205170543849"></p>
+<h5 id="1）CommitLog"><a href="#1）CommitLog" class="headerlink" title="1）CommitLog"></a>1）CommitLog</h5><p><code>CommitLog：消息主体以及元数据的存储主体，存储Producer端写入的消息主体内容</code>。消息存放的物理文件，每台broker上的commitLog被本机所有的queue共享，不做任何区分。</p>
+<p><img src="/2023/12/06/rocketmq-broker/i11.png" alt="image-20231205163633045"></p>
+<p><img src="/2023/12/06/rocketmq-broker/i30.png" alt="image-20231206104637478"></p>
+<h5 id="2）ConsumeQueue"><a href="#2）ConsumeQueue" class="headerlink" title="2）ConsumeQueue"></a>2）ConsumeQueue</h5><p><code>consumeQueue是消息的逻辑队列，相当于字典的目录，用来指定消息在物理文件commitLog上的位置。</code>其中包含了这个MessageQueue在CommitLog中的起始物理位置偏移量offset，消息实体内容的大小和Message Tag的哈希值。从实际物理存储来说，<code>ConsumeQueue对应每个Topic和QueuId下面的文件</code>。单个文件大小约5.72M，每个文件由30W条数据组成，每个文件默认大小为600万个字节，当一个ConsumeQueue类型的文件写满了，则写入下一个文件。</p>
+<p><img src="/2023/12/06/rocketmq-broker/i12.png" alt="image-20231205164252133"></p>
+<p><img src="/2023/12/06/rocketmq-broker/i13.png" alt="image-20231205164315021"></p>
+<p><img src="/2023/12/06/rocketmq-broker/i14.png" alt="image-20231205164358006"></p>
+<p><img src="/2023/12/06/rocketmq-broker/i29.png" alt="image-20231206104451012"></p>
+<h5 id="3）IndexFile"><a href="#3）IndexFile" class="headerlink" title="3）IndexFile"></a>3）IndexFile</h5><p><code>IndexFile：</code>用于为生成的索引文件提供访问服务，<code>通过消息Key值查询消息真正的实体内容</code>。在实际的物理存储上，文件名则是以创建时的时间戳命名的，固定的单个IndexFile文件大小约为400M，一个IndexFile可以保存 2000W个索引。</p>
+<p><img src="/2023/12/06/rocketmq-broker/i15.png" alt="image-20231205165922541"></p>
+<p><img src="/2023/12/06/rocketmq-broker/i28.png" alt="image-20231206104307435"></p>
+<h5 id="4）Config"><a href="#4）Config" class="headerlink" title="4）Config"></a>4）Config</h5><p>config 文件夹中 存储着Topic和Consumer等相关信息。主题和消费者群组相关的信息就存在在此。</p>
+<ol>
+<li><code>topics.json</code> ： topic 配置属性。</li>
+<li><code>subscriptionGroup.json</code> ：消息消费组配置信息。</li>
+<li><code>delayOffset.json </code>：延时消息队列拉取进度。</li>
+<li><code>consumerOffset.json </code>：集群消费模式消息消进度。</li>
+<li><code>consumerFilter.json</code> ：主题消息过滤信息。</li>
+</ol>
+<p><img src="/2023/12/06/rocketmq-broker/i16.png" alt="image-20231205170306191"></p>
+<h5 id="5）消息存储设计小结"><a href="#5）消息存储设计小结" class="headerlink" title="5）消息存储设计小结"></a>5）消息存储设计小结</h5><p>这些数据前面我们也隐晦的谈到过，比如config里面文件的加载就是发生在broker初始化的时候。</p>
+<p><img src="/2023/12/06/rocketmq-broker/i20.png" alt="image-20231205171933084"></p>
+<p><img src="/2023/12/06/rocketmq-broker/i18.png" alt="image-20231205170858242"></p>
+<p><img src="/2023/12/06/rocketmq-broker/i19.png" alt="image-20231205170941739"></p>
+<p>而对commitLog和ConsumeQueue的加载也可以从源码中看到。</p>
+<p><img src="/2023/12/06/rocketmq-broker/i21.png" alt="image-20231205172101035"></p>
+<p><img src="/2023/12/06/rocketmq-broker/i22.png" alt="image-20231205172129342"></p>
+<p>值得注意的是，RocketMQ在对commitLog、IndexFile等文件进行数据读写的时候，除了用到了<code>读写锁</code>外 ，还用到了<code>零拷贝技术（MMAP）</code>。具体到代码里面就是利用JDK里面NIO的MapperByteBuffer的map()函数，来先将磁盘文件（CommitLog文件、consumeQueue文件等）映射到内存里来。</p>
+<p>假如没有使用mmap技术的时候，使用最传统和基本普通文件进行io操作会产生数据多拷贝问题。比如<strong>从磁盘上把数据读取到内核IO缓冲区</strong>里面，然后再<strong>从内核IO缓冲区中读取到用户进程私有空间</strong>里去，然后我们才能拿到这个数据，如下图（以下两张图均来自<a target="_blank" rel="noopener" href="https://www.xiaolincoding.com/os/8_network_system/zero_copy.html#mmap-write">小林coding</a>）。</p>
+<p>这里的DMA，指的是<code>直接内存访问（Direct Memory Access）</code> 技术，简单理解就是，<strong>在进行 I/O 设备和内存的数据传输的时候，数据搬运的工作全部交给 DMA 控制器，而 CPU 不再参与任何与数据搬运相关的事情，这样 CPU 就可以去处理别的事务</strong>。</p>
+<p><img src="/2023/12/06/rocketmq-broker/i32.png" alt="image-20231206102441861"></p>
+<p>MMAP内存映射是在<strong>硬盘上文件的位置</strong>和<code>应用程序缓冲区(application buffers)</code>进行映射（建立一种对应关系），当应用进程调用了<code>mmap()</code>后，DMA 会把磁盘的数据拷贝到内核的缓冲区里。接着，应用进程跟操作系统内核共享这个缓冲区。由于mmap()将文件直接映射到用户空间，所以实际文件读取时根据这个映射关系，直接将文件从硬盘拷贝到用户空间，不再有文件内容从硬盘拷贝到内核空间的一个缓冲区。之后的写文件，应用进程再调用 <code>write()</code>，操作系统直接将内核缓冲区的数据拷贝到 socket 缓冲区中，这一切都发生在内核态，从这可以看到，实际上只用到了一次CPU拷贝。</p>
+<p><img src="/2023/12/06/rocketmq-broker/i31.png" alt="image-20231206102441861"></p>
+<p>在RocketMQ中，我们可以在DefaultMappedFile类中的init方法中看到其应用：</p>
+<p><img src="/2023/12/06/rocketmq-broker/i33.png" alt="image-20231206111036576"></p>
+<h4 id="3、消息写入流程"><a href="#3、消息写入流程" class="headerlink" title="3、消息写入流程"></a>3、消息写入流程</h4><p>RocketMQ使用Netty处理网络，broker收到消息写入的请求就会进入<code>SendMessageProcessor</code>类中processRequest方法。</p>
+<p><img src="/2023/12/06/rocketmq-broker/i25.png" alt="image-20231206102441861"></p>
+<p>我们进入sendMessage中，就可以看到其逻辑，最终调用putMessage方法进行消息处理逻辑，当然如果开启了异步发送，就调用相应的异步处理逻辑。</p>
+<p><img src="/2023/12/06/rocketmq-broker/i26.png" alt="image-20231206102749089"></p>
+<p>我们再跟下去，就可以发现其最终是调用commitLog的写入逻辑，将消息存储到本地文件commitLog中。</p>
+<p><img src="/2023/12/06/rocketmq-broker/i27.png" alt="image-20231206103055443"></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="http://example.com">Hurried1y</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2023/12/06/rocketmq-broker/">http://example.com/2023/12/06/rocketmq-broker/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">Hurried1y</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Java/">Java</a><a class="post-meta__tags" href="/tags/RocketMQ/">RocketMQ</a></div><div class="post_share"><div class="social-share" data-image="/../img/top-img/rocketmq.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2023/11/27/rocketmq-namesrv/"><img class="next-cover" src="/../img/top-img/rocketmq.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">RocketMQ梳理 - namesrv</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2023/11/27/rocketmq-namesrv/" title="RocketMQ梳理 - namesrv"><img class="cover" src="/../img/top-img/rocketmq.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-11-27</div><div class="title">RocketMQ梳理 - namesrv</div></div></a></div><div><a href="/2023/05/12/rpc-framework-1/" title="简易RPC框架 - 1"><img class="cover" src="/../img/top-img/rpc-framework-cover.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-05-12</div><div class="title">简易RPC框架 - 1</div></div></a></div><div><a href="/2023/05/12/rpc-framework-2/" title="简易RPC框架 - 2"><img class="cover" src="/../img/top-img/rpc-framework-cover.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-05-12</div><div class="title">简易RPC框架 - 2</div></div></a></div><div><a href="/2023/05/14/rpc-framework-3/" title="简易RPC框架 - 3"><img class="cover" src="/../img/top-img/rpc-framework-cover.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-05-14</div><div class="title">简易RPC框架 - 3</div></div></a></div><div><a href="/2023/05/15/rpc-framework-4/" title="简易RPC框架 - 4"><img class="cover" src="/../img/top-img/rpc-framework-cover.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-05-15</div><div class="title">简易RPC框架 - 4</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Hurried1y</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">26</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">37</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">13</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Hurried1y"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/Hurried1y" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="https://gitee.com/hurried1y" target="_blank" title="Gitee"><i class="fab fa-gitee"></i></a><a class="social-icon" href="mailto:3049478157@qq.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#RocketMQ%E6%A2%B3%E7%90%86-broker"><span class="toc-number">1.</span> <span class="toc-text">RocketMQ梳理 - broker</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E5%89%8D%E8%A8%80"><span class="toc-number">1.0.1.</span> <span class="toc-text">一、前言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90"><span class="toc-number">1.0.2.</span> <span class="toc-text">二、源码分析</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1%E3%80%81%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B%E5%88%86%E6%9E%90"><span class="toc-number">1.0.2.1.</span> <span class="toc-text">1、启动流程分析</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1%EF%BC%89BrokerController-initialize"><span class="toc-number">1.0.2.1.1.</span> <span class="toc-text">1）BrokerController initialize</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2%EF%BC%89brokerController-start"><span class="toc-number">1.0.2.1.2.</span> <span class="toc-text">2）brokerController start</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2%E3%80%81%E6%B6%88%E6%81%AF%E5%AD%98%E5%82%A8%E8%AE%BE%E8%AE%A1"><span class="toc-number">1.0.2.2.</span> <span class="toc-text">2、消息存储设计</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1%EF%BC%89CommitLog"><span class="toc-number">1.0.2.2.1.</span> <span class="toc-text">1）CommitLog</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2%EF%BC%89ConsumeQueue"><span class="toc-number">1.0.2.2.2.</span> <span class="toc-text">2）ConsumeQueue</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3%EF%BC%89IndexFile"><span class="toc-number">1.0.2.2.3.</span> <span class="toc-text">3）IndexFile</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#4%EF%BC%89Config"><span class="toc-number">1.0.2.2.4.</span> <span class="toc-text">4）Config</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#5%EF%BC%89%E6%B6%88%E6%81%AF%E5%AD%98%E5%82%A8%E8%AE%BE%E8%AE%A1%E5%B0%8F%E7%BB%93"><span class="toc-number">1.0.2.2.5.</span> <span class="toc-text">5）消息存储设计小结</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3%E3%80%81%E6%B6%88%E6%81%AF%E5%86%99%E5%85%A5%E6%B5%81%E7%A8%8B"><span class="toc-number">1.0.2.3.</span> <span class="toc-text">3、消息写入流程</span></a></li></ol></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2023/12/06/rocketmq-broker/" title="RocketMQ梳理 - broker"><img src="/../img/top-img/rocketmq.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="RocketMQ梳理 - broker"/></a><div class="content"><a class="title" href="/2023/12/06/rocketmq-broker/" title="RocketMQ梳理 - broker">RocketMQ梳理 - broker</a><time datetime="2023-12-06T11:00:12.000Z" title="发表于 2023-12-06 19:00:12">2023-12-06</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/11/27/rocketmq-namesrv/" title="RocketMQ梳理 - namesrv"><img src="/../img/top-img/rocketmq.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="RocketMQ梳理 - namesrv"/></a><div class="content"><a class="title" href="/2023/11/27/rocketmq-namesrv/" title="RocketMQ梳理 - namesrv">RocketMQ梳理 - namesrv</a><time datetime="2023-11-27T12:30:26.000Z" title="发表于 2023-11-27 20:30:26">2023-11-27</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/09/26/yarn-workflow/" title="Hadoop核心组件—Yarn的工作流程"><img src="/../img/top-img/yarn.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Hadoop核心组件—Yarn的工作流程"/></a><div class="content"><a class="title" href="/2023/09/26/yarn-workflow/" title="Hadoop核心组件—Yarn的工作流程">Hadoop核心组件—Yarn的工作流程</a><time datetime="2023-09-26T13:39:42.000Z" title="发表于 2023-09-26 21:39:42">2023-09-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/08/23/crypt/" title="关于加密解密的小小总结"><img src="/../img/top-img/crypt.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="关于加密解密的小小总结"/></a><div class="content"><a class="title" href="/2023/08/23/crypt/" title="关于加密解密的小小总结">关于加密解密的小小总结</a><time datetime="2023-08-23T12:51:33.000Z" title="发表于 2023-08-23 20:51:33">2023-08-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/08/19/store-procedure/" title="PostgreSQL 存储过程"><img src="/../img/top-img/sql.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="PostgreSQL 存储过程"/></a><div class="content"><a class="title" href="/2023/08/19/store-procedure/" title="PostgreSQL 存储过程">PostgreSQL 存储过程</a><time datetime="2023-08-19T06:36:38.000Z" title="发表于 2023-08-19 14:36:38">2023-08-19</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By Hurried1y</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">Hi, welcome to my <a target="_blank" rel="noopener" href="https://butterfly.js.org/">blog</a>!</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: 'pOoG0rLYQfXlKJlIJiJbbbTX-gzGzoHsz',
+      appKey: 'wWueq11OZxJgQR6tIl4kd6s0',
+      avatar: 'monsterid',
+      serverURLs: '',
+      emojiMaps: "",
+      path: window.location.pathname,
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><div class="aplayer no-destroy" data-id="7727330670" data-server="netease" data-type="playlist" data-fixed="true" data-autoplay="true"> </div><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/fireworks.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/metingjs/dist/Meting.min.js"></script><script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener scroll 
+  window.tocScrollFn && window.removeEventListener('scroll', window.tocScrollFn)
+  window.scrollCollect && window.removeEventListener('scroll', scrollCollect)
+
+  document.getElementById('rightside').style.cssText = "opacity: ''; transform: ''"
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+  typeof disqusjs === 'object' && disqusjs.destroy()
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof chatBtnFn === 'function' && chatBtnFn()
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', (e) => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
